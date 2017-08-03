@@ -1,8 +1,8 @@
 {
-  "name": "ym-node-school-app",
+  "name": "ym-wallet-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Проект «Мой кошелек»",
+  "author": "",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +11,10 @@
     "type": "git",
     "url": "ssh://git@bitbucket-public.yamoney.ru/frontend-tools/node-school-app.git"
   },
-  "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "^8.2"
+  },
   "dependencies": {
     "express": "^4.15.3"
   }
