@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 	})
 
 	if (!card) {
-		res.sendStatus(404)
+		return res.sendStatus(404)
 	}
 
 	const cardIndex = cards.indexOf(card)
