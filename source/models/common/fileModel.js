@@ -12,10 +12,6 @@ class FileModel extends Model {
 		this._dataSource = require(this._dataSourceFile);
 	}
 
-	/**
-	 * Возвращает все карты
-	 * @returns {Object[]}
-	 */
 	async getAll () {
 		return await this._dataSource;
 	}
