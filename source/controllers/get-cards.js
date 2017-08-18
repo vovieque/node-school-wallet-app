@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = (req, res) => {
-	const cards = require('../cards.json');
-	res.json(cards);
-};
+const CardsModel = require('../models/cards');
+
+module.exports = (req, res) => res.json(new CardsModel().getAll());

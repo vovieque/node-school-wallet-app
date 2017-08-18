@@ -1,17 +1,14 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const CardsModel = require('../models/cards');
 
 module.exports = (req, res) => {
 	const card = req.body;
-	if (!card.hasOwnProperty('cardNumber') && !card.hasOwnProperty('balance')) {
-		res.sendStatus(400);
-	} else {
-		const cards = require('../cards.json');
-		card.id = cards.length + 1;
-		cards.push(card);
-		fs.writeFileSync(path.join(__dirname, '..', 'cards.json'), JSON.stringify(cards, null, 4));
-		res.status(201).json(card);
+	try {
+		const cardsModel = new CardsModel();
+		const newCard = cardsModel.create(card);
+		res.status(201).json(newCard);
+	} catch (err) {
+		res.sendStatus(err.status);
 	}
 };
