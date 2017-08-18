@@ -8,7 +8,7 @@ const Model = require('./model');
 class FileModel extends Model {
 	constructor (sourceFileName) {
 		super();
-		this._dataSourceFile = path.join(__dirname, '..', 'data/', sourceFileName);
+		this._dataSourceFile = path.join(__dirname, '../..', 'data/', sourceFileName);
 		this._dataSource = require(this._dataSourceFile);
 	}
 
@@ -16,8 +16,8 @@ class FileModel extends Model {
 	 * Возвращает все карты
 	 * @returns {Object[]}
 	 */
-	getAll () {
-		return this._dataSource;
+	async getAll () {
+		return await this._dataSource;
 	}
 
 	/**

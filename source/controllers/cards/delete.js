@@ -1,6 +1,6 @@
 'use strict';
 
-const CardsModel = require('../models/cards');
+const CardsModel = require('source/models/cards');
 
 module.exports = async (ctx) => {
 	console.log(ctx.params);
