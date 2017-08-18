@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "cardNumber": "5106216010173049",
+        "balance": "15000"
+    },
+    {
+        "id": 2,
+        "cardNumber": "5106216010126757",
+        "balance": "700"
+    },
+    {
+        "cardNumber": "23213",
+        "balance": "232",
+        "id": 3
+    },
+    {
+        "cardNumber": "2222",
+        "balance": 344,
+        "id": 6
+    },
+    {
+        "cardNumber": "2222",
+        "balance": 344,
+        "id": 7
+    },
+    {
+        "cardNumber": "2222",
+        "balance": 3446,
+        "id": 9
+    },
+    {
+        "cardNumber": "2222",
+        "balance": 3446,
+        "id": 10
+    },
+    {
+        "cardNumber": "23",
+        "balance": "444",
+        "id": 8
+    },
+    {
+        "cardNumber": "23",
+        "balance": "444",
+        "id": 9
+    }
+]
