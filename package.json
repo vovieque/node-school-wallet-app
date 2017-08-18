@@ -4,7 +4,7 @@
   "description": "Проект «Мой кошелек»",
   "author": "",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./source/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

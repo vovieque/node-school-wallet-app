@@ -1,6 +1,5 @@
 'use strict';
 
-
 const bankUtils = {
 	/**
 	 * Типы банковскиx карт
@@ -13,13 +12,12 @@ const bankUtils = {
 		MIR: 'mir'
 	},
 
-
 	/**
 	 * Проверяет тип карты
 	 * @param {Number} val номер карты
 	 * @returns {String} тип карты
 	 */
-	getCardType(val) {
+	getCardType (val) {
 		// Бины ПС МИР 220000 - 220499
 		const mirBin = /^220[0-4]\s?\d\d/;
 
@@ -61,7 +59,7 @@ const bankUtils = {
 	 * @param {String} delimeter = '\u00A0' разделитель
 	 * @returns {String} форматированный номер карты
 	 */
-	formatCardNumber(cardNumber, delimeter) {
+	formatCardNumber (cardNumber, delimeter) {
 		let formattedCardNumber = [];
 		delimeter = delimeter || '\u00A0';
 		if (cardNumber) {
