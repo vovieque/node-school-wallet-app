@@ -8,7 +8,7 @@ const Model = require('./model');
 class FileModel extends Model {
 	constructor (sourceFileName) {
 		super();
-		this._dataSourceFile = path.join(__dirname, '../..', 'data/', sourceFileName);
+		this._dataSourceFile = path.join(__dirname, '..', '..', 'data', sourceFileName);
 		this._dataSource = require(this._dataSourceFile);
 	}
 
