@@ -13,7 +13,7 @@ class Cards extends FileModel {
 	 * Добавляет карту
 	 *
 	 * @param {Object} card описание карты
-	 * @returns {Object}
+	 * @returns {Promise.<Object>}
 	 */
 	async create (card) {
 		const isDataValid = card && card.hasOwnProperty('cardNumber') && card.hasOwnProperty('balance');
