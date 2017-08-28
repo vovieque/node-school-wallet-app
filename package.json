@@ -4,6 +4,7 @@
   "description": "Проект «Мой кошелек»",
   "author": "",
   "scripts": {
+    "build": "webpack",
     "start": "NODE_PATH=. node ./source/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +21,16 @@
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.3.0",
+    "webpack": "^3.5.5"
   }
 }
