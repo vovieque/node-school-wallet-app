@@ -1,3 +1,7 @@
 {
-	"presets": ["env"]
+	"presets": ["env", "es2015", "stage-1", "react"],
+	"plugins": [
+		"emotion",
+		["import", {libraryName: "antd", style: "css"}]
+	]
 }

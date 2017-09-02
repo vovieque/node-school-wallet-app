@@ -1,0 +1,14 @@
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Wallet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6">
+        <g transform="translate(-271.000000, -28.000000)" id="Side" fill-rule="nonzero" fill="#FFFFFF">
+            <g>
+                <g id="ic_create_black_24px" transform="translate(263.000000, 20.000000)">
+                    <path d="M8,22.25 L8,26 L11.75,26 L22.81,14.94 L19.06,11.19 L8,22.25 Z M25.71,12.04 C26.1,11.65 26.1,11.02 25.71,10.63 L23.37,8.29 C22.98,7.9 22.35,7.9 21.96,8.29 L20.13,10.12 L23.88,13.87 L25.71,12.04 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

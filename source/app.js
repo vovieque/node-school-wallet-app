@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const Koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
@@ -19,6 +20,11 @@ const app = new Koa();
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
+
+
+router.get('/', (ctx) => {
+	ctx.body = fs.readFileSync('./public/index.html', 'utf8');
+});
 
 router.get('/cards/', getCardsController);
 router.post('/cards/', createCardController);
