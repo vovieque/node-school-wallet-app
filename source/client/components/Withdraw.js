@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Card, Island, Title, Button, Input} from './';
 
@@ -15,7 +16,7 @@ const SumInput = styled(Input)`
 	margin: 20px 0;
 `;
 
-const Withdraw = ({cardsList, inactiveCardsList}) => {
+const Withdraw = ({inactiveCardsList}) => {
 	return (
 		<WithdrawLayout>
 			<Title>Вывести деньги на карту</Title>
@@ -24,6 +25,10 @@ const Withdraw = ({cardsList, inactiveCardsList}) => {
 			<Button>Вывести</Button>
 		</WithdrawLayout>
 	);
+};
+
+Withdraw.propTypes = {
+	inactiveCardsList: PropTypes.array.isRequired
 };
 
 export default Withdraw;

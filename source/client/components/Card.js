@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Select} from './';
 
@@ -52,6 +53,9 @@ const CardSelect = styled(Select)`
 	margin-bottom: 15px;
 `;
 
+/**
+ * Карта
+ */
 class Card extends Component {
 	/**
 	 * Конструктор
@@ -62,11 +66,15 @@ class Card extends Component {
 		super(props);
 
 		this.state = {
-			cardsList: props.cardsList,
 			activeCardIndex: 0
 		};
 	}
 
+	/**
+	 * Обработчик переключения карты
+	 *
+	 * @param {Number} activeCardIndex индекс выбранной карты
+	 */
 	onCardChange(activeCardIndex) {
 		this.setState({activeCardIndex});
 	}
@@ -87,7 +95,7 @@ class Card extends Component {
 		}
 
 		if (type === 'select') {
-			const {activeCardIndex} = this.state
+			const {activeCardIndex} = this.state;
 			const selectedCard = data[activeCardIndex];
 			const {bgColor, bankLogoUrl, brandLogoUrl} = selectedCard.theme;
 
@@ -119,5 +127,12 @@ class Card extends Component {
 		);
 	}
 }
+
+Card.propTypes = {
+	data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+	type: PropTypes.string,
+	active: PropTypes.bool,
+	onClick: PropTypes.func
+};
 
 export default Card;

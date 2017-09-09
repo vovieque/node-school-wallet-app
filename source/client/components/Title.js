@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
 const StyledTitle = styled.h2`
@@ -13,5 +14,10 @@ const Title = ({children, className}) => (
 		{children}
 	</StyledTitle>
 );
+
+Title.propTypes = {
+	children: PropTypes.node,
+	className: PropTypes.string
+};
 
 export default Title;

@@ -45,14 +45,15 @@ const Workspace = styled.div`
 	padding: 15px;
 `;
 
+/**
+ * Приложение
+ */
 class App extends Component {
 	/**
 	 * Конструктор
-	 *
-	 * @param {Object} props свойства компонента
 	 */
-	constructor(props) {
-		super(props);
+	constructor() {
+		super();
 
 		this.state = {
 			cardsList: this.prepareCardsData(cardsData),
@@ -60,6 +61,12 @@ class App extends Component {
 		};
 	}
 
+	/**
+	 * Подготавливает данные карт
+	 *
+	 * @param {Object} cardsData данные карт
+	 * @returns {Object[]}
+	 */
 	prepareCardsData(cardsData) {
 		return cardsData.map((card) => {
 			const cardInfo = new CardInfo(card.cardNumber, {
@@ -76,12 +83,17 @@ class App extends Component {
 					bgColor: cardInfo.backgroundColor,
 					textColor: cardInfo.textColor,
 					bankLogoUrl: cardInfo.bankLogoSvg,
-					brandLogoUrl:cardInfo.brandLogoSvg
+					brandLogoUrl: cardInfo.brandLogoSvg
 				}
 			};
 		});
 	}
 
+	/**
+	 * Обработчик переключения карты
+	 *
+	 * @param {Number} activeCardIndex индекс выбранной карты
+	 */
 	onCardChange(activeCardIndex) {
 		this.setState({activeCardIndex});
 	}
@@ -96,7 +108,7 @@ class App extends Component {
 		const {cardsList, activeCardIndex} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 		const inactiveCardsList = cardsList.filter((card, index) => (
-			index !== activeCardIndex ? card : false
+			index === activeCardIndex ? false : card
 		));
 
 		return (

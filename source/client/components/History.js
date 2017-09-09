@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import moment from 'moment';
 import {Island} from './';
@@ -82,7 +83,9 @@ const History = ({activeCardId}) => {
 				typeTitle = 'Перевод на карту';
 				break;
 			}
-			default: {}
+			default: {
+				typeTitle = 'Операция';
+			}
 		}
 
 		return `${typeTitle}: ${item.data}`;
@@ -92,9 +95,9 @@ const History = ({activeCardId}) => {
 		<HistoryLayout>
 			<HistoryTitle>Сегодня</HistoryTitle>
 			{cardHistory.map((item, index) => {
-				const historyItemDate = moment(item.time);
-				const today = moment().format('L'); 
-				const isTodayHistoryItem = moment(item.time).format('L') === today;
+				const historyItemDate = moment(item.time, moment.ISO_8601);
+				const today = moment().format('L');
+				const isTodayHistoryItem = historyItemDate.format('L') === today;
 
 				if (!isTodayHistoryItem) {
 					return '';
@@ -117,6 +120,10 @@ const History = ({activeCardId}) => {
 			})}
 		</HistoryLayout>
 	);
+};
+
+History.propTypes = {
+	activeCardId: PropTypes.number.isRequired
 };
 
 export default History;

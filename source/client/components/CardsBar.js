@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Card} from './';
 
@@ -46,13 +47,23 @@ const CardsBar = ({activeCardIndex, cardsList, onCardChange}) => {
 			<Edit />
 			<CardsList>
 				{cardsList.map((card, index) => (
-					<Card key={index} data={card} active={index === activeCardIndex} onClick={() => onCardClick(index)} />
+					<Card
+						key={index}
+						data={card}
+						active={index === activeCardIndex}
+						onClick={() => onCardClick(index)} />
 				))}
 				<Card type='new' />
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
 	);
+};
+
+CardsBar.propTypes = {
+	cardsList: PropTypes.array.isRequired,
+	activeCardIndex: PropTypes.number.isRequired,
+	onCardChange: PropTypes.func.isRequired
 };
 
 export default CardsBar;

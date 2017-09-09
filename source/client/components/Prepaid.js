@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Island, Title, Button, Input} from './';
 
@@ -34,7 +35,6 @@ const PrepaidItemIcon = styled.div`
 	border-radius: 21px;
 	background-color: ${({selected}) => selected ? '#fff' : 'rgba(255, 255, 255, 0.6)'};
 `;
-
 
 const PrepaidItemTitle = styled.div`
 	font-size: 13px;
@@ -75,5 +75,11 @@ const Prepaid = ({inactiveCardsList}) => (
 		<Button bgColor='#fff' textColor='#108051'>Пополнить</Button>
 	</PrepaidLayout>
 );
+
+Prepaid.propTypes = {
+	inactiveCardsList: PropTypes.arrayOf(PropTypes.shape({
+		number: PropTypes.string.isRequired
+	}))
+};
 
 export default Prepaid;

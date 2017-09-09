@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Title} from './';
 
@@ -26,5 +27,12 @@ const Header = ({activeCard}) => (
 		</Balance>
 	</HeaderLayout>
 );
+
+Header.propTypes = {
+	activeCard: PropTypes.shape({
+		bankName: PropTypes.string.isRequired,
+		balance: PropTypes.string.isRequired
+	})
+};
 
 export default Header;

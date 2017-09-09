@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
 const IslandLayout = styled.div`
@@ -14,5 +15,10 @@ const Island = ({children, className}) => (
 		{children}
 	</IslandLayout>
 );
+
+Island.propTypes = {
+	children: PropTypes.node,
+	className: PropTypes.string
+};
 
 export default Island;
