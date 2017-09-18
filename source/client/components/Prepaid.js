@@ -27,8 +27,6 @@ class Prepaid extends React.Component {
 	 * @param {Object} transaction данные о транзакции
 	 */
 	onPaymentSuccess(transaction) {
-		this.props.onTransaction();
-
 		this.setState({
 			stage: 'success',
 			transaction
@@ -70,7 +68,6 @@ Prepaid.propTypes = {
 		id: React.PropTypes.number
 
 	}).isRequired,
-	onTransaction: React.PropTypes.func.isRequired,
 	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };
 

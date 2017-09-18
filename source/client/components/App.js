@@ -12,6 +12,7 @@ import {
 } from './';
 
 import './fonts.css';
+import './index.less';
 
 import cardsData from '../../data/cards';
 
@@ -121,10 +122,17 @@ class App extends Component {
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>
-						<History activeCardId={activeCard.id} />
-						<Prepaid inactiveCardsList={inactiveCardsList} />
-						<MobilePayment />
-						<Withdraw cardsList={cardsList} inactiveCardsList={inactiveCardsList} />
+						<History activeCardId={activeCard.id}/>
+						<Prepaid
+							activeCard={activeCard}
+							inactiveCardsList={inactiveCardsList}
+							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
+						/>
+						<MobilePayment activeCard={activeCard} />
+						<Withdraw
+							activeCard={activeCard}
+							inactiveCardsList={inactiveCardsList}
+						/>
 					</Workspace>
 				</CardPane>
 			</Wallet>
