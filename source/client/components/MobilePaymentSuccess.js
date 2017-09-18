@@ -70,38 +70,29 @@ const RepeatPayment = styled.button`
 	text-transform: uppercase;
 `;
 
-/**
- * Компонент MobilePaymentSuccess
- */
-class MobilePaymentSuccess extends React.Component {
-	/**
-	 * Рендер компонента
-	 *
-	 * @override
-	 * @returns {JSX}
-	 */
-	render() {
-		return (
-			<MobilePaymentLayout>
-				<SuccessIcon />
-				<Header>МегаФон (Россия)</Header>
-				<Sum>1500 ₽</Sum>
-				<CommissionTips>В том числе комиссия 3 ₽</CommissionTips>
-				<Section>
-					<SectionLabel>Номер транзакции</SectionLabel>
-					<SectionValue>200580211311</SectionValue>
-				</Section>
-				<Section>
-					<SectionLabel>Номер телефона</SectionLabel>
-					<SectionValue>+7 921 890 80 64</SectionValue>
-				</Section>
-				<Instruction>
-					Мы пришлем чек на sam@yandex.ru. Вы можете измените его email в «Настройках».
-				</Instruction>
-				<RepeatPayment>Отправить еще один перевод</RepeatPayment>
-			</MobilePaymentLayout>
-		);
-	}
-}
+const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
+	const {sum, phoneNumber} = transaction;
+
+	return (
+		<MobilePaymentLayout>
+			<SuccessIcon />
+			<Header>МегаФон (Россия)</Header>
+			<Sum>{sum} ₽</Sum>
+			<CommissionTips>В том числе комиссия 3 ₽</CommissionTips>
+			<Section>
+				<SectionLabel>Номер транзакции</SectionLabel>
+				<SectionValue>200580211311</SectionValue>
+			</Section>
+			<Section>
+				<SectionLabel>Номер телефона</SectionLabel>
+				<SectionValue>{phoneNumber}</SectionValue>
+			</Section>
+			<Instruction>
+				Мы пришлем чек на sam@yandex.ru. Вы можете измените его email в «Настройках».
+			</Instruction>
+			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
+		</MobilePaymentLayout>
+	);
+};
 
 export default MobilePaymentSuccess;

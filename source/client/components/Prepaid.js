@@ -66,7 +66,6 @@ class Prepaid extends React.Component {
 Prepaid.propTypes = {
 	activeCard: React.PropTypes.shape({
 		id: React.PropTypes.number
-
 	}).isRequired,
 	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };

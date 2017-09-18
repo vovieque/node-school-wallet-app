@@ -60,25 +60,28 @@ const RepeatPayment = styled.button`
 	text-transform: uppercase;
 `;
 
-const PrepaidSuccess = () => {
+const PrepaidSuccess = ({transaction, repeatPayment}) => {
+	const {sum, number} = transaction;
+
 	return (
-		<PrepaidLayout><CheckIcom />
+		<PrepaidLayout>
+			<CheckIcom />
 			<SectionGroup>
 				<Header>Карта пополнена</Header>
 				<Section>
 					<SectionLabel>Название платежа:</SectionLabel>
-					<SectionValue>Пополнение привязанной карты</SectionValue>
+					<SectionValue>Пополнение c привязанной карты</SectionValue>
 				</Section>
 				<Section>
 					<SectionLabel>Карта с которой пополнили:</SectionLabel>
-					<SectionValue>7718 2516 1714 1198</SectionValue>
+					<SectionValue>{number}</SectionValue>
 				</Section>
 				<Section>
 					<SectionLabel>Сумма:</SectionLabel>
-					<SectionValue>4700 ₽</SectionValue>
+					<SectionValue>{sum} ₽</SectionValue>
 				</Section>
 			</SectionGroup>
-			<RepeatPayment>Отправить еще один перевод</RepeatPayment>
+			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
 		</PrepaidLayout>
 	);
 };

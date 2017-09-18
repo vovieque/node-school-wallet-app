@@ -75,6 +75,15 @@ class Withdraw extends Component {
 		if (event) {
 			event.preventDefault();
 		}
+
+		const {sum} = this.state;
+
+		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum <= 0) {
+			return;
+		}
+
+		this.setState({sum: 0});
 	}
 
 	/**

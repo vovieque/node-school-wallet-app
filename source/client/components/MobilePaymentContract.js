@@ -109,6 +109,15 @@ class MobilePaymentContract extends React.Component {
 		if (event) {
 			event.preventDefault();
 		}
+
+		const {sum, phoneNumber} = this.state;
+
+		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum === 0) {
+			return;
+		}
+
+		this.props.onPaymentSuccess({sum, phoneNumber});
 	}
 
 	/**

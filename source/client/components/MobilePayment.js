@@ -27,8 +27,6 @@ class MobilePayment extends React.Component {
 	 * @param {Object} transaction данные о транзакции
 	 */
 	onPaymentSuccess(transaction) {
-		this.props.onTransaction();
-
 		this.setState({
 			stage: 'success',
 			transaction

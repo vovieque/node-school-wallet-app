@@ -148,6 +148,19 @@ class PrepaidContract extends React.Component {
 		if (event) {
 			event.preventDefault();
 		}
+
+		const {sum} = this.state;
+		const {activeCard} = this.props;
+
+		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum <= 0) {
+			return;
+		}
+
+		this.props.onPaymentSuccess({
+			sum,
+			number: activeCard.number
+		});
 	}
 
 	/**
@@ -217,12 +230,8 @@ class PrepaidContract extends React.Component {
 }
 
 PrepaidContract.propTypes = {
-	activeCard: React.PropTypes.shape({
-		id: React.PropTypes.number,
-		theme: React.PropTypes.object
-	}).isRequired,
-	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
-	// onPaymentSuccess: React.PropTypes.func.isRequired
+	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+	onPaymentSuccess: React.PropTypes.func.isRequired
 };
 
 export default PrepaidContract;
