@@ -10,4 +10,5 @@ export {default as MobilePayment} from './MobilePayment';
 export {default as Withdraw} from './Withdraw';
 export {default as History} from './History';
 export {default as Header} from './Header';
+export {default as UserInfo} from './UserInfo';
 export {default as App} from './App';
