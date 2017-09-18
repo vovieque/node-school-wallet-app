@@ -12,7 +12,6 @@ import {
 } from './';
 
 import './fonts.css';
-import './index.less';
 
 import cardsData from '../../data/cards';
 

@@ -49,18 +49,8 @@ class Withdraw extends Component {
 			sum: 0
 		};
 
-		this.onSelectCard = this.onSelectCard.bind(this);
 		this.onSubmitForm = this.onSubmitForm.bind(this);
 		this.onChangeInputValue = this.onChangeInputValue.bind(this);
-	}
-
-	/**
-	 * Изменение выбранной карты
-	 * @param {Number} selectedCardIndex индекс выбранной карты
-	 */
-	onSelectCard(selectedCardIndex) {
-		const selectedCard = this.props.inactiveCardsList[selectedCardIndex];
-		this.setState({selectedCard});
 	}
 
 	/**
@@ -92,7 +82,6 @@ class Withdraw extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {selectedCard} = this.state;
 		const {inactiveCardsList} = this.props;
 
 		return (
@@ -108,11 +97,7 @@ class Withdraw extends Component {
 						/>
 						<Currency>₽</Currency>
 					</InputField>
-					<Button
-						type="submit"
-						textColor={selectedCard.theme.textColor}
-						bgColor={selectedCard.theme.bgColor}
-					>
+					<Button type="submit">
 						Перевести
 					</Button>
 				</WithdrawLayout>

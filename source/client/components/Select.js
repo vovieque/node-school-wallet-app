@@ -4,7 +4,7 @@ import {Select as AntdSelect} from 'antd';
 
 const StyledSelect = styled(AntdSelect)`
 	&.ant-select {
-		.ant-select-selection {
+		& .ant-select-selection {
 			height: 36px;
 			background-color: rgba(0, 0, 0, 0.08);
 			border: 1px solid rgba(0, 0, 0, 0.04);
@@ -17,7 +17,7 @@ const StyledSelect = styled(AntdSelect)`
 			}
 
 			&__rendered {
-				font-size: 15px;
+				font-size: 12px;
 				line-height: 34px;
 			}
 		}
