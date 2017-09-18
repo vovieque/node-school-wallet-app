@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'emotion/react';
 
 import {Island, Title, Button, Input} from './';
@@ -100,7 +100,7 @@ const Currency = styled.span`
 /**
  * Класс компонента PrepaidContract
  */
-class PrepaidContract extends React.Component {
+class PrepaidContract extends Component {
 	/**
 	 * Конструктор
 	 * @param {Object} props свойства компонента PrepaidContract

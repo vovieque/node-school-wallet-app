@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import MobilePaymentContract from './MobilePaymentContract';
 import MobilePaymentSuccess from './MobilePaymentSuccess';
@@ -6,7 +6,7 @@ import MobilePaymentSuccess from './MobilePaymentSuccess';
 /**
  * Класс компонента MobilePayment
  */
-class MobilePayment extends React.Component {
+class MobilePayment extends Component {
 	/**
 	 * Конструктор
 	 * @param {Object} props свойства компонента MobilePayment

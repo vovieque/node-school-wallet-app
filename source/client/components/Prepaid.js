@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import PrepaidContract from './PrepaidContract';
 import PrepaidSuccess from './PrepaidSuccess';
@@ -6,7 +6,7 @@ import PrepaidSuccess from './PrepaidSuccess';
 /**
  * Класс компонента Prepaid
  */
-class Prepaid extends React.Component {
+class Prepaid extends Component {
 	/**
 	 * Конструктор
 	 * @param {Object} props свойства компонента Prepaid

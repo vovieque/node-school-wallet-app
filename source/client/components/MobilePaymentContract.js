@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'emotion/react';
 
 import {Island, Title, Button, Input} from './';
@@ -68,7 +68,7 @@ const InputCommision = styled(Input)`
 /**
  * Компонент MobilePaymentContract
  */
-class MobilePaymentContract extends React.Component {
+class MobilePaymentContract extends Component {
 	/**
 	 * Конструктор
 	 * @param {Object} props свойства компонента MobilePaymentContract
