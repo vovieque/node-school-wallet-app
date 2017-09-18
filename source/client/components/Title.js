@@ -5,7 +5,7 @@ import styled from 'emotion/react';
 const StyledTitle = styled.h2`
 	margin: 0 0 20px;
 	font-size: 24px;
-	font-weight: normal;
+	font-weight: bold;
 	color: #000;
 `;
 

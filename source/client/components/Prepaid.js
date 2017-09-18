@@ -1,85 +1,77 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'emotion/react';
-import {Island, Title, Button, Input} from './';
 
-const PrepaidLayout = styled(Island)`
-	width: 350px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #353536;
-`;
+import PrepaidContract from './PrepaidContract';
+import PrepaidSuccess from './PrepaidSuccess';
 
-const PrepaidTitle = styled(Title)`
-	color: #fff;
-`;
+/**
+ * Класс компонента Prepaid
+ */
+class Prepaid extends React.Component {
+	/**
+	 * Конструктор
+	 * @param {Object} props свойства компонента Prepaid
+	 */
+	constructor(props) {
+		super(props);
 
-const PrepaidItems = styled.div`
-	width: 285px;
-	margin-bottom: 40px;
-`;
+		this.state = {
+			stage: 'contract'
+		};
 
-const PrepaidItem = styled.div`
-	height: 65px;
-	display: flex;
-	align-items: center;
-	background-color: ${({selected}) => selected ? '#108051' : 'rgba(0, 0, 0, 0.05)'};
-	border-radius: ${({selected}) => selected ? '3px' : '0'};
-`;
+		this.onPaymentSuccess = this.onPaymentSuccess.bind(this);
+		this.repeatPayment = this.repeatPayment.bind(this);
+	}
 
-const PrepaidItemIcon = styled.div`
-	width: 42px;
-	height: 42px;
-	margin: 18px;
-	border-radius: 21px;
-	background-color: ${({selected}) => selected ? '#fff' : 'rgba(255, 255, 255, 0.6)'};
-`;
+	/**
+	 * Обработка успешного платежа
+	 * @param {Object} transaction данные о транзакции
+	 */
+	onPaymentSuccess(transaction) {
+		this.props.onTransaction();
 
-const PrepaidItemTitle = styled.div`
-	font-size: 13px;
-	color: ${({selected}) => selected ? '#fff' : 'rgba(255, 255, 255, 0.6)'};
-`;
+		this.setState({
+			stage: 'success',
+			transaction
+		});
+	}
 
-const PrepaidItemDescription = styled.div`
-	color: rgba(255, 255, 255, 0.4);
-`;
+	/**
+	 * Повторить платеж
+	 */
+	repeatPayment() {
+		this.setState({stage: 'contract'});
+	}
 
-const SumInput = styled(Input)`
-	max-width: 200px;
-	margin-bottom: 14px;
-`;
+	/**
+	 * Функция отрисовки компонента
+	 * @returns {JSX}
+	 */
+	render() {
+		const {activeCard, inactiveCardsList} = this.props;
 
-const Prepaid = ({inactiveCardsList}) => (
-	<PrepaidLayout>
-		<PrepaidTitle>Пополнить карту</PrepaidTitle>
-		<PrepaidItems>
-			<PrepaidItem selected={true}>
-				<PrepaidItemIcon selected={true} />
-				<PrepaidItemTitle selected={true}>
-					C баланса мобильного
-					<PrepaidItemDescription>+7 921 555 5555</PrepaidItemDescription>
-				</PrepaidItemTitle>
-			</PrepaidItem>
-			{inactiveCardsList.map((card, index) => (
-				<PrepaidItem key={index}>
-					<PrepaidItemIcon />
-					<PrepaidItemTitle>
-						C банковской карты
-						<PrepaidItemDescription>{card.number}</PrepaidItemDescription>
-					</PrepaidItemTitle>
-				</PrepaidItem>
-			))}
-		</PrepaidItems>
-		<SumInput />
-		<Button bgColor='#fff' textColor='#108051'>Пополнить</Button>
-	</PrepaidLayout>
-);
+		if (this.state.stage === 'success') {
+			return (
+				<PrepaidSuccess transaction={this.state.transaction} repeatPayment={this.repeatPayment} />
+			);
+		}
+
+		return (
+			<PrepaidContract
+				activeCard={activeCard}
+				inactiveCardsList={inactiveCardsList}
+				onPaymentSuccess={this.onPaymentSuccess}
+			/>
+		);
+	}
+}
 
 Prepaid.propTypes = {
-	inactiveCardsList: PropTypes.arrayOf(PropTypes.shape({
-		number: PropTypes.string.isRequired
-	}))
+	activeCard: React.PropTypes.shape({
+		id: React.PropTypes.number
+
+	}).isRequired,
+	onTransaction: React.PropTypes.func.isRequired,
+	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };
 
 export default Prepaid;

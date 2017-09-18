@@ -83,7 +83,8 @@ class App extends Component {
 					bgColor: cardInfo.backgroundColor,
 					textColor: cardInfo.textColor,
 					bankLogoUrl: cardInfo.bankLogoSvg,
-					brandLogoUrl: cardInfo.brandLogoSvg
+					brandLogoUrl: cardInfo.brandLogoSvg,
+					bankSmLogoUrl: `/assets/${cardInfo.bankAlias}-history.svg`
 				}
 			};
 		});
@@ -122,7 +123,7 @@ class App extends Component {
 					<Workspace>
 						<History activeCardId={activeCard.id} />
 						<Prepaid inactiveCardsList={inactiveCardsList} />
-						<MobilePayment activeCard={activeCard} />
+						<MobilePayment />
 						<Withdraw cardsList={cardsList} inactiveCardsList={inactiveCardsList} />
 					</Workspace>
 				</CardPane>
