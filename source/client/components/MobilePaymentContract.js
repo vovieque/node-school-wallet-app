@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
 import {Island, Title, Button, Input} from './';
@@ -178,5 +179,13 @@ class MobilePaymentContract extends Component {
 		);
 	}
 }
+
+MobilePaymentContract.propTypes = {
+	activeCard: PropTypes.shape({
+		id: PropTypes.number,
+		theme: PropTypes.object
+	}).isRequired,
+	onPaymentSuccess: PropTypes.func.isRequired
+};
 
 export default MobilePaymentContract;

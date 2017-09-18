@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
 import {Card, Title, Button, Island, Input} from './';
@@ -116,11 +117,11 @@ class Withdraw extends Component {
 }
 
 Withdraw.propTypes = {
-	activeCard: React.PropTypes.shape({
-		id: React.PropTypes.number,
-		theme: React.PropTypes.object
+	activeCard: PropTypes.shape({
+		id: PropTypes.number,
+		theme: PropTypes.object
 	}).isRequired,
-	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default Withdraw;

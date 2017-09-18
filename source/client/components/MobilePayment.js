@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import MobilePaymentContract from './MobilePaymentContract';
 import MobilePaymentSuccess from './MobilePaymentSuccess';
@@ -66,9 +67,9 @@ class MobilePayment extends Component {
 }
 
 MobilePayment.propTypes = {
-	activeCard: React.PropTypes.shape({
-		id: React.PropTypes.number,
-		theme: React.PropTypes.object
+	activeCard: PropTypes.shape({
+		id: PropTypes.number,
+		theme: PropTypes.object
 	}).isRequired
 };
 

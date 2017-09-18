@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import PrepaidContract from './PrepaidContract';
 import PrepaidSuccess from './PrepaidSuccess';
@@ -64,10 +65,10 @@ class Prepaid extends Component {
 }
 
 Prepaid.propTypes = {
-	activeCard: React.PropTypes.shape({
-		id: React.PropTypes.number
+	activeCard: PropTypes.shape({
+		id: PropTypes.number
 	}).isRequired,
-	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default Prepaid;

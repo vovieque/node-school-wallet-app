@@ -1,4 +1,4 @@
-import React from 'react';
+import Reactы from 'react';
 import styled from 'emotion/react';
 
 import {Island} from './';

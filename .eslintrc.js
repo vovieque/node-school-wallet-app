@@ -829,7 +829,7 @@ module.exports = {
 		"constructor-super": 2,
 
 		// Prevent React to be incorrectly marked as unused
-		"react/jsx-uses-vars": 1,
+		"react/jsx-uses-vars": [2],
 		// Prevent variables used in JSX to be incorrectly marked as unused
 		"react/react-in-jsx-scope": 1
 	}

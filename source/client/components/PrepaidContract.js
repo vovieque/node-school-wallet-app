@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
 import {Island, Title, Button, Input} from './';
@@ -230,8 +231,8 @@ class PrepaidContract extends Component {
 }
 
 PrepaidContract.propTypes = {
-	inactiveCardsList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-	onPaymentSuccess: React.PropTypes.func.isRequired
+	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+	onPaymentSuccess: PropTypes.func.isRequired
 };
 
 export default PrepaidContract;
