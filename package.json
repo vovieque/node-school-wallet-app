@@ -27,9 +27,6 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.5.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
     "webpack": "^3.5.5"
   }
