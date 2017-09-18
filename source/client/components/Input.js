@@ -15,8 +15,8 @@ const StyledInput = styled.input`
 	color: ${({textColor}) => textColor || '#fff'};
 `;
 
-const Input = ({textColor, className}) => (
-	<StyledInput textColor={textColor} className={className}/>
+const Input = (props) => (
+	<StyledInput {...props} />
 );
 
 Input.propTypes = {
