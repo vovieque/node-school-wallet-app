@@ -14,6 +14,7 @@ import {
 import './fonts.css';
 
 import cardsData from '../../data/cards';
+import transactionsData from '../../data/transactions';
 
 injectGlobal`
 	html,
@@ -112,6 +113,13 @@ class App extends Component {
 			index === activeCardIndex ? false : card
 		));
 
+		const cardHistory = transactionsData.filter((data) => {
+			return data.cardId === activeCard.id;
+		}).map((data) => {
+			const card = cardsList.find((card) => card.id === data.cardId);
+			return card ? Object.assign({}, data, {card}) : data;
+		});
+
 		return (
 			<Wallet>
 				<CardsBar
@@ -121,7 +129,7 @@ class App extends Component {
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>
-						<History activeCardId={activeCard.id}/>
+						<History cardHistory={cardHistory} />
 						<Prepaid
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
