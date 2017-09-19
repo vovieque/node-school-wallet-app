@@ -77,9 +77,6 @@ class MobilePaymentContract extends Component {
 	constructor(props) {
 		super(props);
 
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleInputChange = this.handleInputChange.bind(this);
-
 		this.state = {
 			phoneNumber: '+79218908064',
 			sum: 0,
@@ -144,7 +141,7 @@ class MobilePaymentContract extends Component {
 	render() {
 		return (
 			<MobilePaymentLayout>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={(event) => this.handleSubmit(event)}>
 					<MobilePaymentTitle>Пополнить телефон</MobilePaymentTitle>
 					<InputField>
 						<Label>Телефон</Label>
@@ -159,7 +156,7 @@ class MobilePaymentContract extends Component {
 						<InputSum
 							name="sum"
 							value={this.state.sum}
-							onChange={this.handleInputChange}
+							onChange={(event) => this.handleInputChange(event)}
 						/>
 						<Currency>₽</Currency>
 					</InputField>

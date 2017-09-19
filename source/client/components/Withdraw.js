@@ -49,9 +49,6 @@ class Withdraw extends Component {
 			selectedCard: this.props.inactiveCardsList[0],
 			sum: 0
 		};
-
-		this.onSubmitForm = this.onSubmitForm.bind(this);
-		this.onChangeInputValue = this.onChangeInputValue.bind(this);
 	}
 
 	/**
@@ -95,15 +92,15 @@ class Withdraw extends Component {
 		const {inactiveCardsList} = this.props;
 
 		return (
-			<form onSubmit={this.onSubmitForm}>
+			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<WithdrawLayout>
 					<WithdrawTitle>Вывести деньги на карту</WithdrawTitle>
-					<Card type="select" data={inactiveCardsList} onSelect={this.onSelectCard} />
+					<Card type="select" data={inactiveCardsList} />
 					<InputField>
 						<SumInput
 							name="sum"
 							value={this.state.sum}
-							onChange={this.onChangeInputValue}
+							onChange={(event) => this.onChangeInputValue(event)}
 						/>
 						<Currency>₽</Currency>
 					</InputField>

@@ -18,9 +18,6 @@ class Prepaid extends Component {
 		this.state = {
 			stage: 'contract'
 		};
-
-		this.onPaymentSuccess = this.onPaymentSuccess.bind(this);
-		this.repeatPayment = this.repeatPayment.bind(this);
 	}
 
 	/**
@@ -50,7 +47,7 @@ class Prepaid extends Component {
 
 		if (this.state.stage === 'success') {
 			return (
-				<PrepaidSuccess transaction={this.state.transaction} repeatPayment={this.repeatPayment} />
+				<PrepaidSuccess transaction={this.state.transaction} repeatPayment={() => this.repeatPayment()} />
 			);
 		}
 
@@ -58,7 +55,7 @@ class Prepaid extends Component {
 			<PrepaidContract
 				activeCard={activeCard}
 				inactiveCardsList={inactiveCardsList}
-				onPaymentSuccess={this.onPaymentSuccess}
+				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)}
 			/>
 		);
 	}

@@ -18,9 +18,6 @@ class MobilePayment extends Component {
 		this.state = {
 			stage: 'contract'
 		};
-
-		this.onPaymentSuccess = this.onPaymentSuccess.bind(this);
-		this.repeatPayment = this.repeatPayment.bind(this);
 	}
 
 	/**
@@ -55,13 +52,16 @@ class MobilePayment extends Component {
 				<MobilePaymentSuccess
 					activeCard={activeCard}
 					transaction={this.state.transaction}
-					repeatPayment={this.repeatPayment}
+					repeatPayment={() => this.repeatPayment()}
 				/>
 			);
 		}
 
 		return (
-			<MobilePaymentContract activeCard={activeCard} onPaymentSuccess={this.onPaymentSuccess} />
+			<MobilePaymentContract
+				activeCard={activeCard}
+				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)}
+			/>
 		);
 	}
 }
