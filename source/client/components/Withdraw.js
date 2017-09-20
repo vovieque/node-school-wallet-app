@@ -46,7 +46,7 @@ class Withdraw extends Component {
 		super(props);
 
 		this.state = {
-			selectedCard: this.props.inactiveCardsList[0],
+			selectedCard: props.inactiveCardsList[0],
 			sum: 0
 		};
 	}
@@ -56,9 +56,11 @@ class Withdraw extends Component {
 	 * @param {Event} event событие изменения значения input
 	 */
 	onChangeInputValue(event) {
-		const target = event.target;
-		const value = target.value;
-		const name = target.name;
+		if (!event) {
+			return;
+		}
+
+		const {name, value} = event.target;
 
 		this.setState({
 			[name]: value

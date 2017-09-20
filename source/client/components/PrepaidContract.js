@@ -28,11 +28,7 @@ const PrepaidItem = styled.div`
 	border-radius: 3px;
 	cursor: pointer;
 	background-color: ${({selected, bgColor}) => {
-		if (selected) {
-			return bgColor || '#108051';
-		}
-
-		return 'rgba(0, 0, 0, 0.05)';
+		return selected ? bgColor : 'rgba(0, 0, 0, 0.05)';
 	}};
 `;
 
@@ -42,11 +38,7 @@ const PrepaidItemIcon = styled.div`
 	margin: 18px;
 	border-radius: 21px;
 	background-image: ${({bankSmLogoUrl}) => {
-		if (bankSmLogoUrl) {
-			return `url(${bankSmLogoUrl})`;
-		}
-
-		return 'none';
+		return bankSmLogoUrl ? `url(${bankSmLogoUrl})` : 'none';
 	}};
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -60,21 +52,13 @@ const PrepaidItemIcon = styled.div`
 const PrepaidItemTitle = styled.div`
 	font-size: 13px;
 	color: ${({selected, textColor}) => {
-		if (selected) {
-			return textColor || '#fff';
-		}
-
-		return 'rgba(255, 255, 255, 0.6)';
+		return selected ? textColor : 'rgba(255, 255, 255, 0.6)';
 	}};
 `;
 
 const PrepaidItemDescription = styled.div`
 	color: ${({selected, textColor}) => {
-		if (selected) {
-			return textColor || '#fff';
-		}
-
-		return 'rgba(255, 255, 255, 0.4)';
+		return selected ? textColor : 'rgba(255, 255, 255, 0.4)';
 	}};
 `;
 
@@ -128,9 +112,11 @@ class PrepaidContract extends Component {
 	 * @param {Event} event событие изменения значения input
 	 */
 	onChangeInputValue(event) {
-		const target = event.target;
-		const value = target.value;
-		const name = target.name;
+		if (!event) {
+			return;
+		}
+
+		const {name, value} = event.target;
 
 		this.setState({
 			[name]: value
@@ -227,6 +213,10 @@ class PrepaidContract extends Component {
 }
 
 PrepaidContract.propTypes = {
+	activeCard: PropTypes.shape({
+		id: PropTypes.number,
+		theme: PropTypes.object
+	}).isRequired,
 	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	onPaymentSuccess: PropTypes.func.isRequired
 };

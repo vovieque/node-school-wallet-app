@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 module.exports = {
+	"extends": ["plugin:react/recommended"],
 	"parserOptions": {
 		"ecmaVersion": 2017,
 		"ecmaFeatures": {

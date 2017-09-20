@@ -123,9 +123,11 @@ class MobilePaymentContract extends Component {
 	 * @param {Event} event событие изменения значения input
 	 */
 	handleInputChange(event) {
-		const target = event.target;
-		const value = target.value;
-		const name = target.name;
+		if (!event) {
+			return;
+		}
+
+		const {name, value} = event.target;
 
 		this.setState({
 			[name]: value

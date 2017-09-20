@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'emotion/react';
+import PropTypes from 'prop-types';
 
 import {Island} from './';
 
@@ -93,6 +94,14 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
 		</MobilePaymentLayout>
 	);
+};
+
+MobilePaymentSuccess.propTypes = {
+	transaction: PropTypes.shape({
+		sum: PropTypes.number,
+		phoneNumber: PropTypes.string
+	}).isRequired,
+	repeatPayment: PropTypes.func.isRequired
 };
 
 export default MobilePaymentSuccess;

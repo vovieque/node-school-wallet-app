@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import moment from 'moment';
+
 import {Island} from './';
 
 const HistoryLayout = styled(Island)`
@@ -43,11 +44,7 @@ const HistoryItemIcon = styled.div`
 	border-radius: 25px;
 	background-color: #159761;
 	background-image: ${({bankSmLogoUrl}) => {
-		if (bankSmLogoUrl) {
-			return `url(${bankSmLogoUrl})`;
-		}
-
-		return 'none';
+		return bankSmLogoUrl ? `url(${bankSmLogoUrl})` : 'none';
 	}};
 	background-size: contain;
     background-repeat: no-repeat;

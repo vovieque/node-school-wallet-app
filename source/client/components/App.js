@@ -58,7 +58,8 @@ class App extends Component {
 
 		this.state = {
 			cardsList: this.prepareCardsData(cardsData),
-			activeCardIndex: 0
+			activeCardIndex: 0,
+			transactionsData
 		};
 	}
 
@@ -107,7 +108,7 @@ class App extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex} = this.state;
+		const {cardsList, activeCardIndex, transactionsData} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 		const inactiveCardsList = cardsList.filter((card, index) => (
 			index === activeCardIndex ? false : card
