@@ -1,7 +1,4 @@
-# Личный проект «Мой кошелек» [![Build status][travis-image]][travis-url]
-
-[travis-image]: 
-[travis-url]: 
+# Приложение школы Node.js «Кошелёк»
 
 ## Install
 ```sh
