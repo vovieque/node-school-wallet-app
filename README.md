@@ -5,8 +5,6 @@
 
 ## Install
 ```sh
-git clone ssh://git@bitbucket-public.yamoney.ru/frontend-tools/node-school-app.git
-cd node-school-app 
 npm i
 ```
 
