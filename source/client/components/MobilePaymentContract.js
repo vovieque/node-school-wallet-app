@@ -89,14 +89,14 @@ class MobilePaymentContract extends Component {
 	 * @returns {Number}
 	 */
 	getSumWithCommission() {
-		const sum = this.state.sum;
+		const {sum, commission} = this.state;
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum <= 0) {
 			return 0;
 		}
 
-		return Number(sum) + Number(this.state.commission);
+		return Number(sum) + Number(commission);
 	}
 
 	/**
@@ -141,6 +141,8 @@ class MobilePaymentContract extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
+		const {commission} = this.state;
+
 		return (
 			<MobilePaymentLayout>
 				<form onSubmit={(event) => this.handleSubmit(event)}>
@@ -148,29 +150,24 @@ class MobilePaymentContract extends Component {
 					<InputField>
 						<Label>Телефон</Label>
 						<InputPhoneNumber
-							name="phoneNumber"
+							name='phoneNumber'
 							value={this.state.phoneNumber}
-							readOnly="true"
-						/>
+							readOnly='true' />
 					</InputField>
 					<InputField>
 						<Label>Сумма</Label>
 						<InputSum
-							name="sum"
+							name='sum'
 							value={this.state.sum}
-							onChange={(event) => this.handleInputChange(event)}
-						/>
+							onChange={(event) => this.handleInputChange(event)} />
 						<Currency>₽</Currency>
 					</InputField>
 					<InputField>
 						<Label>Спишется</Label>
-						<InputCommision
-							value={this.getSumWithCommission()}
-							readOnly="true"
-						/>
+						<InputCommision value={this.getSumWithCommission()} />
 						<Currency>₽</Currency>
 					</InputField>
-					<Commission>Размер коммиссии составляет 3 ₽</Commission>
+					<Commission>Размер коммиссии составляет {commission} ₽</Commission>
 					<Underline />
 					<PaymentButton bgColor='#fff' textColor='#108051'>Заплатить</PaymentButton>
 				</form>

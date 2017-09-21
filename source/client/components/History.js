@@ -43,9 +43,7 @@ const HistoryItemIcon = styled.div`
 	height: 50px;
 	border-radius: 25px;
 	background-color: #159761;
-	background-image: ${({bankSmLogoUrl}) => {
-		return bankSmLogoUrl ? `url(${bankSmLogoUrl})` : 'none';
-	}};
+	background-image: ${({bankSmLogoUrl}) => `url(${bankSmLogoUrl})`};
 	background-size: contain;
     background-repeat: no-repeat;
 `;

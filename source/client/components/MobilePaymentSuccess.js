@@ -89,7 +89,7 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 				<SectionValue>{phoneNumber}</SectionValue>
 			</Section>
 			<Instruction>
-				Мы пришлем чек на sam@yandex.ru. Вы можете измените его email в «Настройках».
+				Мы пришлем чек на sam@yandex.ru. Вы можете изменить email в «Настройках».
 			</Instruction>
 			<RepeatPayment onClick={repeatPayment}>Отправить еще один перевод</RepeatPayment>
 		</MobilePaymentLayout>
@@ -98,7 +98,7 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 
 MobilePaymentSuccess.propTypes = {
 	transaction: PropTypes.shape({
-		sum: PropTypes.number,
+		sum: PropTypes.string,
 		phoneNumber: PropTypes.string
 	}).isRequired,
 	repeatPayment: PropTypes.func.isRequired

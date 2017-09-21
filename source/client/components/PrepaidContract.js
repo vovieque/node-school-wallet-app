@@ -27,9 +27,7 @@ const PrepaidItem = styled.div`
 	align-items: center;
 	border-radius: 3px;
 	cursor: pointer;
-	background-color: ${({selected, bgColor}) => {
-		return selected ? bgColor : 'rgba(0, 0, 0, 0.05)';
-	}};
+	background-color: ${({selected, bgColor}) => selected ? bgColor : 'rgba(0, 0, 0, 0.05)'};
 `;
 
 const PrepaidItemIcon = styled.div`
@@ -37,29 +35,19 @@ const PrepaidItemIcon = styled.div`
 	height: 42px;
 	margin: 18px;
 	border-radius: 21px;
-	background-image: ${({bankSmLogoUrl}) => {
-		return bankSmLogoUrl ? `url(${bankSmLogoUrl})` : 'none';
-	}};
+	background-image: ${({bankSmLogoUrl}) => `url(${bankSmLogoUrl})`};
 	background-size: contain;
 	background-repeat: no-repeat;
-	filter: ${({selected}) => {
-		if (!selected) {
-			return 'grayscale(100%)';
-		}
-	}};
+	filter: ${({selected}) => selected ? 'none' : 'grayscale(100%)'};
 `;
 
 const PrepaidItemTitle = styled.div`
 	font-size: 13px;
-	color: ${({selected, textColor}) => {
-		return selected ? textColor : 'rgba(255, 255, 255, 0.6)';
-	}};
+	color: ${({selected, textColor}) => selected ? textColor : 'rgba(255, 255, 255, 0.6)'};
 `;
 
 const PrepaidItemDescription = styled.div`
-	color: ${({selected, textColor}) => {
-		return selected ? textColor : 'rgba(255, 255, 255, 0.4)';
-	}};
+	color: ${({selected, textColor}) => selected ? textColor : 'rgba(255, 255, 255, 0.4)'};
 `;
 
 const InputField = styled.div`
@@ -168,21 +156,17 @@ class PrepaidContract extends Component {
 									bgColor={card.theme.bgColor}
 									key={card.id}
 									onClick={() => this.onCardChange(index)}
-									selected={activeCardIndex === index}
-								>
+									selected={activeCardIndex === index}>
 									<PrepaidItemIcon
 										bankSmLogoUrl={card.theme.bankSmLogoUrl}
-										selected={activeCardIndex === index}
-									/>
+										selected={activeCardIndex === index} />
 									<PrepaidItemTitle
 										textColor={card.theme.textColor}
-										selected={activeCardIndex === index}
-									>
+										selected={activeCardIndex === index}>
 										C банковской карты
 										<PrepaidItemDescription
 											textColor={card.theme.textColor}
-											selected={activeCardIndex === index}
-										>
+											selected={activeCardIndex === index}>
 											{card.number}
 										</PrepaidItemDescription>
 									</PrepaidItemTitle>
@@ -193,17 +177,15 @@ class PrepaidContract extends Component {
 
 					<InputField>
 						<SumInput
-							name="sum"
+							name='sum'
 							value={this.state.sum}
-							onChange={(event) => this.onChangeInputValue(event)}
-						/>
+							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>
 					<Button
-						type="submit"
+						type='submit'
 						bgColor={selectedCard.theme.bgColor}
-						textColor={selectedCard.theme.textColor}
-					>
+						textColor={selectedCard.theme.textColor}>
 						Пополнить
 					</Button>
 				</PrepaidLayout>

@@ -15,9 +15,7 @@ class Prepaid extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			stage: 'contract'
-		};
+		this.state = {stage: 'contract'};
 	}
 
 	/**
@@ -43,11 +41,12 @@ class Prepaid extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
+		const {transaction} = this.state;
 		const {activeCard, inactiveCardsList} = this.props;
 
 		if (this.state.stage === 'success') {
 			return (
-				<PrepaidSuccess transaction={this.state.transaction} repeatPayment={() => this.repeatPayment()} />
+				<PrepaidSuccess transaction={transaction} repeatPayment={() => this.repeatPayment()} />
 			);
 		}
 
@@ -55,8 +54,7 @@ class Prepaid extends Component {
 			<PrepaidContract
 				activeCard={activeCard}
 				inactiveCardsList={inactiveCardsList}
-				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)}
-			/>
+				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)} />
 		);
 	}
 }

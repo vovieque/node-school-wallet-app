@@ -15,9 +15,7 @@ class MobilePayment extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			stage: 'contract'
-		};
+		this.state = {stage: 'contract'};
 	}
 
 	/**
@@ -52,16 +50,14 @@ class MobilePayment extends Component {
 				<MobilePaymentSuccess
 					activeCard={activeCard}
 					transaction={this.state.transaction}
-					repeatPayment={() => this.repeatPayment()}
-				/>
+					repeatPayment={() => this.repeatPayment()} />
 			);
 		}
 
 		return (
 			<MobilePaymentContract
 				activeCard={activeCard}
-				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)}
-			/>
+				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)} />
 		);
 	}
 }

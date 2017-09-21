@@ -97,18 +97,15 @@ class Withdraw extends Component {
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<WithdrawLayout>
 					<WithdrawTitle>Вывести деньги на карту</WithdrawTitle>
-					<Card type="select" data={inactiveCardsList} />
+					<Card type='select' data={inactiveCardsList} />
 					<InputField>
 						<SumInput
-							name="sum"
+							name='sum'
 							value={this.state.sum}
-							onChange={(event) => this.onChangeInputValue(event)}
-						/>
+							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>
-					<Button type="submit">
-						Перевести
-					</Button>
+					<Button type='submit'>Перевести</Button>
 				</WithdrawLayout>
 			</form>
 		);
