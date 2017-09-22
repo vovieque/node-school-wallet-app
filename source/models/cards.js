@@ -5,7 +5,7 @@ const ApplicationError = require('libs/application-error');
 const FileModel = require('./common/fileModel');
 
 class Cards extends FileModel {
-	constructor () {
+	constructor() {
 		super('cards.json');
 	}
 
@@ -15,7 +15,7 @@ class Cards extends FileModel {
 	 * @param {Object} card описание карты
 	 * @returns {Promise.<Object>}
 	 */
-	async create (card) {
+	async create(card) {
 		const isDataValid = card && card.hasOwnProperty('cardNumber') && card.hasOwnProperty('balance');
 		if (isDataValid) {
 			card.id = this._dataSource.length + 1;
@@ -31,7 +31,7 @@ class Cards extends FileModel {
 	 * Удалет карту
 	 * @param {Number} id идентификатор карты
 	 */
-	async remove (id) {
+	async remove(id) {
 		const card = this._dataSource.find((item) => {
 			return item.id === id;
 		});
