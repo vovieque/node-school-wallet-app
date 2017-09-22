@@ -72,14 +72,14 @@ const RepeatPayment = styled.button`
 `;
 
 const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
-	const {sum, phoneNumber} = transaction;
+	const {sum, phoneNumber, commission} = transaction;
 
 	return (
 		<MobilePaymentLayout>
 			<SuccessIcon />
 			<Header>МегаФон (Россия)</Header>
 			<Sum>{sum} ₽</Sum>
-			<CommissionTips>В том числе комиссия 3 ₽</CommissionTips>
+			<CommissionTips>В том числе комиссия {commission} ₽</CommissionTips>
 			<Section>
 				<SectionLabel>Номер транзакции</SectionLabel>
 				<SectionValue>200580211311</SectionValue>
@@ -99,7 +99,8 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 MobilePaymentSuccess.propTypes = {
 	transaction: PropTypes.shape({
 		sum: PropTypes.string,
-		phoneNumber: PropTypes.string
+		phoneNumber: PropTypes.string,
+		commission: PropTypes.number
 	}).isRequired,
 	repeatPayment: PropTypes.func.isRequired
 };

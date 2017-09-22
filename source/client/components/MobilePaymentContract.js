@@ -108,14 +108,14 @@ class MobilePaymentContract extends Component {
 			event.preventDefault();
 		}
 
-		const {sum, phoneNumber} = this.state;
+		const {sum, phoneNumber, commission} = this.state;
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum === 0) {
 			return;
 		}
 
-		this.props.onPaymentSuccess({sum, phoneNumber});
+		this.props.onPaymentSuccess({sum, phoneNumber, commission});
 	}
 
 	/**

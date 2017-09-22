@@ -35,7 +35,7 @@ const PrepaidItemIcon = styled.div`
 	height: 42px;
 	margin: 18px;
 	border-radius: 21px;
-	background-image: ${({bankSmLogoUrl}) => `url(${bankSmLogoUrl})`};
+	background-image: url(${({bankSmLogoUrl}) => bankSmLogoUrl});
 	background-size: contain;
 	background-repeat: no-repeat;
 	filter: ${({selected}) => selected ? 'none' : 'grayscale(100%)'};
