@@ -20,11 +20,14 @@ const Logo = styled.div`
 
 const Edit = styled.div`
 	position: absolute;
-	top: 25px;
-	right: 20px;
-	width: 18px;
-	height: 18px;
-	background-image: url('/assets/cards-edit.svg');
+	top: 17px;
+	right: 12px;
+	width: 34px;
+	height: 35px;
+	cursor: pointer;
+	background-image: url('/assets/${({editable}) => editable ? 'cards-edit-active' : 'cards-edit'}.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
 `;
 
 const CardsList = styled.div`
@@ -36,21 +39,26 @@ const Footer = styled.footer`
 	font-size: 15px;
 `;
 
-const CardsBar = ({activeCardIndex, cardsList, onCardChange}) => {
+const CardsBar = ({activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable}) => {
 	const onCardClick = (activeCardIndex) => {
 		onCardChange && onCardChange(activeCardIndex);
 	};
 
+	const onEditClick = (isEditable) => {
+		onEditChange && onEditChange(isEditable);
+	}
+
 	return (
 		<Layout>
 			<Logo />
-			<Edit />
+			<Edit onClick={() => onEditClick(isCardsEditable)} editable={isCardsEditable} />
 			<CardsList>
 				{cardsList.map((card, index) => (
 					<Card
 						key={index}
 						data={card}
 						active={index === activeCardIndex}
+						isCardsEditable={isCardsEditable}
 						onClick={() => onCardClick(index)} />
 				))}
 				<Card type='new' />
@@ -63,7 +71,9 @@ const CardsBar = ({activeCardIndex, cardsList, onCardChange}) => {
 CardsBar.propTypes = {
 	cardsList: PropTypes.array.isRequired,
 	activeCardIndex: PropTypes.number.isRequired,
-	onCardChange: PropTypes.func.isRequired
+	onCardChange: PropTypes.func.isRequired,
+	isCardsEditable: PropTypes.bool.isRequired,
+	onEditChange: PropTypes.func.isRequired
 };
 
 export default CardsBar;

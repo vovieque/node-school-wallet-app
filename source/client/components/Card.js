@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Select} from './';
+import {Select, CardEdit} from './';
 
 const CardLayout = styled.div`
 	position: relative;
@@ -86,7 +86,7 @@ class Card extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {data, type, active, onClick} = this.props;
+		const {data, type, active, onClick, isCardsEditable} = this.props;
 
 		if (type === 'new') {
 			return (
@@ -95,12 +95,13 @@ class Card extends Component {
 		}
 
 		if (type === 'select') {
-			const {activeCardIndex} = this.state;
+			const {activeCardIndex, isCardsEditable} = this.state;
 			const selectedCard = data[activeCardIndex];
 			const {bgColor, bankLogoUrl, brandLogoUrl} = selectedCard.theme;
 
 			return (
-				<CardLayout active={true} bgColor={bgColor}>
+				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable}>
+					<CardEdit editable={isCardsEditable}/>
 					<CardLogo url={bankLogoUrl} active={true} />
 					<CardSelect defaultValue='0' onChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}>
 						{data.map((card, index) => (
@@ -117,7 +118,8 @@ class Card extends Component {
 		const themedBrandLogoUrl = active ? brandLogoUrl : brandLogoUrl.replace(/-colored.svg$/, '-white.svg');
 
 		return (
-			<CardLayout active={active} bgColor={bgColor} onClick={onClick} >
+			<CardLayout active={active} bgColor={bgColor} onClick={onClick} isCardsEditable={isCardsEditable}>
+				<CardEdit editable={isCardsEditable}/>
 				<CardLogo url={bankLogoUrl} active={active} />
 				<CardNumber textColor={textColor} active={active}>
 					{number}
@@ -132,6 +134,7 @@ Card.propTypes = {
 	data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 	type: PropTypes.string,
 	active: PropTypes.bool,
+	isCardsEditable: PropTypes.bool,
 	onClick: PropTypes.func
 };
 

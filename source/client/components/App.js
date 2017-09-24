@@ -65,7 +65,8 @@ class App extends Component {
 		this.state = {
 			cardsList,
 			cardHistory,
-			activeCardIndex: 0
+			activeCardIndex: 0,
+			isCardsEditable: false
 		};
 	}
 
@@ -108,13 +109,22 @@ class App extends Component {
 	}
 
 	/**
+	* Обработчик события редактирования карт
+	* @param {Boolean} isEditable Признак редактируемости
+	*/
+	onEditChange(isEditable) {
+		const isCardsEditable = !isEditable;
+		this.setState({isCardsEditable});
+	}
+
+	/**
 	 * Рендер компонента
 	 *
 	 * @override
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex, cardHistory} = this.state;
+		const {cardsList, activeCardIndex, cardHistory, isCardsEditable} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => index === activeCardIndex ? false : card);
@@ -125,7 +135,9 @@ class App extends Component {
 				<CardsBar
 					activeCardIndex={activeCardIndex}
 					cardsList={cardsList}
-					onCardChange={(activeCardIndex) => this.onCardChange(activeCardIndex)} />
+					onCardChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}
+					isCardsEditable={isCardsEditable}
+					onEditChange={(isEditable) => this.onEditChange(isEditable)} />
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>

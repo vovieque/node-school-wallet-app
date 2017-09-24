@@ -5,6 +5,7 @@ export {default as Select} from './Select';
 export {default as Island} from './Island';
 export {default as Card} from './Card';
 export {default as CardsBar} from './CardsBar';
+export {default as CardEdit} from './CardEdit';
 export {default as Prepaid} from './Prepaid';
 export {default as MobilePayment} from './MobilePayment';
 export {default as Withdraw} from './Withdraw';
