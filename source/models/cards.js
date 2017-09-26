@@ -1,37 +1,26 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const ApplicationError = require('libs/application-error');
 
-const ApplicationError = require('../../libs/application-error');
+const FileModel = require('./common/fileModel');
 
-const DATA_SOURCE = path.join(__dirname, '..', 'cards.json');
-
-class Cards {
-	constructor () {
-		this._dataSource = require(DATA_SOURCE);
-	}
-
-	/**
-	 * Возвращает все карты
-	 * @returns {Object[]}
-	 */
-	getAll () {
-		return this._dataSource;
+class Cards extends FileModel {
+	constructor() {
+		super('cards.json');
 	}
 
 	/**
 	 * Добавляет карту
 	 *
 	 * @param {Object} card описание карты
-	 * @returns {Object}
+	 * @returns {Promise.<Object>}
 	 */
-	create (card) {
+	async create(card) {
 		const isDataValid = card && card.hasOwnProperty('cardNumber') && card.hasOwnProperty('balance');
 		if (isDataValid) {
-			card.id = this._dataSource.length + 1;
+			card.id = this._dataSource.reduce((max, item) => Math.max(max, item.id), 0) + 1;
 			this._dataSource.push(card);
-			this._saveUpdates();
+			await this._saveUpdates();
 			return card;
 		} else {
 			throw new ApplicationError('Card data is invalid', 400);
@@ -42,7 +31,7 @@ class Cards {
 	 * Удалет карту
 	 * @param {Number} id идентификатор карты
 	 */
-	remove (id) {
+	async remove(id) {
 		const card = this._dataSource.find((item) => {
 			return item.id === id;
 		});
@@ -52,15 +41,7 @@ class Cards {
 		}
 		const cardIndex = this._dataSource.indexOf(card);
 		this._dataSource.splice(cardIndex, 1);
-		this._saveUpdates();
-	}
-
-	/**
-	 * Сохраняет изменения
-	 * @private
-	 */
-	_saveUpdates () {
-		fs.writeFileSync(DATA_SOURCE, JSON.stringify(this._dataSource, null, 4));
+		await this._saveUpdates();
 	}
 }
 
