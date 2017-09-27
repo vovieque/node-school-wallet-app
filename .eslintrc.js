@@ -6,7 +6,7 @@ module.exports = {
 		'comma-dangle': 0,
 		'no-tabs': 0,
 		'indent': [2, 'tab'],
-		'arrow-parens': 2,
+		'arrow-parens': [2, 'always'],
 
 		'import/no-extraneous-dependencies': 0,
 		'import/no-unresolved': 0,
