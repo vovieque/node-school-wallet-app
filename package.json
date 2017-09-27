@@ -4,7 +4,8 @@
   "description": "Приложение школы Node.js «Кошелёк»",
   "author": "",
   "scripts": {
-    "start": "node ./source/app.js",
+    "start": "NODE_PATH=. node ./source/app.js",
+    "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
