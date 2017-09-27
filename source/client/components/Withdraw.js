@@ -24,7 +24,7 @@ const SumInput = styled(Input)`
 	max-width: 200px;
 	padding-right: 20px;
 	background-color: rgba(0, 0, 0, 0.08);
-	color: '#000'
+	color: '#000';
 `;
 
 const Currency = styled.span`
