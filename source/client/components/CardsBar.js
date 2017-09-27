@@ -37,9 +37,7 @@ const Footer = styled.footer`
 `;
 
 const CardsBar = ({activeCardIndex, cardsList, onCardChange}) => {
-	const onCardClick = (activeCardIndex) => {
-		onCardChange && onCardChange(activeCardIndex);
-	};
+	const onCardClick = (index) => onCardChange(index);
 
 	return (
 		<Layout>
@@ -61,7 +59,7 @@ const CardsBar = ({activeCardIndex, cardsList, onCardChange}) => {
 };
 
 CardsBar.propTypes = {
-	cardsList: PropTypes.array.isRequired,
+	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	activeCardIndex: PropTypes.number.isRequired,
 	onCardChange: PropTypes.func.isRequired
 };

@@ -103,7 +103,7 @@ const History = ({cardHistory}) => {
 
 				return (
 					<HistoryItem key={index}>
-						<HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl}/>
+						<HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl} />
 						<HistoryItemTitle>
 							{getHistoryItemTitle(item)}
 						</HistoryItemTitle>

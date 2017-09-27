@@ -27,7 +27,7 @@ const PrepaidItem = styled.div`
 	align-items: center;
 	border-radius: 3px;
 	cursor: pointer;
-	background-color: ${({selected, bgColor}) => selected ? bgColor : 'rgba(0, 0, 0, 0.05)'};
+	background-color: ${({selected, bgColor}) => (selected ? bgColor : 'rgba(0, 0, 0, 0.05)')};
 `;
 
 const PrepaidItemIcon = styled.div`
@@ -38,16 +38,16 @@ const PrepaidItemIcon = styled.div`
 	background-image: url(${({bankSmLogoUrl}) => bankSmLogoUrl});
 	background-size: contain;
 	background-repeat: no-repeat;
-	filter: ${({selected}) => selected ? 'none' : 'grayscale(100%)'};
+	filter: ${({selected}) => (selected ? 'none' : 'grayscale(100%)')};
 `;
 
 const PrepaidItemTitle = styled.div`
 	font-size: 13px;
-	color: ${({selected, textColor}) => selected ? textColor : 'rgba(255, 255, 255, 0.6)'};
+	color: ${({selected, textColor}) => (selected ? textColor : 'rgba(255, 255, 255, 0.6)')};
 `;
 
 const PrepaidItemDescription = styled.div`
-	color: ${({selected, textColor}) => selected ? textColor : 'rgba(255, 255, 255, 0.4)'};
+	color: ${({selected, textColor}) => (selected ? textColor : 'rgba(255, 255, 255, 0.4)')};
 `;
 
 const InputField = styled.div`

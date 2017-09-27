@@ -11,7 +11,7 @@ const CardLayout = styled.div`
 	margin-bottom: 15px;
 	padding: 25px 20px 20px 25px;
 	border-radius: 4px;
-	background-color: ${({bgColor, active}) => active ? bgColor : 'rgba(255, 255, 255, 0.1)'};
+	background-color: ${({bgColor, active}) => (active ? bgColor : 'rgba(255, 255, 255, 0.1)')};
 `;
 
 const CardLogo = styled.div`
@@ -20,12 +20,12 @@ const CardLogo = styled.div`
 	background-image: url(${({url}) => url});
 	background-size: contain;
 	background-repeat: no-repeat;
-	filter: ${({active}) => active ? 'none' : 'grayscale(100%) opacity(60%)'};
+	filter: ${({active}) => (active ? 'none' : 'grayscale(100%) opacity(60%)')};
 `;
 
 const CardNumber = styled.div`
 	margin-bottom: 20px;
-	color: ${({active, textColor}) => active ? textColor : 'rgba(255, 255, 255, 0.6)'};
+	color: ${({active, textColor}) => (active ? textColor : 'rgba(255, 255, 255, 0.6)')};
 	font-size: 16px;
 	font-family: 'OCR A Std Regular';
 `;
@@ -36,7 +36,7 @@ const CardType = styled.div`
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position-x: right;
-	opacity: ${({active}) => active ? '1' : '0.6'};
+	opacity: ${({active}) => (active ? '1' : '0.6')};
 `;
 
 const NewCardLayout = styled(CardLayout)`
@@ -98,16 +98,17 @@ class Card extends Component {
 			const {activeCardIndex} = this.state;
 			const selectedCard = data[activeCardIndex];
 			const {bgColor, bankLogoUrl, brandLogoUrl} = selectedCard.theme;
+			const isActive = true;
 
 			return (
-				<CardLayout active={true} bgColor={bgColor}>
-					<CardLogo url={bankLogoUrl} active={true} />
-					<CardSelect defaultValue='0' onChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}>
+				<CardLayout active={isActive} bgColor={bgColor}>
+					<CardLogo url={bankLogoUrl} active={isActive} />
+					<CardSelect defaultValue='0' onChange={(index) => this.onCardChange(index)}>
 						{data.map((card, index) => (
-							<Select.Option key={index} value={`${index}`}>{card.number}</Select.Option>
+							<Select.Option key={isActive} value={`${index}`}>{card.number}</Select.Option>
 						))}
 					</CardSelect>
-					<CardType url={brandLogoUrl} active={true} />
+					<CardType url={brandLogoUrl} active={isActive} />
 				</CardLayout>
 			);
 		}

@@ -12,16 +12,19 @@ const StyledInput = styled.input`
 	background-color: rgba(0, 0, 0, 0.2);
 	font-size: 15px;
 	line-height: 1.5;
-	color: ${({textColor}) => textColor || '#fff'};
+	color: ${({textColor}) => textColor};
 `;
 
 const Input = (props) => (
-	<StyledInput textColor={props.textColor} className={props.className} {...props} />
+	<StyledInput textColor={props.textColor} {...props} />
 );
 
 Input.propTypes = {
-	textColor: PropTypes.string,
-	className: PropTypes.string
+	textColor: PropTypes.string
+};
+
+Input.defaultProps = {
+	textColor: '#fff'
 };
 
 export default Input;

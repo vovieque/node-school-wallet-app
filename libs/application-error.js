@@ -1,7 +1,7 @@
 'use strict';
 
 class ApplicationError extends Error {
-	constructor (message, status) {
+	constructor(message, status) {
 		super(message);
 		this._status = status;
 	}
@@ -10,7 +10,7 @@ class ApplicationError extends Error {
 	 * Возвращает статус ошибки
 	 * @returns {*}
 	 */
-	get status () {
+	get status() {
 		return this._status;
 	}
 }
