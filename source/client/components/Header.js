@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Title} from './';
+import {Title, UserInfo} from './';
 
 const HeaderLayout = styled.header`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	height: 74px;
 	background: #fff;
 	padding: 20px 30px;
@@ -25,6 +28,7 @@ const Header = ({activeCard}) => (
 			{`${activeCard.bankName}: `}
 			<BalanceSum>{`${activeCard.balance} ₽`}</BalanceSum>
 		</Balance>
+		<UserInfo />
 	</HeaderLayout>
 );
 

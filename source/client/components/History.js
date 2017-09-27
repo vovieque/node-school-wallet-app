@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import moment from 'moment';
-import {Island} from './';
 
-import transactionsData from '../../data/transactions';
+import {Island} from './';
 
 const HistoryLayout = styled(Island)`
 	width: 530px;
@@ -44,6 +43,9 @@ const HistoryItemIcon = styled.div`
 	height: 50px;
 	border-radius: 25px;
 	background-color: #159761;
+	background-image: url(${({bankSmLogoUrl}) => bankSmLogoUrl});
+	background-size: contain;
+	background-repeat: no-repeat;
 `;
 
 const HistoryItemTitle = styled.div`
@@ -62,11 +64,7 @@ const HistoryItemSum = styled.div`
 	text-overflow: ellipsis;
 `;
 
-const History = ({activeCardId}) => {
-	const cardHistory = transactionsData.filter((data) => {
-		return data.cardId === activeCardId;
-	});
-
+const History = ({cardHistory}) => {
 	const getHistoryItemTitle = (item) => {
 		let typeTitle = '';
 
@@ -105,7 +103,7 @@ const History = ({activeCardId}) => {
 
 				return (
 					<HistoryItem key={index}>
-						<HistoryItemIcon />
+						<HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl}/>
 						<HistoryItemTitle>
 							{getHistoryItemTitle(item)}
 						</HistoryItemTitle>
@@ -123,7 +121,7 @@ const History = ({activeCardId}) => {
 };
 
 History.propTypes = {
-	activeCardId: PropTypes.number.isRequired
+	cardHistory: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default History;

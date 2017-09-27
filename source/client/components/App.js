@@ -14,6 +14,7 @@ import {
 import './fonts.css';
 
 import cardsData from '../../data/cards';
+import transactionsData from '../../data/transactions';
 
 injectGlobal`
 	html,
@@ -55,8 +56,15 @@ class App extends Component {
 	constructor() {
 		super();
 
+		const cardsList = this.prepareCardsData(cardsData);
+		const cardHistory = transactionsData.map((data) => {
+			const card = cardsList.find((card) => card.id === data.cardId);
+			return card ? Object.assign({}, data, {card}) : data;
+		});
+
 		this.state = {
-			cardsList: this.prepareCardsData(cardsData),
+			cardsList,
+			cardHistory,
 			activeCardIndex: 0
 		};
 	}
@@ -83,7 +91,8 @@ class App extends Component {
 					bgColor: cardInfo.backgroundColor,
 					textColor: cardInfo.textColor,
 					bankLogoUrl: cardInfo.bankLogoSvg,
-					brandLogoUrl: cardInfo.brandLogoSvg
+					brandLogoUrl: cardInfo.brandLogoSvg,
+					bankSmLogoUrl: `/assets/${cardInfo.bankAlias}-history.svg`
 				}
 			};
 		});
@@ -105,11 +114,11 @@ class App extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex} = this.state;
+		const {cardsList, activeCardIndex, cardHistory} = this.state;
 		const activeCard = cardsList[activeCardIndex];
-		const inactiveCardsList = cardsList.filter((card, index) => (
-			index === activeCardIndex ? false : card
-		));
+
+		const inactiveCardsList = cardsList.filter((card, index) => index === activeCardIndex ? false : card);
+		const filteredHistory = cardHistory.filter((data) => data.cardId === activeCard.id);
 
 		return (
 			<Wallet>
@@ -120,10 +129,17 @@ class App extends Component {
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>
-						<History activeCardId={activeCard.id} />
-						<Prepaid inactiveCardsList={inactiveCardsList} />
-						<MobilePayment />
-						<Withdraw cardsList={cardsList} inactiveCardsList={inactiveCardsList} />
+						<History cardHistory={filteredHistory} />
+						<Prepaid
+							activeCard={activeCard}
+							inactiveCardsList={inactiveCardsList}
+							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
+						/>
+						<MobilePayment activeCard={activeCard} />
+						<Withdraw
+							activeCard={activeCard}
+							inactiveCardsList={inactiveCardsList}
+						/>
 					</Workspace>
 				</CardPane>
 			</Wallet>
