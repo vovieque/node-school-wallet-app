@@ -1,5 +1,6 @@
 'use strict';
 
+
 const bankUtils = {
 	/**
 	 * Типы банковскиx карт
@@ -11,6 +12,7 @@ const bankUtils = {
 		MASTERCARD: 'mastercard',
 		MIR: 'mir'
 	},
+
 
 	/**
 	 * Проверяет тип карты
@@ -27,9 +29,9 @@ const bankUtils = {
 			case '2': {
 				if (mirBin.test(val)) {
 					return bankUtils.cardTypes.MIR;
+				} else {
+					return '';
 				}
-
-				return '';
 			}
 			case '4': {
 				return bankUtils.cardTypes.VISA;
@@ -39,9 +41,9 @@ const bankUtils = {
 
 				if (secondNum === '0' || secondNum > '5') {
 					return bankUtils.cardTypes.MAESTRO;
+				} else {
+					return bankUtils.cardTypes.MASTERCARD;
 				}
-
-				return bankUtils.cardTypes.MASTERCARD;
 			}
 			case '6': {
 				return bankUtils.cardTypes.MAESTRO;
@@ -55,13 +57,13 @@ const bankUtils = {
 	/**
 	 * Форматирует номер карты, используя заданный разделитель
 	 *
-	 * @param {String} originCardNumber номер карты
+	 * @param {String} cardNumber номер карты
 	 * @param {String} delimeter = '\u00A0' разделитель
 	 * @returns {String} форматированный номер карты
 	 */
-	formatCardNumber(originCardNumber, delimeter = '\u00A0') {
-		const formattedCardNumber = [];
-		let cardNumber = originCardNumber;
+	formatCardNumber(cardNumber, delimeter) {
+		let formattedCardNumber = [];
+		delimeter = delimeter || '\u00A0';
 		if (cardNumber) {
 			while (cardNumber && typeof cardNumber === 'string') {
 				formattedCardNumber.push(cardNumber.substr(0, 4));
@@ -73,6 +75,8 @@ const bankUtils = {
 		}
 		return formattedCardNumber.join('');
 	}
+
+	
 };
 
 module.exports = bankUtils;

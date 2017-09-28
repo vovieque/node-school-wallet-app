@@ -1,0 +1,15 @@
+root: true
+
+env:
+	browser: true
+	node: true
+
+globals:
+	define: true
+
+extends:
+	"standard"
+
+rules:
+	camelcase: [2, { properties: "never" }]
+	quotes: [2, "single"]
