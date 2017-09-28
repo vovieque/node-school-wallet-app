@@ -5,7 +5,7 @@
  */
 const luhn = (function (arr) {
   return function (ccNum) {
-      var 
+      var
           len = ccNum.length,
           bit = 1,
           sum = 0,

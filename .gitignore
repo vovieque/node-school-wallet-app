@@ -1,9 +1,1 @@
-build/
-node_modules/
-.DS_Store
-Thumbs.db
-.idea
-*.sublime*
-*.log
-npm-debug.log*
-source/cards.json
+node_modules
