@@ -32,10 +32,7 @@ class Cards extends FileModel {
 	 * @param {Number} id идентификатор карты
 	 */
 	async remove(id) {
-		const card = this._dataSource.find((item) => {
-			return item.id === id;
-		});
-
+		const card = await this.get(id);
 		if (!card) {
 			throw new ApplicationError(`Card with ID=${id} not found`, 404);
 		}
