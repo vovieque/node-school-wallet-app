@@ -4,17 +4,50 @@ const fs = require('fs');
 const path = require('path');
 
 const Model = require('./model');
+const ApplicationError = require('libs/application-error');
 
 class FileModel extends Model {
 	constructor(sourceFileName) {
 		super();
 		this._dataSourceFile = path.join(__dirname, '..', '..', 'data', sourceFileName);
-		// eslint-disable-next-line global-require, import/no-dynamic-require
-		this._dataSource = require(this._dataSourceFile);
+		this._dataSource = null;
+	}
+
+	async loadFile() {
+		if (!this._dataSource) {
+			await new Promise((resolve, reject) => {
+				fs.readFile(this._dataSourceFile, (err, data) => {
+					if (err) {
+						return reject(err);
+					}
+
+					try {
+						this._dataSource = JSON.parse(data);
+						return resolve();
+					} catch (error) {
+						return reject(error);
+					}
+				});
+			});
+		}
+		return this._dataSource;
 	}
 
 	async getAll() {
-		return this._dataSource;
+		return this.loadFile();
+	}
+
+	async get(id) {
+		return this._dataSource.find((item) => item.id === id);
+	}
+
+	/**
+	 * Генерирует новый id для записи
+	 * @return {Number}
+	 * @private
+	 */
+	_generateId() {
+		return this._dataSource.reduce((max, item) => Math.max(max, item.id), 0) + 1;
 	}
 
 	/**
@@ -22,8 +55,17 @@ class FileModel extends Model {
 	 * @private
 	 */
 	async _saveUpdates() {
-		return new Promise((resolve) =>
-			fs.writeFile(this._dataSourceFile, JSON.stringify(this._dataSource, null, 4), resolve));
+		return new Promise((resolve, reject) => {
+			fs.writeFile(this._dataSourceFile, JSON.stringify(this._dataSource, null, 4), (err) => {
+				if (err) {
+					console.error(`Save model ${this._dataSourceFile} error`, err);
+					return reject(err);
+				}
+				return resolve();
+			});
+		}).catch(() => {
+			throw new ApplicationError('Save model error', 500);
+		});
 	}
 }
 

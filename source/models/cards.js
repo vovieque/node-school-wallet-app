@@ -22,12 +22,12 @@ class Cards extends FileModel {
 
 		if (isDataValid) {
 			const newCard = Object.assign({}, card, {
-				id: this._dataSource.length + 1
+				id: this._generateId()
 			});
 
 			this._dataSource.push(newCard);
 			await this._saveUpdates();
-			return card;
+			return newCard;
 		}
 
 		throw new ApplicationError('Card data is invalid', 400);
@@ -38,8 +38,7 @@ class Cards extends FileModel {
 	 * @param {Number} id идентификатор карты
 	 */
 	async remove(id) {
-		const card = this._dataSource.find((item) => item.id === id);
-
+		const card = await this.get(id);
 		if (!card) {
 			throw new ApplicationError(`Card with ID=${id} not found`, 404);
 		}

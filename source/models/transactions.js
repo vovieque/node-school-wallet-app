@@ -16,22 +16,25 @@ class Transactions extends FileModel {
 	 * @returns {Promise.<Object>}
 	 */
 	async create(transaction) {
-		this._dataSource.push(transaction);
+		const newTransaction = Object.assign({}, transaction, {
+			id: this._generateId()
+		});
+		this._dataSource.push(newTransaction);
 		await this._saveUpdates();
-		return transaction;
+		return newTransaction;
 	}
 
 	/**
-	 * Получает транзакцию по идентификатору карты
+	 * Получает транзакции по идентификатору карты
 	 * @param {Number} cardId Идентификатор карты
 	 * @return {Promise.<Object[]>}
 	 */
-	async get(cardId) {
+	async getByCard(cardId) {
 		return this._dataSource.filter((transaction) => transaction.cardId === cardId);
 	}
 
 	/**
-	 * Удалет транзакцию
+	 * Удаление транзакции
 	 */
 	static async remove() {
 		throw new ApplicationError('Transaction can\'t be removed', 400);
