@@ -14,6 +14,8 @@ const createTransactionsController = require('./controllers/transactions/create'
 const errorController = require('./controllers/error');
 
 const ApplicationError = require('libs/application-error');
+const CardsModel = require('source/models/cards');
+const TransactionsModel = require('source/models/transactions');
 
 const app = new Koa();
 
@@ -30,7 +32,7 @@ router.post('/cards/:id/transactions/', createTransactionsController);
 router.all('/error', errorController);
 
 // logger
-app.use(async function(ctx, next) {
+app.use(async (ctx, next) => {
 	const start = new Date();
 	await next();
 	const ms = new Date() - start;
@@ -47,6 +49,20 @@ app.use(async (ctx, next) => {
 		ctx.body = `Error [${err.message}] :(`;
 	}
 });
+
+// Создадим модель Cards и Transactions на уровне приложения и проинициализируем ее
+app.use(async (ctx, next) => {
+	ctx.cardsModel = new CardsModel();
+	ctx.transactionsModel = new TransactionsModel();
+
+	await Promise.all([
+		ctx.cardsModel.loadFile(),
+		ctx.transactionsModel.loadFile()
+	]);
+
+	await next();
+});
+
 
 app.use(bodyParser);
 app.use(router.routes());
