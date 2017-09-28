@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const Model = require('./model');
+const ApplicationError = require('libs/application-error');
 
 class FileModel extends Model {
 	constructor(sourceFileName) {
@@ -35,13 +36,35 @@ class FileModel extends Model {
 		return await this.loadFile();
 	}
 
+	async get(id) {
+		return await this._dataSource.find((item) => item.id === id);
+	}
+
+	/**
+	 * Генерирует новый id для записи
+	 * @return {Number}
+	 * @private
+	 */
+	_generateId() {
+		return this._dataSource.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+	}
+
 	/**
 	 * Сохраняет изменения
 	 * @private
 	 */
 	async _saveUpdates() {
-		return new Promise(resolve =>
-			fs.writeFile(this._dataSourceFile, JSON.stringify(this._dataSource, null, 4), resolve));
+		return await new Promise((resolve, reject) => {
+			fs.writeFile(this._dataSourceFile, JSON.stringify(this._dataSource, null, 4), (err) => {
+				if (err) {
+					console.error(`Save model ${this._dataSourceFile} error`, err);
+					return reject(err);
+				}
+				return resolve();
+			});
+		}).catch(() => {
+			throw new ApplicationError("Save model error", 500);
+		});
 	}
 }
 

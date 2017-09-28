@@ -15,6 +15,7 @@ const errorController = require('./controllers/error');
 
 const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
+const TransactionsModel = require('source/models/transactions');
 
 const app = new Koa();
 
@@ -49,10 +50,16 @@ app.use(async (ctx, next) => {
 	}
 });
 
-// Создадим модель Cards на уровне приложения и проинициализируем ее
+// Создадим модель Cards и Transactions на уровне приложения и проинициализируем ее
 app.use(async (ctx, next) => {
-	ctx.CardsModel = new CardsModel();
-	await ctx.CardsModel.loadFile();
+	ctx.cardsModel = new CardsModel();
+	ctx.transactionsModel = new TransactionsModel();
+
+	await Promise.all([
+		ctx.cardsModel.loadFile(),
+		ctx.transactionsModel.loadFile()
+	]);
+
 	await next();
 });
 

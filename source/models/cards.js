@@ -18,7 +18,7 @@ class Cards extends FileModel {
 	async create(card) {
 		const isDataValid = card && card.hasOwnProperty('cardNumber') && card.hasOwnProperty('balance');
 		if (isDataValid) {
-			card.id = this._dataSource.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+			card.id = this._generateId();
 			this._dataSource.push(card);
 			await this._saveUpdates();
 			return card;
