@@ -1,4 +1,5 @@
 'use strict';
-module.exports = () => {
+
+module.exports = async () => {
 	throw new Error('Oops!');
 };

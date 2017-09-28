@@ -17,7 +17,7 @@ const bankUtils = {
 	 * @param {Number} val номер карты
 	 * @returns {String} тип карты
 	 */
-	getCardType (val) {
+	getCardType(val) {
 		// Бины ПС МИР 220000 - 220499
 		const mirBin = /^220[0-4]\s?\d\d/;
 
@@ -27,9 +27,9 @@ const bankUtils = {
 			case '2': {
 				if (mirBin.test(val)) {
 					return bankUtils.cardTypes.MIR;
-				} else {
-					return '';
 				}
+
+				return '';
 			}
 			case '4': {
 				return bankUtils.cardTypes.VISA;
@@ -39,9 +39,9 @@ const bankUtils = {
 
 				if (secondNum === '0' || secondNum > '5') {
 					return bankUtils.cardTypes.MAESTRO;
-				} else {
-					return bankUtils.cardTypes.MASTERCARD;
 				}
+
+				return bankUtils.cardTypes.MASTERCARD;
 			}
 			case '6': {
 				return bankUtils.cardTypes.MAESTRO;
@@ -55,13 +55,13 @@ const bankUtils = {
 	/**
 	 * Форматирует номер карты, используя заданный разделитель
 	 *
-	 * @param {String} cardNumber номер карты
+	 * @param {String} originCardNumber номер карты
 	 * @param {String} delimeter = '\u00A0' разделитель
 	 * @returns {String} форматированный номер карты
 	 */
-	formatCardNumber (cardNumber, delimeter) {
-		let formattedCardNumber = [];
-		delimeter = delimeter || '\u00A0';
+	formatCardNumber(originCardNumber, delimeter = '\u00A0') {
+		const formattedCardNumber = [];
+		let cardNumber = originCardNumber;
 		if (cardNumber) {
 			while (cardNumber && typeof cardNumber === 'string') {
 				formattedCardNumber.push(cardNumber.substr(0, 4));
