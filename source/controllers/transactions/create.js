@@ -14,22 +14,22 @@ module.exports = async (ctx) => {
 
 	const card = await ctx.cardsModel.get(cardId);
 	if(!card) {
-		throw new ApplicationError(`No card with id ${cardId}`);
+		throw new ApplicationError(`No card with id ${cardId}`, 404);
 	}
 	transaction.cardId = cardId;
 
 	const missingFields = requiredFields.filter((field) => !transaction.hasOwnProperty(field));
 
 	if(missingFields) {
-		throw new ApplicationError(`No required fields: ${missingFields.join()}`);
+		throw new ApplicationError(`No required fields: ${missingFields.join()}`, 400);
 	}
 
 	if(!allowedTypes.includes(transaction.type)) {
-		throw new ApplicationError(`forbidden transaction type: ${transaction.type}`);
+		throw new ApplicationError(`forbidden transaction type: ${transaction.type}`, 403);
 	}
 
 	if(transaction.time && !Date.parse(transaction.time)) {
-		throw new ApplicationError('Invalid transaction time');
+		throw new ApplicationError('Invalid transaction time', 400);
 	}
 
 	if(!transaction.time) {
