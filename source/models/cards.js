@@ -16,15 +16,21 @@ class Cards extends FileModel {
 	 * @returns {Promise.<Object>}
 	 */
 	async create(card) {
-		const isDataValid = card && card.hasOwnProperty('cardNumber') && card.hasOwnProperty('balance');
+		const isDataValid = card
+			&& Object.prototype.hasOwnProperty.call(card, 'cardNumber')
+			&& Object.prototype.hasOwnProperty.call(card, 'balance');
+
 		if (isDataValid) {
-			card.id = this._generateId();
-			this._dataSource.push(card);
+			const newCard = Object.assign({}, card, {
+				id: this._generateId()
+			});
+
+			this._dataSource.push(newCard);
 			await this._saveUpdates();
-			return card;
-		} else {
-			throw new ApplicationError('Card data is invalid', 400);
+			return newCard;
 		}
+
+		throw new ApplicationError('Card data is invalid', 400);
 	}
 
 	/**

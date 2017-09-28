@@ -32,7 +32,7 @@ router.post('/cards/:id/transactions/', createTransactionsController);
 router.all('/error', errorController);
 
 // logger
-app.use(async function(ctx, next) {
+app.use(async (ctx, next) => {
 	const start = new Date();
 	await next();
 	const ms = new Date() - start;

@@ -14,30 +14,31 @@ class FileModel extends Model {
 	}
 
 	async loadFile() {
-		if(!this._dataSource) {
+		if (!this._dataSource) {
 			await new Promise((resolve, reject) => {
 				fs.readFile(this._dataSourceFile, (err, data) => {
-					if(err) {
+					if (err) {
 						return reject(err);
 					}
+
 					try {
 						this._dataSource = JSON.parse(data);
 						return resolve();
-					} catch (err) {
-						return reject(err);
+					} catch (error) {
+						return reject(error);
 					}
-				})
-			})
+				});
+			});
 		}
 		return this._dataSource;
 	}
 
 	async getAll() {
-		return await this.loadFile();
+		return this.loadFile();
 	}
 
 	async get(id) {
-		return await this._dataSource.find((item) => item.id === id);
+		return this._dataSource.find((item) => item.id === id);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class FileModel extends Model {
 	 * @private
 	 */
 	async _saveUpdates() {
-		return await new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			fs.writeFile(this._dataSourceFile, JSON.stringify(this._dataSource, null, 4), (err) => {
 				if (err) {
 					console.error(`Save model ${this._dataSourceFile} error`, err);
@@ -63,7 +64,7 @@ class FileModel extends Model {
 				return resolve();
 			});
 		}).catch(() => {
-			throw new ApplicationError("Save model error", 500);
+			throw new ApplicationError('Save model error', 500);
 		});
 	}
 }
