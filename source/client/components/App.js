@@ -66,6 +66,7 @@ class App extends Component {
 			cardsList,
 			cardHistory,
 			activeCardIndex: 0,
+			isCardRemoving: false,
 			isCardsEditable: false
 		};
 	}
@@ -118,13 +119,21 @@ class App extends Component {
 	}
 
 	/**
+	 * Обработчик события переключения режима сайдбара
+	 * @param {String} mode Режим сайдбара
+	 */
+	onChangeBarMode(mode) {
+		this.setState({mode});
+	}
+
+	/**
 	 * Рендер компонента
 	 *
 	 * @override
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex, cardHistory, isCardsEditable} = this.state;
+		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => index === activeCardIndex ? false : card);
@@ -137,6 +146,8 @@ class App extends Component {
 					cardsList={cardsList}
 					onCardChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}
 					isCardsEditable={isCardsEditable}
+					isCardRemoving={isCardRemoving}
+					onChangeBarMode={(mode) => this.onChangeBarMode(mode)}
 					onEditChange={(isEditable) => this.onEditChange(isEditable)} />
 				<CardPane>
 					<Header activeCard={activeCard} />

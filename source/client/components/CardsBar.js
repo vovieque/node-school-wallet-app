@@ -39,13 +39,25 @@ const Footer = styled.footer`
 	font-size: 15px;
 `;
 
-const CardsBar = ({activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable}) => {
+const CardsBar = ({
+	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode
+}) => {
 	const onCardClick = (activeCardIndex) => {
 		onCardChange && onCardChange(activeCardIndex);
 	};
 
 	const onEditClick = (isEditable) => {
 		onEditChange && onEditChange(isEditable);
+	}
+
+	if (isCardRemoving) {
+		return (
+			<Layout>
+				<Logo />
+				Delete me
+				<Footer>Yamoney Node School</Footer>
+			</Layout>
+		);
 	}
 
 	return (
@@ -59,6 +71,7 @@ const CardsBar = ({activeCardIndex, cardsList, onCardChange, onEditChange, isCar
 						data={card}
 						active={index === activeCardIndex}
 						isCardsEditable={isCardsEditable}
+						onChangeBarMode={onChangeBarMode}
 						onClick={() => onCardClick(index)} />
 				))}
 				<Card type='new' />
@@ -73,7 +86,9 @@ CardsBar.propTypes = {
 	activeCardIndex: PropTypes.number.isRequired,
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,
-	onEditChange: PropTypes.func.isRequired
+	isCardRemoving: PropTypes.bool.isRequired,
+	onEditChange: PropTypes.func.isRequired,
+	onChangeBarMode: PropTypes.func.isRequired
 };
 
 export default CardsBar;

@@ -24,20 +24,17 @@ class CardEdit extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {editable} = this.props;
-
-		const onClick = (e) => {
-			e.stopPropagation();
-		}
+		const {editable, onChangeBarMode} = this.props;
 
 		return (
-			<CardEditIcon editable={editable} onClick={onClick}/>
+			<CardEditIcon editable={editable} onClick={onChangeBarMode}/>
 		);
 	}
 }
 
 CardEdit.propTypes = {
-	editable: PropTypes.bool
+	editable: PropTypes.bool,
+	onChangeBarMode: PropTypes.func.isRequired
 };
 
 export default CardEdit;

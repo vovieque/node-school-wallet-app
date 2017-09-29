@@ -86,7 +86,7 @@ class Card extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {data, type, active, onClick, isCardsEditable} = this.props;
+		const {data, type, active, onClick, isCardsEditable, onChangeBarMode} = this.props;
 
 		if (type === 'new') {
 			return (
@@ -101,7 +101,7 @@ class Card extends Component {
 
 			return (
 				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable}>
-					<CardEdit editable={isCardsEditable}/>
+					<CardEdit editable={isCardsEditable} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
 					<CardSelect defaultValue='0' onChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}>
 						{data.map((card, index) => (
@@ -119,7 +119,7 @@ class Card extends Component {
 
 		return (
 			<CardLayout active={active} bgColor={bgColor} onClick={onClick} isCardsEditable={isCardsEditable}>
-				<CardEdit editable={isCardsEditable}/>
+				<CardEdit editable={isCardsEditable} onChangeBarMode={onChangeBarMode}/>
 				<CardLogo url={bankLogoUrl} active={active} />
 				<CardNumber textColor={textColor} active={active}>
 					{number}
@@ -135,7 +135,8 @@ Card.propTypes = {
 	type: PropTypes.string,
 	active: PropTypes.bool,
 	isCardsEditable: PropTypes.bool,
-	onClick: PropTypes.func
+	onClick: PropTypes.func,
+	onChangeBarMode: PropTypes.func.isRequired
 };
 
 export default Card;
