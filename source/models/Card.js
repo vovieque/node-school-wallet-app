@@ -1,5 +1,5 @@
 const FileModel = require('source/lib/FileModel')
-const luhn_validation = require('source/lib/LuhnValidation')
+const is_valid_by_luhn = require('source/lib/LuhnValidation')
 
 class Card extends FileModel {
 
@@ -7,10 +7,14 @@ class Card extends FileModel {
     return 'cards.json'
   }
 
-  async validate () {
+  async is_valid () {
+
+    // todo check if card has no existing transactions
 
     let { object } = this
     let { cardNumber } = object
+
+    // todo create method before_validation
 
     if (cardNumber) {
       object.cardNumber = cardNumber.replace(/\D/g, '')
@@ -18,11 +22,11 @@ class Card extends FileModel {
 
     return  this.object.hasOwnProperty('cardNumber') &&
             this.object.hasOwnProperty('balance') &&
-            await this.not_a_duplicate(object.cardNumber)
-            luhn_validation(cardNumber)
+            await this.is_not_a_duplicate(object.cardNumber)
+            is_valid_by_luhn(cardNumber)
   }
 
-  async not_a_duplicate (cardNumber) {
+  async is_not_a_duplicate (cardNumber) {
     let cards = await this.constructor.all()
     return cards.filter((element) => element.cardNumber == cardNumber).length === 0
   }

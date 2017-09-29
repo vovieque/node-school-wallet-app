@@ -15,6 +15,8 @@ class TransactionsController {
       ctx.body = { status: 'not created' }
     }
   }
+
+  // todo method filtering controller params (allowed for creation)
 }
 
 module.exports = TransactionsController

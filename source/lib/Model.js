@@ -1,5 +1,5 @@
 class Model {
-  static all () {
+  static async all () {
     throw new Error('Method not implemented!')
   }
 
@@ -19,7 +19,6 @@ class Model {
     throw new Error('Method not implemented!')
   }
 
-  // returns this to be chained
   static async where () {
     throw new Error('Method not implemented!')
   }

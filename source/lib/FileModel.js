@@ -10,10 +10,6 @@ class FileModel extends Model {
     this.object = params
   }
 
-  static get _fileName () {
-    throw new Error('Method not implemented!')
-  }
-
   static all () {
     return this._connect()
   }
@@ -40,7 +36,7 @@ class FileModel extends Model {
     return result
   }
 
-  validate () {
+  is_valid () {
     return true
   }
 
@@ -54,7 +50,7 @@ class FileModel extends Model {
   async create () {
     this._dataSource = await this.constructor._connect()
 
-    if (await this.validate()) {
+    if (await this.is_valid()) {
       this.object.id = this._dataSource.reduce((max, item) => Math.max(max, item.id), 0) + 1;
       this._dataSource.push(this.object);
       await this._saveUpdates();
@@ -64,12 +60,20 @@ class FileModel extends Model {
     }
   }
 
-  static _connect () {
+  // private
 
+  static get _fileName () {
+    throw new Error('Method not implemented!')
+  }
+
+  static async _connect () {
     let data_source_file = path.join(__dirname, '..', 'db', this._fileName);
+    return await this._loadFile(data_source_file)
+  }
 
+  static _loadFile (file_name) {
     return new Promise((resolve, reject) => {
-      fs.readFile(data_source_file, (err, data) => {
+      fs.readFile(file_name, (err, data) => {
         if (err) return reject(err)
         try {
           return resolve(JSON.parse(data))
