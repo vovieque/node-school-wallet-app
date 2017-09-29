@@ -1,73 +1,30 @@
-'use strict';
+// todo save method instead of create
+// todo custom error classes
 
-const Koa = require('koa');
-const serve = require('koa-static');
-const router = require('koa-router')();
-const bodyParser = require('koa-bodyparser')();
+const Koa = require('koa')
+const serve = require('koa-static')
+const router = require('koa-router')()
+const bodyParser = require('koa-bodyparser')()
 
-const getCardsController = require('./controllers/cards/get-cards');
-const createCardController = require('./controllers/cards/create');
-const deleteCardController = require('./controllers/cards/delete');
-const getTransactionsController = require('./controllers/transactions/get');
-const createTransactionsController = require('./controllers/transactions/create');
+const app = new Koa()
 
-const errorController = require('./controllers/error');
+const logger = require('source/lib/Logger')
+const error_handler = require('source/lib/ErrorHandler')
+const CardsController = require('source/controllers/CardsController')
+const TransactionsController = require('source/controllers/TransactionsController')
 
-const ApplicationError = require('libs/application-error');
-const CardsModel = require('source/models/cards');
-const TransactionsModel = require('source/models/transactions');
+router.get('/cards', CardsController.index)
+router.post('/cards', CardsController.create)
+router.delete('/cards/:id', CardsController.destroy)
 
-const app = new Koa();
+router.get('/cards/:card_id/transactions', TransactionsController.index)
+router.post('/cards/:card_id/transactions', TransactionsController.create)
 
-// Сохраним параметр id в ctx.params.id
-router.param('id', (id, ctx, next) => next());
+app
+  .use(logger)
+  .use(error_handler)
+  .use(bodyParser)
+  .use(router.routes())
+  .use(serve('./public'))
 
-router.get('/cards/', getCardsController);
-router.post('/cards/', createCardController);
-router.delete('/cards/:id', deleteCardController);
-
-router.get('/cards/:id/transactions/', getTransactionsController);
-router.post('/cards/:id/transactions/', createTransactionsController);
-
-router.all('/error', errorController);
-
-// logger
-app.use(async (ctx, next) => {
-	const start = new Date();
-	await next();
-	const ms = new Date() - start;
-	console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
-});
-
-// error handler
-app.use(async (ctx, next) => {
-	try {
-		await next();
-	} catch (err) {
-		console.log('Error detected', err);
-		ctx.status = err instanceof ApplicationError ? err.status : 500;
-		ctx.body = `Error [${err.message}] :(`;
-	}
-});
-
-// Создадим модель Cards и Transactions на уровне приложения и проинициализируем ее
-app.use(async (ctx, next) => {
-	ctx.cardsModel = new CardsModel();
-	ctx.transactionsModel = new TransactionsModel();
-
-	await Promise.all([
-		ctx.cardsModel.loadFile(),
-		ctx.transactionsModel.loadFile()
-	]);
-
-	await next();
-});
-
-
-app.use(bodyParser);
-app.use(router.routes());
-app.use(serve('./public'));
-
-app.listen(3000, () => {
-	console.log('Application started');
-});
+app.listen(3001)
