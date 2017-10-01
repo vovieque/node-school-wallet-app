@@ -25,10 +25,14 @@
     "koa-static": "^4.0.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "emotion": "^7.2.0",
+    "moment": "^2.18.1",
+    "react-emotion": "^7.2.0",
+    "antd": "^2.12.8",
+    "card-info": "git+https://github.com/iniel/card-info.git"
   },
   "devDependencies": {
-    "antd": "^2.12.8",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-emotion": "^7.1.0",
@@ -37,16 +41,12 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
-    "card-info": "git+https://github.com/iniel/card-info.git",
     "css-loader": "^0.28.7",
-    "emotion": "^7.2.0",
     "eslint": "^4.7.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
-    "moment": "^2.18.1",
-    "react-emotion": "^7.2.0",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5"
