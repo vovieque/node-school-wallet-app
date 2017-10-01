@@ -19,14 +19,14 @@ import transactionsData from '../../data/transactions.json';
 injectGlobal([`
 	html,
 	body {
-		margin: 0;
-	};
+		margin: 0
+	}
 
 	#root {
-		height: 100%;
-		font-family: 'Open Sans';
-		color: #000;
-	};
+		height: 100%
+		font-family: 'Open Sans'
+		color: #000
+	}
 `]);
 
 const Wallet = styled.div`
