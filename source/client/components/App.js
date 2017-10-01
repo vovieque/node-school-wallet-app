@@ -95,6 +95,7 @@ class App extends Component {
 			cardsList,
 			cardHistory,
 			activeCardIndex: 0,
+			removeCardId: 0,
 			isCardRemoving: false,
 			isCardsEditable: false
 		};
@@ -115,15 +116,43 @@ class App extends Component {
 	*/
 	onEditChange(isEditable) {
 		const isCardsEditable = !isEditable;
-		this.setState({isCardsEditable});
+		this.setState({
+			isCardsEditable,
+			isCardRemoving: false
+		});
 	}
 
 	/**
 	 * Обработчик события переключения режима сайдбара
 	 * @param {String} mode Режим сайдбара
+	 * @param {String} index Индекс выбранной карты
 	 */
-	onChangeBarMode(mode) {
-		this.setState({mode});
+	onChangeBarMode(event, removeCardId) {
+		event.stopPropagation();
+		this.setState({
+			isCardRemoving: true,
+			removeCardId
+		});
+	}
+
+	/**
+	 * Удаление карты
+	 * @param {Number} index Индекс карты
+	 */
+	deleteCard(index) {
+		const cardsList = this.state.cardsList.map((item) => {
+			if (item.id === index) {
+				return Object.assign({}, item, {hidden: true});
+			}
+
+			return item;
+		});
+
+		this.setState({
+			cardsList,
+			isCardRemoving: false,
+			activeCardIndex: 0
+		});
 	}
 
 	/**
@@ -133,7 +162,7 @@ class App extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving} = this.state;
+		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
@@ -143,11 +172,13 @@ class App extends Component {
 			<Wallet>
 				<CardsBar
 					activeCardIndex={activeCardIndex}
+					removeCardId={removeCardId}
 					cardsList={cardsList}
 					onCardChange={(index) => this.onCardChange(index)}
 					isCardsEditable={isCardsEditable}
 					isCardRemoving={isCardRemoving}
-					onChangeBarMode={(mode) => this.onChangeBarMode(mode)}
+					deleteCard={(index) => this.deleteCard(index)}
+					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}
 					onEditChange={(isEditable) => this.onEditChange(isEditable)} />
 				<CardPane>
 					<Header activeCard={activeCard} />

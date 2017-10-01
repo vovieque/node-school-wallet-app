@@ -87,7 +87,6 @@ class Card extends Component {
 	 */
 	render() {
 		const {data, type, active, onClick, isCardsEditable, onChangeBarMode} = this.props;
-
 		if (type === 'new') {
 			return (
 				<NewCardLayout />
@@ -102,7 +101,7 @@ class Card extends Component {
 
 			return (
 				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable}>
-					<CardEdit editable={isCardsEditable} onChangeBarMode={onChangeBarMode} />
+					<CardEdit editable={isCardsEditable} id={data.id} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
 					<CardSelect defaultValue='0' onChange={(index) => this.onCardChange(index)}>
 						{data.map((card, index) => (
@@ -114,13 +113,13 @@ class Card extends Component {
 			);
 		}
 
-		const {number, theme} = data;
+		const {number, theme, id} = data;
 		const {bgColor, textColor, bankLogoUrl, brandLogoUrl} = theme;
 		const themedBrandLogoUrl = active ? brandLogoUrl : brandLogoUrl.replace(/-colored.svg$/, '-white.svg');
 
 		return (
 			<CardLayout active={active} bgColor={bgColor} onClick={onClick} isCardsEditable={isCardsEditable}>
-				<CardEdit editable={isCardsEditable} onChangeBarMode={onChangeBarMode} />
+				<CardEdit editable={isCardsEditable} id={id} onChangeBarMode={onChangeBarMode} />
 				<CardLogo url={bankLogoUrl} active={active} />
 				<CardNumber textColor={textColor} active={active}>
 					{number}

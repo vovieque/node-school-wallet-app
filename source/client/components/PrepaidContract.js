@@ -151,27 +151,29 @@ class PrepaidContract extends Component {
 
 					<PrepaidItems>
 						{
-							inactiveCardsList.map((card, index) => (
-								<PrepaidItem
-									bgColor={card.theme.bgColor}
-									key={card.id}
-									onClick={() => this.onCardChange(index)}
-									selected={activeCardIndex === index}>
-									<PrepaidItemIcon
-										bankSmLogoUrl={card.theme.bankSmLogoUrl}
-										selected={activeCardIndex === index} />
-									<PrepaidItemTitle
-										textColor={card.theme.textColor}
+							inactiveCardsList
+								.filter((item) => !item.hidden)
+								.map((card, index) => (
+									<PrepaidItem
+										bgColor={card.theme.bgColor}
+										key={card.id}
+										onClick={() => this.onCardChange(index)}
 										selected={activeCardIndex === index}>
-										C банковской карты
-										<PrepaidItemDescription
+										<PrepaidItemIcon
+											bankSmLogoUrl={card.theme.bankSmLogoUrl}
+											selected={activeCardIndex === index} />
+										<PrepaidItemTitle
 											textColor={card.theme.textColor}
 											selected={activeCardIndex === index}>
-											{card.number}
-										</PrepaidItemDescription>
-									</PrepaidItemTitle>
-								</PrepaidItem>
-							))
+											C банковской карты
+											<PrepaidItemDescription
+												textColor={card.theme.textColor}
+												selected={activeCardIndex === index}>
+												{card.number}
+											</PrepaidItemDescription>
+										</PrepaidItemTitle>
+									</PrepaidItem>
+								))
 						}
 					</PrepaidItems>
 

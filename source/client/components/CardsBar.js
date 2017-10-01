@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Card} from './';
+import {Card, CardRemove} from './';
 
 const Layout = styled.div`
 	display: flex;
@@ -40,21 +40,22 @@ const Footer = styled.footer`
 `;
 
 const CardsBar = ({
-	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode
+	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode,
+	removeCardId, deleteCard
 }) => {
 	const onCardClick = (index) => {
 		onCardChange && onCardChange(index);
 	};
 
-	const onEditClick = (isEditable) => {
-		onEditChange && onEditChange(isEditable);
-	}
-
 	if (isCardRemoving) {
 		return (
 			<Layout>
 				<Logo />
-				Delete me
+				<Edit onClick={() => onEditChange(isCardsEditable)} editable={isCardsEditable} />
+				<CardRemove
+					deleteCard={deleteCard}
+					onCancelClick={onEditChange}
+					data={cardsList.filter((item) => item.id === removeCardId)[0]} />
 				<Footer>Yamoney Node School</Footer>
 			</Layout>
 		);
@@ -63,17 +64,20 @@ const CardsBar = ({
 	return (
 		<Layout>
 			<Logo />
-			<Edit onClick={() => onEditClick(isCardsEditable)} editable={isCardsEditable} />
+			<Edit onClick={() => onEditChange(isCardsEditable)} editable={isCardsEditable} />
 			<CardsList>
-				{cardsList.map((card, index) => (
-					<Card
-						key={index}
-						data={card}
-						active={index === activeCardIndex}
-						isCardsEditable={isCardsEditable}
-						onChangeBarMode={onChangeBarMode}
-						onClick={() => onCardClick(index)} />
-				))}
+				{cardsList
+					.filter((item) => !item.hidden)
+					.map((card, index) => (
+						<Card
+							key={index}
+							data={card}
+							active={index === activeCardIndex}
+							isCardsEditable={isCardsEditable}
+							onChangeBarMode={onChangeBarMode}
+							onClick={() => onCardClick(index)} />
+					))
+				}
 				<Card type='new' />
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
@@ -84,10 +88,12 @@ const CardsBar = ({
 CardsBar.propTypes = {
 	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	activeCardIndex: PropTypes.number.isRequired,
+	removeCardId: PropTypes.number,
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,
 	isCardRemoving: PropTypes.bool.isRequired,
 	onEditChange: PropTypes.func.isRequired,
+	deleteCard: PropTypes.func.isRequired,
 	onChangeBarMode: PropTypes.func.isRequired
 };
 

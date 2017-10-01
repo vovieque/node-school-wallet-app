@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 
@@ -10,31 +10,17 @@ const CardEditIcon = styled.div`
 	right: -12px;
 	background-image: url('/assets/cards-delete.svg');
 	cursor: pointer;
-	display: ${({editable}) => editable ? 'block' : 'none'};
+	display: ${({editable}) => (editable ? 'block' : 'none')};
 `;
 
-/**
- * Редактирование карты
- */
-class CardEdit extends Component {
-	/**
-	 * Рендер компонента
-	 *
-	 * @override
-	 * @returns {JSX}
-	 */
-	render() {
-		const {editable, onChangeBarMode} = this.props;
-
-		return (
-			<CardEditIcon editable={editable} onClick={onChangeBarMode}/>
-		);
-	}
-}
+const CardEdit = ({editable, onChangeBarMode, id}) => (
+	<CardEditIcon editable={editable} onClick={(event) => onChangeBarMode(event, id)} />
+);
 
 CardEdit.propTypes = {
 	editable: PropTypes.bool,
-	onChangeBarMode: PropTypes.func.isRequired
+	onChangeBarMode: PropTypes.func,
+	id: PropTypes.number
 };
 
 export default CardEdit;
