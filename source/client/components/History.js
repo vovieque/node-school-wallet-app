@@ -11,10 +11,23 @@ const HistoryLayout = styled(Island)`
 	overflow-y: scroll;
 	padding: 0;
 	background-color: rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
 `;
 
 const HistoryTitle = styled.div`
 	padding-left: 12px;
+	color: rgba(0, 0, 0, 0.4);
+	font-size: 15px;
+	line-height: 30px;
+	text-transform: uppercase;
+`;
+
+const HistoryContent = styled.div`
+	flex: 1 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	color: rgba(0, 0, 0, 0.4);
 	font-size: 15px;
 	line-height: 30px;
@@ -62,6 +75,7 @@ const HistoryItemSum = styled.div`
 	width: 50px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	font-weight: bold;
 `;
 
 const History = ({cardHistory}) => {
@@ -88,22 +102,16 @@ const History = ({cardHistory}) => {
 
 		return `${typeTitle}: ${item.data}`;
 	};
+	const getContent = (list) => {
+		const content = list.reduce((result, item, index) => {
+			const historyItemDate = moment(item.time, moment.ISO_8601);
+			const today = moment().format('L');
+			const isTodayHistoryItem = historyItemDate.format('L') === today;
 
-	return (
-		<HistoryLayout>
-			<HistoryTitle>Сегодня</HistoryTitle>
-			{cardHistory.map((item, index) => {
-				const historyItemDate = moment(item.time, moment.ISO_8601);
-				const today = moment().format('L');
-				const isTodayHistoryItem = historyItemDate.format('L') === today;
-
-				if (!isTodayHistoryItem) {
-					return '';
-				}
-
-				return (
+			if (isTodayHistoryItem) {
+				result.push((
 					<HistoryItem key={index}>
-						<HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl}/>
+						<HistoryItemIcon bankSmLogoUrl={item.card.theme.bankSmLogoUrl} />
 						<HistoryItemTitle>
 							{getHistoryItemTitle(item)}
 						</HistoryItemTitle>
@@ -114,8 +122,18 @@ const History = ({cardHistory}) => {
 							{`${item.sum} ₽`}
 						</HistoryItemSum>
 					</HistoryItem>
-				);
-			})}
+				));
+			}
+
+			return result;
+		}, []);
+		return content.length === 0 ? <HistoryContent>История операций пуста</HistoryContent> : content;
+	};
+
+	return (
+		<HistoryLayout>
+			<HistoryTitle>Сегодня</HistoryTitle>
+			{getContent(cardHistory)}
 		</HistoryLayout>
 	);
 };

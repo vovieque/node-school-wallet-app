@@ -24,7 +24,7 @@ const SumInput = styled(Input)`
 	max-width: 200px;
 	padding-right: 20px;
 	background-color: rgba(0, 0, 0, 0.08);
-	color: '#000'
+	color: '#000';
 `;
 
 const Currency = styled.span`
@@ -113,10 +113,6 @@ class Withdraw extends Component {
 }
 
 Withdraw.propTypes = {
-	activeCard: PropTypes.shape({
-		id: PropTypes.number,
-		theme: PropTypes.object
-	}).isRequired,
 	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 

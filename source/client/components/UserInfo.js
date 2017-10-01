@@ -17,7 +17,7 @@ const Avatar = styled.img`
 
 export default () => (
 	<User>
-		<Avatar src="/assets/avatar.png" />
+		<Avatar src='/assets/avatar.png' />
 		Samuel Johnson
 	</User>
 );

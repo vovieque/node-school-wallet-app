@@ -13,21 +13,21 @@ import {
 
 import './fonts.css';
 
-import cardsData from '../../data/cards';
-import transactionsData from '../../data/transactions';
+import cardsData from '../../data/cards.json';
+import transactionsData from '../../data/transactions.json';
 
-injectGlobal`
+injectGlobal([`
 	html,
 	body {
-		margin: 0;
+		margin: 0
 	}
 
 	#root {
-		height: 100%;
-		font-family: 'Open Sans';
-		color: #000;
+		height: 100%
+		font-family: 'Open Sans'
+		color: #000
 	}
-`;
+`]);
 
 const Wallet = styled.div`
 	display: flex;
@@ -51,34 +51,13 @@ const Workspace = styled.div`
  */
 class App extends Component {
 	/**
-	 * Конструктор
-	 */
-	constructor() {
-		super();
-
-		const cardsList = this.prepareCardsData(cardsData);
-		const cardHistory = transactionsData.map((data) => {
-			const card = cardsList.find((card) => card.id === data.cardId);
-			return card ? Object.assign({}, data, {card}) : data;
-		});
-
-		this.state = {
-			cardsList,
-			cardHistory,
-			activeCardIndex: 0,
-			isCardRemoving: false,
-			isCardsEditable: false
-		};
-	}
-
-	/**
 	 * Подготавливает данные карт
 	 *
-	 * @param {Object} cardsData данные карт
+	 * @param {Object} cards данные карт
 	 * @returns {Object[]}
 	 */
-	prepareCardsData(cardsData) {
-		return cardsData.map((card) => {
+	static prepareCardsData(cards) {
+		return cards.map((card) => {
 			const cardInfo = new CardInfo(card.cardNumber, {
 				banksLogosPath: '/assets/',
 				brandsLogosPath: '/assets/'
@@ -98,6 +77,27 @@ class App extends Component {
 				}
 			};
 		});
+	}
+
+	/**
+	 * Конструктор
+	 */
+	constructor() {
+		super();
+
+		const cardsList = App.prepareCardsData(cardsData);
+		const cardHistory = transactionsData.map((data) => {
+			const card = cardsList.find((item) => item.id === data.cardId);
+			return card ? Object.assign({}, data, {card}) : data;
+		});
+
+		this.state = {
+			cardsList,
+			cardHistory,
+			activeCardIndex: 0,
+			isCardRemoving: false,
+			isCardsEditable: false
+		};
 	}
 
 	/**
@@ -136,7 +136,7 @@ class App extends Component {
 		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
-		const inactiveCardsList = cardsList.filter((card, index) => index === activeCardIndex ? false : card);
+		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
 		const filteredHistory = cardHistory.filter((data) => data.cardId === activeCard.id);
 
 		return (
@@ -144,7 +144,7 @@ class App extends Component {
 				<CardsBar
 					activeCardIndex={activeCardIndex}
 					cardsList={cardsList}
-					onCardChange={(activeCardIndex) => this.onCardChange(activeCardIndex)}
+					onCardChange={(index) => this.onCardChange(index)}
 					isCardsEditable={isCardsEditable}
 					isCardRemoving={isCardRemoving}
 					onChangeBarMode={(mode) => this.onChangeBarMode(mode)}
@@ -156,13 +156,11 @@ class App extends Component {
 						<Prepaid
 							activeCard={activeCard}
 							inactiveCardsList={inactiveCardsList}
-							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
-						/>
+							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)} />
 						<MobilePayment activeCard={activeCard} />
 						<Withdraw
 							activeCard={activeCard}
-							inactiveCardsList={inactiveCardsList}
-						/>
+							inactiveCardsList={inactiveCardsList} />
 					</Workspace>
 				</CardPane>
 			</Wallet>

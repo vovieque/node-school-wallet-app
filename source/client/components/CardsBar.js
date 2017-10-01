@@ -25,7 +25,7 @@ const Edit = styled.div`
 	width: 34px;
 	height: 35px;
 	cursor: pointer;
-	background-image: url('/assets/${({editable}) => editable ? 'cards-edit-active' : 'cards-edit'}.svg');
+	background-image: url('/assets/${({editable}) => (editable ? 'cards-edit-active' : 'cards-edit')}.svg');
 	background-repeat: no-repeat;
 	background-position: center center;
 `;
@@ -42,8 +42,8 @@ const Footer = styled.footer`
 const CardsBar = ({
 	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode
 }) => {
-	const onCardClick = (activeCardIndex) => {
-		onCardChange && onCardChange(activeCardIndex);
+	const onCardClick = (index) => {
+		onCardChange && onCardChange(index);
 	};
 
 	const onEditClick = (isEditable) => {
@@ -82,7 +82,7 @@ const CardsBar = ({
 };
 
 CardsBar.propTypes = {
-	cardsList: PropTypes.array.isRequired,
+	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	activeCardIndex: PropTypes.number.isRequired,
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,
