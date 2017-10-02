@@ -8,7 +8,7 @@ const CardLayout = styled.div`
 	width: 260px;
 	height: 164px;
 	box-sizing: border-box;
-	margin-bottom: 15px;
+	margin-bottom: ${({isSingle}) => (isSingle ? 0 : '15px')};
 	padding: 25px 20px 20px 25px;
 	border-radius: 4px;
 	background-color: ${({bgColor, active}) => (active ? bgColor : 'rgba(255, 255, 255, 0.1)')};
@@ -86,7 +86,7 @@ class Card extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {data, type, active, onClick, isCardsEditable, onChangeBarMode} = this.props;
+		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode} = this.props;
 		if (type === 'new') {
 			return (
 				<NewCardLayout />
@@ -100,7 +100,7 @@ class Card extends Component {
 			const isActive = true;
 
 			return (
-				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable}>
+				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable} isSingle={isSingle}>
 					<CardEdit editable={isCardsEditable} id={data.id} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
 					<CardSelect defaultValue='0' onChange={(index) => this.onCardChange(index)}>
@@ -118,7 +118,13 @@ class Card extends Component {
 		const themedBrandLogoUrl = active ? brandLogoUrl : brandLogoUrl.replace(/-colored.svg$/, '-white.svg');
 
 		return (
-			<CardLayout active={active} bgColor={bgColor} onClick={onClick} isCardsEditable={isCardsEditable}>
+			<CardLayout
+				active={active}
+				bgColor={bgColor}
+				onClick={onClick}
+				isCardsEditable={isCardsEditable}
+				isSingle={isSingle}>
+
 				<CardEdit editable={isCardsEditable} id={id} onChangeBarMode={onChangeBarMode} />
 				<CardLogo url={bankLogoUrl} active={active} />
 				<CardNumber textColor={textColor} active={active}>
@@ -134,6 +140,7 @@ Card.propTypes = {
 	data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 	type: PropTypes.string,
 	active: PropTypes.bool,
+	isSingle: PropTypes.bool,
 	isCardsEditable: PropTypes.bool,
 	onClick: PropTypes.func,
 	onChangeBarMode: PropTypes.func

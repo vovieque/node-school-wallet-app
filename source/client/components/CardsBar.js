@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Card, CardRemove} from './';
+import {Card, CardDelete} from './';
 
 const Layout = styled.div`
 	display: flex;
@@ -52,7 +52,7 @@ const CardsBar = ({
 			<Layout>
 				<Logo />
 				<Edit onClick={() => onEditChange(isCardsEditable)} editable={isCardsEditable} />
-				<CardRemove
+				<CardDelete
 					deleteCard={deleteCard}
 					onCancelClick={onEditChange}
 					data={cardsList.filter((item) => item.id === removeCardId)[0]} />

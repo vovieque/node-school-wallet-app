@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import {Card, Button} from './';
 
-const CardRemoveLayout = styled.div`
+const CardDeleteLayout = styled.div`
+	flex: 1;
 	width: 260px;
 `;
 
@@ -12,14 +13,14 @@ const Title = styled.div`
 	font-weight: 500;
 	letter-spacing: 0.9px;
 	color: #ffffff;
-	margin-bottom: 12px;
+	margin-bottom: 10px;
 `;
 
 const Description = styled.div`
 	font-size: 15px;
 	font-weight: 100;
 	line-height: 1.6;
-	letter-spacing: 0.6px;
+	letter-spacing: 0.5px;
 	color: #ffffff;
 	margin-bottom: 26px;
 `;
@@ -30,6 +31,7 @@ const LinkCardText = styled.div`
 	line-height: 2.18;
 	letter-spacing: 0.5px;
 	color: #ffffff;
+	margin-top: 4px;
 `;
 
 const Footer = styled.div`
@@ -38,15 +40,16 @@ const Footer = styled.div`
 	margin-top: 35px;
 `;
 
-const CardRemove = ({
+const CardDelete = ({
 	data, onCancelClick, deleteCard
 }) => (
-	<CardRemoveLayout>
+	<CardDeleteLayout>
 		<Title>Удаление карты</Title>
 		<Description>
 			Подтвердите, что нужно удалить следующую банковскую карту:
 		</Description>
 		<Card
+			isSingle
 			data={data}
 			active={true}
 			isCardsEditable={false} />
@@ -59,13 +62,13 @@ const CardRemove = ({
 				<Button bgColor='#1F1F1F' textColor='#fff'>Вернуться</Button>
 			</div>
 		</Footer>
-	</CardRemoveLayout>
+	</CardDeleteLayout>
 );
 
-CardRemove.propTypes = {
+CardDelete.propTypes = {
 	data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 	onCancelClick: PropTypes.func.isRequired,
 	deleteCard: PropTypes.func.isRequired
 };
 
-export default CardRemove;
+export default CardDelete;
