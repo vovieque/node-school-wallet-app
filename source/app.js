@@ -1,10 +1,12 @@
 'use strict';
 
-const fs = require('fs');
+const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
+
+const {renderToStaticMarkup} = require('react-dom/server');
 
 const getCardsController = require('./controllers/cards/get-cards');
 const createCardController = require('./controllers/cards/create');
@@ -20,12 +22,26 @@ const TransactionsModel = require('source/models/transactions');
 
 const app = new Koa();
 
+const DATA = {
+	user: {
+		login: 'samuel_johnson',
+		name: 'Samuel Johnson'
+	}
+};
+
+function getView(viewId) {
+	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
+	return require(viewPath);
+}
+
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
 
-
 router.get('/', (ctx) => {
-	ctx.body = fs.readFileSync('./public/index.html', 'utf8');
+	const indexView = getView('index');
+	const indexViewHtml = renderToStaticMarkup(indexView(DATA));
+
+	ctx.body = indexViewHtml;
 });
 
 router.get('/cards/', getCardsController);
