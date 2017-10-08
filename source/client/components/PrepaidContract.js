@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
+import axios from 'axios';
 
 import {Island, Title, Button, Input} from './';
 
@@ -120,18 +121,28 @@ class PrepaidContract extends Component {
 			event.preventDefault();
 		}
 
-		const {sum} = this.state;
-		const {activeCard} = this.props;
+		const {activeCardIndex, sum} = this.state;
+		const {activeCard, inactiveCardsList} = this.props;
+		const selectedCard = inactiveCardsList[activeCardIndex];
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum <= 0) {
 			return;
 		}
 
-		this.props.onPaymentSuccess({
+		const options = {
+			method: 'post',
+			url: `/cards/${activeCard.id}/transfer`,
+			data: {
+				target: selectedCard.id,
+				sum
+			}
+		};
+
+		axios(options).then(() => this.props.onPaymentSuccess({
 			sum,
 			number: activeCard.number
-		});
+		}));
 	}
 
 	/**
@@ -198,8 +209,7 @@ class PrepaidContract extends Component {
 
 PrepaidContract.propTypes = {
 	activeCard: PropTypes.shape({
-		id: PropTypes.number,
-		theme: PropTypes.object
+		id: PropTypes.number
 	}).isRequired,
 	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	onPaymentSuccess: PropTypes.func.isRequired

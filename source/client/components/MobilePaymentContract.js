@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
+import axios from 'axios';
 
 import {Island, Title, Button, Input} from './';
 
@@ -103,7 +104,7 @@ class MobilePaymentContract extends Component {
 	 * Отправка формы
 	 * @param {Event} event событие отправки формы
 	 */
-	handleSubmit(event) {
+	onSubmitForm(event) {
 		if (event) {
 			event.preventDefault();
 		}
@@ -115,14 +116,18 @@ class MobilePaymentContract extends Component {
 			return;
 		}
 
-		this.props.onPaymentSuccess({sum, phoneNumber, commission});
+		const {activeCard} = this.props;
+
+		axios
+			.post(`/cards/${activeCard.id}/pay`, {phoneNumber, sum})
+			.then(() => this.props.onPaymentSuccess({sum, phoneNumber, commission}));
 	}
 
 	/**
 	 * Обработка изменения значения в input
 	 * @param {Event} event событие изменения значения input
 	 */
-	handleInputChange(event) {
+	onChangeInputValue(event) {
 		if (!event) {
 			return;
 		}
@@ -145,7 +150,7 @@ class MobilePaymentContract extends Component {
 
 		return (
 			<MobilePaymentLayout>
-				<form onSubmit={(event) => this.handleSubmit(event)}>
+				<form onSubmit={(event) => this.onSubmitForm(event)}>
 					<MobilePaymentTitle>Пополнить телефон</MobilePaymentTitle>
 					<InputField>
 						<Label>Телефон</Label>
@@ -159,7 +164,7 @@ class MobilePaymentContract extends Component {
 						<InputSum
 							name='sum'
 							value={this.state.sum}
-							onChange={(event) => this.handleInputChange(event)} />
+							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>
 					<InputField>
@@ -177,6 +182,9 @@ class MobilePaymentContract extends Component {
 }
 
 MobilePaymentContract.propTypes = {
+	activeCard: PropTypes.shape({
+		id: PropTypes.number
+	}).isRequired,
 	onPaymentSuccess: PropTypes.func.isRequired
 };
 

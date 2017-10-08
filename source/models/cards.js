@@ -46,6 +46,39 @@ class Cards extends FileModel {
 		this._dataSource.splice(cardIndex, 1);
 		await this._saveUpdates();
 	}
+
+	/**
+	 * Получение карты
+	 * @param {Number} id идентификатор карты
+	 * @returns {Promise.<T|*|{}>}
+	 */
+	async get(id) {
+		return this._dataSource.find((item) => item.id === Number(id));
+	}
+
+	/**
+	 * Списание средств с карты
+	 * @param {Number} id идентификатор карты
+	 * @param {Number} sum сумма
+	 */
+	async withdraw(id, sum) {
+		const card = await this.get(id);
+		card.balance = Number(card.balance) - Number(sum);
+
+		await this._saveUpdates();
+	}
+
+	/**
+	 * Пополнение карты
+	 * @param {Number} id идентификатор карты
+	 * @param {Number} sum сумма
+	 */
+	async refill(id, sum) {
+		const card = await this.get(id);
+		card.balance = Number(card.balance) + Number(sum);
+
+		await this._saveUpdates();
+	}
 }
 
 module.exports = Cards;
