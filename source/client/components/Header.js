@@ -35,7 +35,11 @@ const Header = ({activeCard, user}) => (
 Header.propTypes = {
 	activeCard: PropTypes.shape({
 		bankName: PropTypes.string.isRequired,
-		balance: PropTypes.number.isRequired
+		balance: PropTypes.string.isRequired
+	}),
+	user: PropTypes.shape({
+		login: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired
 	})
 };
 
