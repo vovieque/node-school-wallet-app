@@ -1,4 +1,10 @@
-public/bundle.js
+public/*
+!public/assets/
+!public/fonts/
+!public/favicon.ico
+source/views/*
+!source/views/*.src.js
+
 node_modules/
 .DS_Store
 Thumbs.db
@@ -7,3 +13,4 @@ Thumbs.db
 *.log
 npm-debug.log*
 package-lock.json
+logs/
