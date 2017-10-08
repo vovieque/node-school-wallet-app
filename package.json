@@ -29,6 +29,7 @@
     "emotion": "^7.2.0",
     "moment": "^2.18.1",
     "react-emotion": "^7.2.0",
+	"log4js": "^2.3.4",
     "antd": "^2.12.8",
     "card-info": "git+https://github.com/iniel/card-info.git"
   },
