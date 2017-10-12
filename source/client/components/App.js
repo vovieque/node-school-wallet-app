@@ -160,20 +160,15 @@ class App extends Component {
 	 * Удаление карты
 	 * @param {Number} index Индекс карты
 	 */
-	deleteCard(index) {
-		const cardsList = this.state.cardsList.map((item) => {
-			if (item.id === index) {
-				return Object.assign({}, item, {hidden: true});
-			}
-
-			return item;
-		});
-
-		this.setState({
-			cardsList,
-			isCardRemoving: false,
-			activeCardIndex: 0
-		});
+	deleteCard(id) {
+		axios
+			.delete(`/cards/${id}`)
+			.then(() => {
+				axios.get('/cards').then(({data}) => {
+					const cardsList = App.prepareCardsData(data);
+					this.setState({cardsList});
+				});
+			});
 	}
 
 	/**
@@ -201,8 +196,7 @@ class App extends Component {
 					isCardsEditable={isCardsEditable}
 					isCardRemoving={isCardRemoving}
 					deleteCard={(index) => this.deleteCard(index)}
-					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}
-					onEditChange={(isEditable) => this.onEditChange(isEditable)} />
+					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>
