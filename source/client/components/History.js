@@ -15,6 +15,10 @@ const HistoryLayout = styled(Island)`
 	flex-direction: column;
 `;
 
+const HistoryEmpty = styled.div`
+	margin: 10px 0 10px 12px;
+`
+
 const HistoryTitle = styled.div`
 	padding-left: 12px;
 	color: rgba(0, 0, 0, 0.4);
@@ -24,10 +28,6 @@ const HistoryTitle = styled.div`
 `;
 
 const HistoryContent = styled.div`
-	flex: 1 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	color: rgba(0, 0, 0, 0.4);
 	font-size: 15px;
 	line-height: 30px;
@@ -128,7 +128,9 @@ const History = ({cardHistory}) => {
 
 			return result;
 		}, []);
-		return content.length === 0 ? (<HistoryContent>История операций пуста</HistoryContent>) : content;
+		return content.length === 0
+			? <HistoryContent><HistoryEmpty>История операций пуста</HistoryEmpty></HistoryContent>
+			: <HistoryContent>{content}</HistoryContent>;
 	};
 
 	return (

@@ -38,6 +38,7 @@ const DATA = {
 
 function getView(viewId) {
 	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
+	delete require.cache[require.resolve(viewPath)];
 	return require(viewPath);
 }
 
