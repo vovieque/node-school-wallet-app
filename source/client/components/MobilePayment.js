@@ -23,6 +23,7 @@ class MobilePayment extends Component {
 	 * @param {Object} transaction данные о транзакции
 	 */
 	onPaymentSuccess(transaction) {
+		this.props.onTransaction();
 		this.setState({
 			stage: 'success',
 			transaction
@@ -66,7 +67,8 @@ MobilePayment.propTypes = {
 	activeCard: PropTypes.shape({
 		id: PropTypes.number,
 		theme: PropTypes.object
-	}).isRequired
+	}).isRequired,
+	onTransaction: PropTypes.func.isRequired
 };
 
 export default MobilePayment;

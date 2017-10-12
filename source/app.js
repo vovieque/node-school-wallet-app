@@ -13,7 +13,7 @@ const {renderToStaticMarkup} = require('react-dom/server');
 const getCardsController = require('./controllers/cards/get-cards');
 const createCardController = require('./controllers/cards/create');
 const deleteCardController = require('./controllers/cards/delete');
-const getTransactionsController = require('./controllers/transactions/get');
+const getTransactionController = require('./controllers/transactions/get');
 const createTransactionsController = require('./controllers/transactions/create');
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
@@ -24,6 +24,8 @@ const errorController = require('./controllers/error');
 const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
+
+const getTransactionsController = require('./controllers/transactions/get-transactions');
 
 const app = new Koa();
 
@@ -53,12 +55,14 @@ router.get('/cards/', getCardsController);
 router.post('/cards/', createCardController);
 router.delete('/cards/:id', deleteCardController);
 
-router.get('/cards/:id/transactions/', getTransactionsController);
+router.get('/cards/:id/transactions/', getTransactionController);
 router.post('/cards/:id/transactions/', createTransactionsController);
 
 router.post('/cards/:id/transfer', cardToCard);
 router.post('/cards/:id/pay', cardToMobile);
 router.post('/cards/:id/fill', mobileToCard);
+
+router.get('/transactions/', getTransactionsController);
 
 router.all('/error', errorController);
 

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import styled from 'emotion/react';
 import {injectGlobal} from 'emotion';
 import CardInfo from 'card-info';
+import axios from 'axios';
+
 import {
 	CardsBar,
 	Header,
@@ -79,6 +81,13 @@ class App extends Component {
 		});
 	}
 
+	static prepareHistory(cardsList, transactionsData) {
+		return transactionsData.map((data) => {
+			const card = cardsList.find((item) => item.id === Number(data.cardId));
+			return card ? Object.assign({}, data, {card}) : data;
+		});
+	}
+
 	/**
 	 * Конструктор
 	 */
@@ -86,10 +95,7 @@ class App extends Component {
 		super();
 
 		const cardsList = App.prepareCardsData(cardsData);
-		const cardHistory = transactionsData.map((data) => {
-			const card = cardsList.find((item) => item.id === data.cardId);
-			return card ? Object.assign({}, data, {card}) : data;
-		});
+		const cardHistory = App.prepareHistory(cardsList, transactionsData);
 
 		this.state = {
 			cardsList,
@@ -123,6 +129,21 @@ class App extends Component {
 	}
 
 	/**
+	* Функция вызывает при успешной транзакции
+	*/
+	onTransaction() {
+		axios.get('/cards').then(({data}) => {
+			const cardsList = App.prepareCardsData(data);
+			this.setState({cardsList});
+
+			axios.get('/transactions').then(({data}) => {
+				const cardHistory = App.prepareHistory(cardsList, data);
+				this.setState({cardHistory});
+			});
+		});
+	}
+
+	/**
 	 * Обработчик события переключения режима сайдбара
 	 * @param {String} mode Режим сайдбара
 	 * @param {String} index Индекс выбранной карты
@@ -139,20 +160,15 @@ class App extends Component {
 	 * Удаление карты
 	 * @param {Number} index Индекс карты
 	 */
-	deleteCard(index) {
-		const cardsList = this.state.cardsList.map((item) => {
-			if (item.id === index) {
-				return Object.assign({}, item, {hidden: true});
-			}
-
-			return item;
-		});
-
-		this.setState({
-			cardsList,
-			isCardRemoving: false,
-			activeCardIndex: 0
-		});
+	deleteCard(id) {
+		axios
+			.delete(`/cards/${id}`)
+			.then(() => {
+				axios.get('/cards').then(({data}) => {
+					const cardsList = App.prepareCardsData(data);
+					this.setState({cardsList});
+				});
+			});
 	}
 
 	/**
@@ -166,7 +182,9 @@ class App extends Component {
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
-		const filteredHistory = cardHistory.filter((data) => data.cardId === activeCard.id);
+		const filteredHistory = cardHistory.filter((data) => {
+			return Number(data.cardId) == activeCard.id;
+		});
 
 		return (
 			<Wallet>
@@ -178,8 +196,7 @@ class App extends Component {
 					isCardsEditable={isCardsEditable}
 					isCardRemoving={isCardRemoving}
 					deleteCard={(index) => this.deleteCard(index)}
-					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}
-					onEditChange={(isEditable) => this.onEditChange(isEditable)} />
+					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>

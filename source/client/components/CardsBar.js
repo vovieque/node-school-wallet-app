@@ -51,10 +51,8 @@ const CardsBar = ({
 		return (
 			<Layout>
 				<Logo />
-				<Edit onClick={() => onEditChange(isCardsEditable)} editable={isCardsEditable} />
 				<CardDelete
 					deleteCard={deleteCard}
-					onCancelClick={onEditChange}
 					data={cardsList.filter((item) => item.id === removeCardId)[0]} />
 				<Footer>Yamoney Node School</Footer>
 			</Layout>
@@ -64,7 +62,6 @@ const CardsBar = ({
 	return (
 		<Layout>
 			<Logo />
-			<Edit onClick={() => onEditChange(isCardsEditable)} editable={isCardsEditable} />
 			<CardsList>
 				{cardsList
 					.filter((item) => !item.hidden)
@@ -92,7 +89,6 @@ CardsBar.propTypes = {
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,
 	isCardRemoving: PropTypes.bool.isRequired,
-	onEditChange: PropTypes.func.isRequired,
 	deleteCard: PropTypes.func.isRequired,
 	onChangeBarMode: PropTypes.func.isRequired
 };
