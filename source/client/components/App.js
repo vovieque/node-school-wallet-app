@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import styled from 'emotion/react';
 import {injectGlobal} from 'emotion';
 import CardInfo from 'card-info';
+import axios from 'axios';
+
 import {
 	CardsBar,
 	Header,
@@ -87,7 +89,7 @@ class App extends Component {
 
 		const cardsList = App.prepareCardsData(cardsData);
 		const cardHistory = transactionsData.map((data) => {
-			const card = cardsList.find((item) => item.id === data.cardId);
+			const card = cardsList.find((item) => item.id == Number(data.cardId));
 			return card ? Object.assign({}, data, {card}) : data;
 		});
 
@@ -119,6 +121,16 @@ class App extends Component {
 		this.setState({
 			isCardsEditable,
 			isCardRemoving: false
+		});
+	}
+
+	/**
+	* Функция вызывает при успешной транзакции
+	*/
+	onTransaction() {
+		axios.get('/cards').then(({data}) => {
+			const cardsList = App.prepareCardsData(data);
+			this.setState({cardsList});
 		});
 	}
 
@@ -166,7 +178,9 @@ class App extends Component {
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
-		const filteredHistory = cardHistory.filter((data) => data.cardId === activeCard.id);
+		const filteredHistory = cardHistory.filter((data) => {
+			return Number(data.cardId) == activeCard.id;
+		});
 
 		return (
 			<Wallet>
