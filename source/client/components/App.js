@@ -81,6 +81,13 @@ class App extends Component {
 		});
 	}
 
+	static prepareHistory(cardsList, transactionsData) {
+		return transactionsData.map((data) => {
+			const card = cardsList.find((item) => item.id === Number(data.cardId));
+			return card ? Object.assign({}, data, {card}) : data;
+		});
+	}
+
 	/**
 	 * Конструктор
 	 */
@@ -88,10 +95,7 @@ class App extends Component {
 		super();
 
 		const cardsList = App.prepareCardsData(cardsData);
-		const cardHistory = transactionsData.map((data) => {
-			const card = cardsList.find((item) => item.id == Number(data.cardId));
-			return card ? Object.assign({}, data, {card}) : data;
-		});
+		const cardHistory = App.prepareHistory(cardsList, transactionsData);
 
 		this.state = {
 			cardsList,
@@ -131,6 +135,11 @@ class App extends Component {
 		axios.get('/cards').then(({data}) => {
 			const cardsList = App.prepareCardsData(data);
 			this.setState({cardsList});
+
+			axios.get('/transactions').then(({data}) => {
+				const cardHistory = App.prepareHistory(cardsList, data);
+				this.setState({cardHistory});
+			});
 		});
 	}
 

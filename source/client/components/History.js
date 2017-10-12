@@ -41,6 +41,7 @@ const HistoryItem = styled.div`
 	height: 74px;
 	font-size: 15px;
 	white-space: nowrap;
+	min-height: 74px;
 
 	&:nth-child(even) {
 		background-color: #fff;
