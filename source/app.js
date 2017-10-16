@@ -104,6 +104,10 @@ app.use(bodyParser);
 app.use(router.routes());
 app.use(serve('./public'));
 
-app.listen(3000, () => {
-	logger.info('Application started');
-});
+if (!module.parent) {
+	app.listen(3000, () => {
+		logger.info('Application started');
+	});
+}
+
+module.exports = app;

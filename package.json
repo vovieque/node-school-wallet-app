@@ -4,10 +4,10 @@
   "description": "Приложение школы Node.js «Кошелёк»",
   "author": "",
   "scripts": {
-    "build": "webpack",
+		"build": "webpack",
     "start": "NODE_PATH=. node ./source/app.js",
     "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_PATH=. jest"
   },
   "repository": {
     "type": "git",
@@ -43,14 +43,18 @@
     "emotion": "^7.2.0",
     "emotion-server": "^7.3.2",
     "eslint": "^4.7.0",
+    "eslint-config-airbnb": "^16.0.0",
     "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jest": "^21.2.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
     "extract-text-webpack-plugin": "^3.0.1",
     "ignore-loader": "^0.1.2",
+    "jest": "^21.2.1",
+    "log4js": "^2.3.4",
     "moment": "^2.18.1",
     "react-emotion": "^7.2.0",
-    "log4js": "^2.3.4",
+    "sinon": "^4.0.1",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5"

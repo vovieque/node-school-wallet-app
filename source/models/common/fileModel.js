@@ -39,6 +39,9 @@ class FileModel extends Model {
 	}
 
 	async get(id) {
+		if (this._dataSource === null) {
+			throw new Error('Data not loaded');
+		}
 		return this._dataSource.find((item) => item.id === id);
 	}
 
