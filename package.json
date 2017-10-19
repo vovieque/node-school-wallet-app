@@ -4,7 +4,7 @@
   "description": "Приложение школы Node.js «Кошелёк»",
   "author": "",
   "scripts": {
-		"build": "webpack",
+    "build": "webpack",
     "tls:generate": "scripts/tls/generate.sh",
     "start": "NODE_PATH=. node ./source/app.js",
     "start:https": "NODE_HTTPS=1 npm start",
