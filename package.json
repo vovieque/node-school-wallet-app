@@ -5,9 +5,9 @@
   "author": "",
   "scripts": {
 		"build": "webpack",
-		"tls:generate": "scripts/tls/generate.sh",
+    "tls:generate": "scripts/tls/generate.sh",
     "start": "NODE_PATH=. node ./source/app.js",
-		"start:https": "NODE_HTTPS=1 npm start",
+    "start:https": "NODE_HTTPS=1 npm start",
     "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
     "test": "NODE_PATH=. jest"
   },
