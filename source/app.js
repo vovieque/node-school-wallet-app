@@ -1,5 +1,8 @@
 'use strict';
 
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
@@ -104,10 +107,31 @@ app.use(bodyParser);
 app.use(router.routes());
 app.use(serve('./public'));
 
-if (!module.parent) {
-	app.listen(3000, () => {
-		logger.info('Application started');
-	});
+const listenCallback = function() {
+	const {
+		port
+	} = this.address();
+
+	logger.info(`Application started on ${port}`);
+};
+
+const LISTEN_PORT = 3000;
+
+if (!module.parent && process.env.NODE_HTTPS) {
+	const protocolSecrets = {
+		key: fs.readFileSync('fixtures/key.key'),
+		cert: fs.readFileSync('fixtures/cert.crt')
+	};
+
+	https
+		.createServer(protocolSecrets, app.callback())
+		.listen(LISTEN_PORT, listenCallback);
+}
+
+if (!module.parent && !process.env.NODE_HTTPS) {
+	http
+		.createServer(app.callback())
+		.listen(LISTEN_PORT, listenCallback);
 }
 
 module.exports = app;
