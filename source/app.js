@@ -30,6 +30,10 @@ const TransactionsModel = require('source/models/transactions');
 
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/school-wallet', { useMongoClient: true });
+mongoose.Promise = global.Promise;
+
 const app = new Koa();
 
 function getView(viewId) {
@@ -38,29 +42,28 @@ function getView(viewId) {
 	return require(viewPath);
 }
 
-function getData() {
-	const userData = {
+async function getData(ctx) {
+	const user = {
 		login: 'samuel_johnson',
 		name: 'Samuel Johnson'
 	};
-	const cardsDataPath = path.resolve(__dirname, 'data', `cards.json`);
-	const transactionsDataPath = path.resolve(__dirname, 'data', `transactions.json`);
-	delete require.cache[require.resolve(cardsDataPath)];
-	delete require.cache[require.resolve(transactionsDataPath)];
+	const cards = await ctx.cardsModel.getAll();
+	const transactions = await ctx.transactionsModel.getAll();
 
 	return {
-		user: userData,
-		cards: require(cardsDataPath),
-		transactions: require(transactionsDataPath)
+		user,
+		cards,
+		transactions
 	};
 }
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
 
-router.get('/', (ctx) => {
+router.get('/', async (ctx) => {
+	const data = await getData(ctx);
 	const indexView = getView('index');
-	const indexViewHtml = renderToStaticMarkup(indexView(getData()));
+	const indexViewHtml = renderToStaticMarkup(indexView(data));
 
 	ctx.body = indexViewHtml;
 });
@@ -103,11 +106,6 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
 	ctx.cardsModel = new CardsModel();
 	ctx.transactionsModel = new TransactionsModel();
-
-	await Promise.all([
-		ctx.cardsModel.loadFile(),
-		ctx.transactionsModel.loadFile()
-	]);
 
 	await next();
 });

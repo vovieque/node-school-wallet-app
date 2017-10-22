@@ -2,11 +2,11 @@
 
 const ApplicationError = require('libs/application-error');
 
-const FileModel = require('./common/fileModel');
+const DbModel = require('./common/dbModel');
 
-class Transactions extends FileModel {
+class Transactions extends DbModel {
 	constructor() {
-		super('transactions.json');
+		super('transaction');
 	}
 
 	/**
@@ -17,10 +17,10 @@ class Transactions extends FileModel {
 	 */
 	async create(transaction) {
 		const newTransaction = Object.assign({}, transaction, {
-			id: this._generateId()
+			id: await this._generateId()
 		});
-		this._dataSource.push(newTransaction);
-		await this._saveUpdates();
+
+		await this._insert(newTransaction);
 		return newTransaction;
 	}
 
@@ -30,7 +30,8 @@ class Transactions extends FileModel {
 	 * @return {Promise.<Object[]>}
 	 */
 	async getByCard(cardId) {
-		return this._dataSource.filter((transaction) => transaction.cardId === cardId);
+		const item = await this.getBy({cardId});
+		return item;
 	}
 
 	/**

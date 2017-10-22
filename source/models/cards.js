@@ -2,11 +2,11 @@
 
 const ApplicationError = require('libs/application-error');
 
-const FileModel = require('./common/fileModel');
+const DbModel = require('./common/dbModel');
 
-class Cards extends FileModel {
+class Cards extends DbModel {
 	constructor() {
-		super('cards.json');
+		super('card');
 	}
 
 	/**
@@ -22,11 +22,10 @@ class Cards extends FileModel {
 
 		if (isDataValid) {
 			const newCard = Object.assign({}, card, {
-				id: this._generateId()
+				id: await this._generateId()
 			});
 
-			this._dataSource.push(newCard);
-			await this._saveUpdates();
+			await this._insert(newCard);
 			return newCard;
 		}
 
@@ -42,18 +41,7 @@ class Cards extends FileModel {
 		if (!card) {
 			throw new ApplicationError(`Card with ID=${id} not found`, 404);
 		}
-		const cardIndex = this._dataSource.indexOf(card);
-		this._dataSource.splice(cardIndex, 1);
-		await this._saveUpdates();
-	}
-
-	/**
-	 * Получение карты
-	 * @param {Number} id идентификатор карты
-	 * @returns {Promise.<T|*|{}>}
-	 */
-	async get(id) {
-		return this._dataSource.find((item) => item.id === Number(id));
+		await this._remove(id);
 	}
 
 	/**
@@ -63,9 +51,9 @@ class Cards extends FileModel {
 	 */
 	async withdraw(id, sum) {
 		const card = await this.get(id);
-		card.balance = Number(card.balance) - Number(sum);
+		const newBalance = Number(card.balance) - Number(sum);
 
-		await this._saveUpdates();
+		await this._update({id}, {balance: newBalance});
 	}
 
 	/**
@@ -75,9 +63,9 @@ class Cards extends FileModel {
 	 */
 	async refill(id, sum) {
 		const card = await this.get(id);
-		card.balance = Number(card.balance) + Number(sum);
+		const newBalance = Number(card.balance) + Number(sum);
 
-		await this._saveUpdates();
+		await this._update({id}, {balance: newBalance});
 	}
 }
 
