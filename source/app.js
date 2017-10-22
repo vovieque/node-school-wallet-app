@@ -32,17 +32,27 @@ const getTransactionsController = require('./controllers/transactions/get-transa
 
 const app = new Koa();
 
-const DATA = {
-	user: {
-		login: 'samuel_johnson',
-		name: 'Samuel Johnson'
-	}
-};
-
 function getView(viewId) {
 	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
 	delete require.cache[require.resolve(viewPath)];
 	return require(viewPath);
+}
+
+function getData() {
+	const userData = {
+		login: 'samuel_johnson',
+		name: 'Samuel Johnson'
+	};
+	const cardsDataPath = path.resolve(__dirname, 'data', `cards.json`);
+	const transactionsDataPath = path.resolve(__dirname, 'data', `transactions.json`);
+	delete require.cache[require.resolve(cardsDataPath)];
+	delete require.cache[require.resolve(transactionsDataPath)];
+
+	return {
+		user: userData,
+		cards: require(cardsDataPath),
+		transactions: require(transactionsDataPath)
+	};
 }
 
 // Сохраним параметр id в ctx.params.id
@@ -50,7 +60,7 @@ router.param('id', (id, ctx, next) => next());
 
 router.get('/', (ctx) => {
 	const indexView = getView('index');
-	const indexViewHtml = renderToStaticMarkup(indexView(DATA));
+	const indexViewHtml = renderToStaticMarkup(indexView(getData()));
 
 	ctx.body = indexViewHtml;
 });

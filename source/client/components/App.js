@@ -15,9 +15,6 @@ import {
 
 import './fonts.css';
 
-import cardsData from '../../data/cards.json';
-import transactionsData from '../../data/transactions.json';
-
 injectGlobal([`
 	html,
 	body {
@@ -91,11 +88,12 @@ class App extends Component {
 	/**
 	 * Конструктор
 	 */
-	constructor() {
+	constructor(props) {
 		super();
 
-		const cardsList = App.prepareCardsData(cardsData);
-		const cardHistory = App.prepareHistory(cardsList, transactionsData);
+		const data = props.data;
+		const cardsList = App.prepareCardsData(data.cards);
+		const cardHistory = App.prepareHistory(cardsList, data.transactions);
 
 		this.state = {
 			cardsList,
