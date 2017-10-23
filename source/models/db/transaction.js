@@ -4,9 +4,15 @@ const Transaction = mongoose.model('Transaction', {
   cardId: Number,
   type: String,
   data: Schema.Types.Mixed,
-  time: { type: Date, default: Date.now },
+  time: {
+    type: Date,
+    default: Date.now
+  },
   sum: String,
-  id: Number
+  id: {
+    type: Number,
+    required: true
+  }
 });
 
 module.exports = Transaction;
