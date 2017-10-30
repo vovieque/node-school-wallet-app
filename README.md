@@ -1,4 +1,4 @@
-# Приложение школы Node.js «Кошелёк» [![Build Status](https://travis-ci.org/sutarmin/yandex-node-school.svg?branch=master)](https://travis-ci.org/sutarmin/yandex-node-school)
+# Приложение школы Node.js «Кошелёк» [![Build Status](https://travis-ci.org/sutarmin/node-school-wallet-app.svg?branch=master)](https://travis-ci.org/sutarmin/node-school-wallet-app)
 
 ## Install
 ```sh
