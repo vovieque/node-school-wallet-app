@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-	- "v8.8.1"
+	"v8.8.1"
 
 notifications:
 	email: false
