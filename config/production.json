@@ -1,0 +1,15 @@
+{
+  "server": {
+	"port": 3000
+  },
+  "db": {
+	"url": "mongodb://localhost/school-wallet"
+  },
+  "certificate": {
+	"key": "fixtures/key.key",
+	"cert": "fixtures/cert.crt"
+  },
+  "protocol": {
+	"isHTTP": false
+  }
+}
