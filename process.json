@@ -1,0 +1,23 @@
+{
+  "apps" : [{
+	"name"        : "app0",
+	"script"      : "./app.js",
+	"watch"       : true,
+	"instance_var": "INSTANCE_ID",
+	"env": {
+	  "PORT": 3000,
+	  "NODE_ENV": "development",
+	  "NODE_PATH": "."
+	},
+	"env_production" : {
+	  "NODE_ENV": "production"
+	}
+  }
+  ,{
+	"name"       : "app1",
+	"script"     : "./source/app.js",
+	"instances"  : 4,
+	"exec_mode"  : "cluster"
+  }
+  ]
+}
