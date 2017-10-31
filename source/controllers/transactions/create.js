@@ -1,6 +1,6 @@
 'use strict';
 
-const ApplicationError = require('libs/application-error');
+const ApplicationError = require('../../../libs/application-error');
 const _ = require('lodash');
 
 const allowedTypes = ['prepaidCard', 'paymentMobile', 'card2Card'];

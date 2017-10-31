@@ -2,18 +2,18 @@
   "name": "node-school-wallet-app",
   "version": "1.0.0",
   "description": "Приложение школы Node.js «Кошелёк»",
-  "author": "",
+  "author": "Team 4",
   "scripts": {
     "build": "webpack",
     "tls:generate": "scripts/tls/generate.sh",
-    "start": "NODE_PATH=. node ./source/app.js",
+    "start": "node ./source/app.js",
     "start:https": "NODE_HTTPS=1 npm start",
-    "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
-    "test": "NODE_PATH=. jest"
+    "watch": "nodemon --watch source ./source/app.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:rakchaev/node-school-app.git"
+    "url": "ssh://git@github.com:sutarmin/node-school-app.git"
   },
   "license": "ISC",
   "engines": {
@@ -30,7 +30,8 @@
     "prop-types": "^15.5.10",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "serialize-javascript": "^1.4.0"
+    "serialize-javascript": "^1.4.0",
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "antd": "^2.12.8",

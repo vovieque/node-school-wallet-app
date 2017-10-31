@@ -1,8 +1,8 @@
 'use strict';
 
-const logger = require('libs/logger')('db-model');
+const logger = require('../../../libs/logger')('db-model');
 const Model = require('./model');
-const ApplicationError = require('libs/application-error');
+const ApplicationError = require('../../../libs/application-error');
 
 class DbModel extends Model {
 	constructor(dbModelName) {

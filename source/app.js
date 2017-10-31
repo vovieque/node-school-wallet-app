@@ -9,7 +9,7 @@ const serve = require('koa-static');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
 
-const logger = require('libs/logger')('app');
+const logger = require('../libs/logger')('app');
 
 const {renderToStaticMarkup} = require('react-dom/server');
 
@@ -24,9 +24,9 @@ const mobileToCard = require('./controllers/cards/mobile-to-card');
 
 const errorController = require('./controllers/error');
 
-const ApplicationError = require('libs/application-error');
-const CardsModel = require('source/models/cards');
-const TransactionsModel = require('source/models/transactions');
+const ApplicationError = require('../libs/application-error');
+const CardsModel = require('./models/cards');
+const TransactionsModel = require('./models/transactions');
 
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 

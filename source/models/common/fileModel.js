@@ -3,9 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const logger = require('libs/logger')('file-model');
+const logger = require('../../../libs/logger')('file-model');
 const Model = require('./model');
-const ApplicationError = require('libs/application-error');
+const ApplicationError = require('../../../libs/application-error');
 
 class FileModel extends Model {
 	constructor(sourceFileName) {
