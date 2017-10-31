@@ -6,6 +6,8 @@ const https = require('https');
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
+const session = require('koa-session');
+const passport = require('koa-passport');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
 const config = require('config');
@@ -22,12 +24,14 @@ const createTransactionsController = require('./controllers/transactions/create'
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
+const createUserController = require('./controllers/users/create');
 
 const errorController = require('./controllers/error');
 
 const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
+const UsersModel = require('source/models/users');
 
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
@@ -83,6 +87,8 @@ router.post('/cards/:id/fill', mobileToCard);
 
 router.get('/transactions/', getTransactionsController);
 
+router.post('/users/', createUserController);
+
 router.all('/error', errorController);
 
 // logger
@@ -108,12 +114,17 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
 	ctx.cardsModel = new CardsModel();
 	ctx.transactionsModel = new TransactionsModel();
+	ctx.usersModel = new UsersModel();
 
 	await next();
 });
 
 
 app.use(bodyParser);
+app.keys = ['p,U&_;)2m7$_Ha*q'];
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router.routes());
 app.use(serve('./public'));
 

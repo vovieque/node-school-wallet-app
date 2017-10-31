@@ -101,6 +101,12 @@ const bankUtils = {
 		}
 
 		return (nCheck % 10) == 0;
+	},
+
+	validatePassword(value) {
+		if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value))
+			return true;
+		return false;
 	}
 };
 
