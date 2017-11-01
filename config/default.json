@@ -1,0 +1,9 @@
+{
+  "server": {
+	"port": 3000
+  },
+  "mongo": {
+	"uri": "mongodb://localhost/school-wallet"
+  },
+  "isHttps": false
+}
