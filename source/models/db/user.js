@@ -1,18 +1,19 @@
 const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 const User = mongoose.model('User', {
 	id: {
 		type: Number,
 		unique: true,
-		required: [true, 'Name required']
+		required: [true, 'Id required']
 	},
 	name: {
 		type: String,
-		required: [true, 'Login required']
+		required: [true, 'Name required']
 	},
 	login: {
 		type: String,
-		unique: [true, 'User already exists'],
+		unique: true,
 		required: [true, 'Login required']
 	},
 	password: {
@@ -30,5 +31,6 @@ const User = mongoose.model('User', {
 		default: Date.now
 	}
 });
+User.schema.plugin(uniqueValidator, {message: ' must be unique'});
 
 module.exports = User;
