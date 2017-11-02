@@ -7,7 +7,8 @@
     "build": "webpack",
     "tls:generate": "scripts/tls/generate.sh",
     "start": "NODE_PATH=. node ./source/app.js",
-    "start:https": "NODE_HTTPS=1 npm start",
+    "start:secure": "NODE_ENV=secure npm start",
+    "start:prod": "NODE_ENV=production npm start",
     "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
     "test": "NODE_PATH=. jest"
   },
@@ -34,7 +35,8 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "redis": "^2.8.0",
-    "serialize-javascript": "^1.4.0"
+    "serialize-javascript": "^1.4.0",
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "antd": "^2.13.8",

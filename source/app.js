@@ -8,7 +8,6 @@ const Koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
-const config = require('config');
 
 const logger = require('libs/logger')('app');
 
@@ -32,8 +31,7 @@ const TransactionsModel = require('source/models/transactions');
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
 const mongoose = require('mongoose');
-
-mongoose.connect(config.get('db.url'), { useMongoClient: true });
+mongoose.connect(config.get('mongo.uri'), { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
 const app = new Koa();
@@ -125,12 +123,12 @@ const listenCallback = function() {
 	logger.info(`Application started on ${port}`);
 };
 
-const LISTEN_PORT = config.get('server.port');
+const LISTEN_PORT = config.get('server.port') || 3000;
 
-if (!module.parent && config.get('protocol.isHTTP')) {
+if (!module.parent && config.get('isHttps')) {
 	const protocolSecrets = {
-		key: fs.readFileSync(config.get('certificate.key')),
-		cert: fs.readFileSync(config.get('certificate.cert'))
+		key: fs.readFileSync(config.get('ssl.key')),
+		cert: fs.readFileSync(config.get('ssl.cert'))
 	};
 
 	https
@@ -138,7 +136,7 @@ if (!module.parent && config.get('protocol.isHTTP')) {
 		.listen(LISTEN_PORT, listenCallback);
 }
 
-if (!module.parent && !config.get('protocol.isHTTP')) {
+if (!module.parent && !config.get('isHttps')) {
 	http
 		.createServer(app.callback())
 		.listen(LISTEN_PORT, listenCallback);
