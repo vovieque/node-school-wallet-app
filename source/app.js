@@ -8,6 +8,7 @@ const Koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
+const config = require('config');
 
 const logger = require('libs/logger')('app');
 
