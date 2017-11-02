@@ -50,10 +50,8 @@ function getView(viewId) {
 }
 
 async function getData(ctx) {
-	const user = {
-		login: 'samuel_johnson',
-		name: 'Samuel Johnson'
-	};
+	const user = ctx.state.user;
+	delete user['password'];
 	const cards = await ctx.cardsModel.getAll();
 	const transactions = await ctx.transactionsModel.getAll();
 
@@ -62,17 +60,22 @@ async function getData(ctx) {
 		cards,
 		transactions
 	};
+
 }
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
 
 router.get('/', async (ctx) => {
-	const data = await getData(ctx);
-	const indexView = getView('index');
-	const indexViewHtml = renderToStaticMarkup(indexView(data));
+	if (ctx.isAuthenticated()) {
+		const data = await getData(ctx);
+		const indexView = getView('index');
+		const indexViewHtml = renderToStaticMarkup(indexView(data));
 
-	ctx.body = indexViewHtml;
+		ctx.body = indexViewHtml;
+	} else {
+		ctx.redirect('sign-up.html');
+	}
 });
 
 router.get('/cards/', getCardsController);
@@ -120,7 +123,7 @@ app.use(async (ctx, next) => {
 	await next();
 });
 app.use(bodyParser);
-app.keys = ['afssfaaas'];
+app.keys = ['uu2tnEBvMHd65YdV5khdcTgafBDJDzEXSg25xdaaLdRsNUdu67hTQrEGCUf7jxUM'];
 app.use(session({}, app));
 app.use(passport.initialize());
 app.use(passport.session());

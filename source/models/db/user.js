@@ -1,5 +1,6 @@
 const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 const uniqueValidator = require('mongoose-unique-validator');
 const User = mongoose.model('User', {
 	id: {
@@ -15,6 +16,10 @@ const User = mongoose.model('User', {
 		type: String,
 		unique: true,
 		required: [true, 'Login required']
+	},
+	token: {
+		type: String,
+		default: crypto.randomBytes(64).toString('hex')
 	},
 	password: {
 		type: String,
