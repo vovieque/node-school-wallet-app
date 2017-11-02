@@ -6,6 +6,9 @@ const https = require('https');
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
+const session = require('koa-session');
+require('source/models/passport');
+const passport = require('koa-passport');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
 const config = require('config');
@@ -22,6 +25,8 @@ const createTransactionsController = require('./controllers/transactions/create'
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
+const createUserController = require('./controllers/users/create');
+const loginUserController = require('./controllers/users/login');
 
 const errorController = require('./controllers/error');
 
@@ -44,10 +49,8 @@ function getView(viewId) {
 }
 
 async function getData(ctx) {
-	const user = {
-		login: 'samuel_johnson',
-		name: 'Samuel Johnson'
-	};
+	const user = ctx.state.user;
+	delete user['password'];
 	const cards = await ctx.cardsModel.getAll();
 	const transactions = await ctx.transactionsModel.getAll();
 
@@ -56,17 +59,22 @@ async function getData(ctx) {
 		cards,
 		transactions
 	};
+
 }
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
 
 router.get('/', async (ctx) => {
-	const data = await getData(ctx);
-	const indexView = getView('index');
-	const indexViewHtml = renderToStaticMarkup(indexView(data));
+	if (ctx.isAuthenticated()) {
+		const data = await getData(ctx);
+		const indexView = getView('index');
+		const indexViewHtml = renderToStaticMarkup(indexView(data));
 
-	ctx.body = indexViewHtml;
+		ctx.body = indexViewHtml;
+	} else {
+		ctx.redirect('sign-up.html');
+	}
 });
 
 router.get('/cards/', getCardsController);
@@ -81,6 +89,9 @@ router.post('/cards/:id/pay', cardToMobile);
 router.post('/cards/:id/fill', mobileToCard);
 
 router.get('/transactions/', getTransactionsController);
+
+router.post('/users/create', createUserController);
+router.post('/users/login', loginUserController);
 
 router.all('/error', errorController);
 
@@ -110,9 +121,11 @@ app.use(async (ctx, next) => {
 
 	await next();
 });
-
-
 app.use(bodyParser);
+app.keys = ['uu2tnEBvMHd65YdV5khdcTgafBDJDzEXSg25xdaaLdRsNUdu67hTQrEGCUf7jxUM'];
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router.routes());
 app.use(serve('./public'));
 
