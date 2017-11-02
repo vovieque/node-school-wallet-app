@@ -1,0 +1,7 @@
+{
+  "ssl": {
+	"cert": "fixtures/cert.crt",
+	"key": "fixtures/key.key"
+  },
+  "isHttps": true
+}
