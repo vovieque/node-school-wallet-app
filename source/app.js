@@ -43,10 +43,7 @@ function getView(viewId) {
 }
 
 async function getData(ctx) {
-	const user = {
-		login: 'samuel_johnson',
-		name: 'Samuel Johnson'
-	};
+	const user = ctx.state.user;
 	const cards = await ctx.cardsModel.getAll();
 	const transactions = await ctx.transactionsModel.getAll();
 
@@ -61,6 +58,10 @@ async function getData(ctx) {
 router.param('id', (id, ctx, next) => next());
 
 router.get('/', async (ctx) => {
+	if (!ctx.isAuthenticated()) {
+		ctx.redirect('/auth/google');
+		return;
+	}
 	const data = await getData(ctx);
 	const indexView = getView('index');
 	const indexViewHtml = renderToStaticMarkup(indexView(data));
@@ -82,6 +83,26 @@ router.post('/cards/:id/fill', mobileToCard);
 router.get('/transactions/', getTransactionsController);
 
 router.all('/error', errorController);
+const authController = require('./controllers/auth');
+router.use(authController.routes());
+
+app.use(bodyParser);
+
+// sessions
+const convert = require('koa-convert');
+const session = require('koa-session-store');
+const MongooseStore = require('koa-session-mongoose');
+
+app.keys = ['your-session-secret', 'another-session-secret'];
+app.use(convert(session({
+  store: new MongooseStore()
+})));
+
+// authentication
+require('../libs/auth');
+const passport = require('koa-passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 // logger
 app.use(async (ctx, next) => {
@@ -111,7 +132,8 @@ app.use(async (ctx, next) => {
 });
 
 
-app.use(bodyParser);
+
+
 app.use(router.routes());
 app.use(serve('./public'));
 

@@ -15,9 +15,9 @@ const Avatar = styled.img`
 	margin-right: 10px;
 `;
 
-export default () => (
+export default ({user}) => (
 	<User>
-		<Avatar src='/assets/avatar.png' />
-		Samuel Johnson
+		<Avatar src={user.imageUrl} />
+		{user.fullName}
 	</User>
 );
