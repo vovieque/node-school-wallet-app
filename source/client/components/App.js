@@ -196,7 +196,7 @@ class App extends Component {
 					deleteCard={(index) => this.deleteCard(index)}
 					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
 				<CardPane>
-					<Header activeCard={activeCard} />
+					<Header activeCard={activeCard} user={this.props.data.user} />
 					<Workspace>
 						<History cardHistory={filteredHistory} />
 						<Prepaid
