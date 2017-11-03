@@ -42,7 +42,7 @@ mongoose.Promise = global.Promise;
 
 const app = new Koa();
 
-const getView = async (viewId) => {
+const getView = (viewId) => {
 	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
 	delete require.cache[require.resolve(viewPath)];
 	return require(viewPath);
