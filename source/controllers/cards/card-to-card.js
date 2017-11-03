@@ -2,6 +2,7 @@
 
 module.exports = async (ctx) => {
 	const cardId = ctx.params.id;
+	const userId = ctx.state.user.id;
 
 	const operation = ctx.request.body;
 	const {target, sum} = operation;
@@ -14,6 +15,7 @@ module.exports = async (ctx) => {
 
 	const transaction = await ctx.transactionsModel.create({
 		cardId: sourceCard.id,
+		userId,
 		type: 'withdrawCard',
 		data: {
 			cardNumber: targetCard.cardNumber

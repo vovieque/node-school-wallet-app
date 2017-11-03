@@ -1,9 +1,9 @@
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
-const dbModelInit = require('./common/dbModel');
+const dbModel = require('./common/dbModel');
 const ApplicationError = require('libs/application-error');
 
-class passportHelper extends dbModelInit {
+class passportHelper extends dbModel {
 	constructor() {
 		super('user');
 	}
@@ -36,7 +36,6 @@ passport.use(
 		},
 		(async (req, login, password, done) => {
 			try {
-				console.log(req.body);
 				const user = await userModel.getBy(req.body);
 				if (user) {
 					done(null, user);

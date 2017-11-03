@@ -1,6 +1,6 @@
 !public/assets/
-!public/index.js
-!public/index.css
+public/index.js
+public/index.css
 !public/fonts/
 !public/favicon.ico
 source/views/*

@@ -10,12 +10,14 @@ const postTransactionFields = ['type', 'time', 'sum', 'data'];
 module.exports = async (ctx) => {
 	const transaction = _.pick(ctx.request.body, postTransactionFields);
 	const cardId = Number(ctx.params.id);
+	const userId = ctx.state.user.id;
 
 	const card = await ctx.cardsModel.get(cardId);
 	if (!card) {
 		throw new ApplicationError(`No card with id ${cardId}`, 404);
 	}
 	transaction.cardId = cardId;
+	transaction.userId = userId;
 
 	const missingFields = requiredFields.filter((field) => !Object.prototype.hasOwnProperty.call(transaction, field));
 
