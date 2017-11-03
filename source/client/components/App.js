@@ -149,7 +149,7 @@ class App extends Component {
 	onChangeBarMode(event, removeCardId) {
 		event.stopPropagation();
 		this.setState({
-			isCardRemoving: true,
+			isCardRemoving: !this.state.isCardRemoving,
 			removeCardId
 		});
 	}
@@ -194,7 +194,8 @@ class App extends Component {
 					isCardsEditable={isCardsEditable}
 					isCardRemoving={isCardRemoving}
 					deleteCard={(index) => this.deleteCard(index)}
-					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
+					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}
+					onEditChange={() => this.onEditChange(isCardsEditable)} />
 				<CardPane>
 					<Header activeCard={activeCard} />
 					<Workspace>

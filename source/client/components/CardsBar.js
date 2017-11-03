@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Card, CardDelete} from './';
+import {Card, CardDelete, CardEdit} from './';
 
 const Layout = styled.div`
 	display: flex;
@@ -53,7 +53,8 @@ const CardsBar = ({
 				<Logo />
 				<CardDelete
 					deleteCard={deleteCard}
-					data={cardsList.filter((item) => item.id === removeCardId)[0]} />
+					data={cardsList.filter((item) => item.id === removeCardId)[0]}
+					onCancelClick={onChangeBarMode} />
 				<Footer>Yamoney Node School</Footer>
 			</Layout>
 		);
@@ -62,6 +63,7 @@ const CardsBar = ({
 	return (
 		<Layout>
 			<Logo />
+			<Edit onClick={onEditChange} />
 			<CardsList>
 				{cardsList
 					.filter((item) => !item.hidden)
