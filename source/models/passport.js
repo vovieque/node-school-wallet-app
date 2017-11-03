@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const dbModel = require('./common/dbModel');
 const ApplicationError = require('libs/application-error');
 
-class passportHelper extends dbModel {
+class PassportHelper extends dbModel {
 	constructor() {
 		super('user');
 	}
@@ -24,7 +24,7 @@ class passportHelper extends dbModel {
 	}
 }
 
-const userModel = new passportHelper();
+const userModel = new PassportHelper();
 
 passport.use(
 	'login',

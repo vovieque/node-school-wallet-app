@@ -1,7 +1,7 @@
 {
   "apps" : [{
-	"name"        : "app0",
-	"script"      : "./app.js",
+	"name"        : "app",
+	"script"      : "./source/app.js",
 	"watch"       : true,
 	"instance_var": "INSTANCE_ID",
 	"env": {
@@ -12,12 +12,6 @@
 	"env_production" : {
 	  "NODE_ENV": "production"
 	}
-  }
-  ,{
-	"name"       : "app1",
-	"script"     : "./source/app.js",
-	"instances"  : 4,
-	"exec_mode"  : "cluster"
   }
   ]
 }
