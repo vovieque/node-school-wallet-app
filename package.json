@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "tls:generate": "scripts/tls/generate.sh",
-    "start": "NODE_PATH=. node ./source/app.js",
+    "start": "NODE_PATH=. nodemon ./source/app.js",
     "start:secure": "NODE_ENV=secure npm start",
     "start:prod": "NODE_ENV=production npm start",
     "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",

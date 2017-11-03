@@ -18,6 +18,7 @@ const logger = require('libs/logger')('app');
 const {renderToStaticMarkup} = require('react-dom/server');
 
 const getCardsController = require('./controllers/cards/get-cards');
+const getTransactionsController = require('./controllers/transactions/get-transactions');
 const createCardController = require('./controllers/cards/create');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
@@ -34,33 +35,31 @@ const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
 
-const getTransactionsController = require('./controllers/transactions/get-transactions');
-
 const mongoose = require('mongoose');
-mongoose.connect(config.get('mongo.uri'), { useMongoClient: true });
+
+mongoose.connect(config.get('mongo.uri'), {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 const app = new Koa();
 
-function getView(viewId) {
+const getView = (viewId) => {
 	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
 	delete require.cache[require.resolve(viewPath)];
 	return require(viewPath);
-}
+};
 
-async function getData(ctx) {
-	const user = ctx.state.user;
-	delete user['password'];
-	const cards = await ctx.cardsModel.getAll();
-	const transactions = await ctx.transactionsModel.getAll();
+const getData = async (ctx) => {
+	const {user} = ctx.state;
+	delete user.password;
+	const cards = await ctx.cardsModel.getAll(user.id);
+	const transactions = await ctx.transactionsModel.getAll(user.id);
 
 	return {
 		user,
 		cards,
 		transactions
 	};
-
-}
+};
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
@@ -121,6 +120,7 @@ app.use(async (ctx, next) => {
 
 	await next();
 });
+
 app.use(bodyParser);
 app.keys = ['uu2tnEBvMHd65YdV5khdcTgafBDJDzEXSg25xdaaLdRsNUdu67hTQrEGCUf7jxUM'];
 app.use(session({}, app));
@@ -129,7 +129,7 @@ app.use(passport.session());
 app.use(router.routes());
 app.use(serve('./public'));
 
-const listenCallback = function() {
+const listenCallback = function () {
 	const {
 		port
 	} = this.address();

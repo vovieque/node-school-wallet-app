@@ -11,9 +11,9 @@ class DbModel extends Model {
 		this._MongooseModel = MongooseModel;
 	}
 
-	async getAll() {
+	async getAll(id) {
 		const data = await this._MongooseModel
-			.find({})
+			.find({userId: id})
 			.lean()
 			.exec();
 		return data;

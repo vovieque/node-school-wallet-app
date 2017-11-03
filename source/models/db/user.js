@@ -2,6 +2,7 @@ const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const uniqueValidator = require('mongoose-unique-validator');
+
 const User = mongoose.model('User', {
 	id: {
 		type: Number,
@@ -11,6 +12,10 @@ const User = mongoose.model('User', {
 	name: {
 		type: String,
 		required: [true, 'Name required']
+	},
+	surname: {
+		type: String,
+		required: [true, 'Surname required']
 	},
 	login: {
 		type: String,
@@ -23,12 +28,6 @@ const User = mongoose.model('User', {
 	},
 	password: {
 		type: String,
-		validate: {
-			validator(value) {
-				return utils.validatePassword(value);
-			},
-			message: 'Password must have minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character!'
-		},
 		required: [true, 'Password required']
 	},
 	registered: {

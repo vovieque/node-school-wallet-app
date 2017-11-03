@@ -1,9 +1,9 @@
 const passport = require('koa-passport');
 const LocalStrategy = require('passport-local').Strategy;
-const dbModelInit = require('./common/dbModel');
+const dbModel = require('./common/dbModel');
 const ApplicationError = require('libs/application-error');
 
-class passportHelper extends dbModelInit {
+class PassportHelper extends dbModel {
 	constructor() {
 		super('user');
 	}
@@ -24,47 +24,51 @@ class passportHelper extends dbModelInit {
 	}
 }
 
-const userModel = new passportHelper();
+const userModel = new PassportHelper();
 
-passport.use('login',
+passport.use(
+	'login',
 	new LocalStrategy(
 		{
 			usernameField: 'login',
 			passwordField: 'password',
 			passReqToCallback: true,
 		},
-		async function (req, login, password, done) {
+		(async (req, login, password, done) => {
 			try {
 				const user = await userModel.getBy(req.body);
-				if (user)
+				if (user) {
 					done(null, user);
-				else
+				} else {
 					done('User data is invalid', false);
+				}
 			} catch (e) {
 				done(e, false);
 			}
-		}
+		})
 	)
 );
 
-passport.use('register',
+passport.use(
+	'register',
 	new LocalStrategy(
 		{
 			usernameField: 'login',
 			passwordField: 'password',
 			passReqToCallback: true,
 		},
-		async function (req, login, password, done) {
+		(async (req, login, password, done) => {
 			try {
 				const user = await userModel.create(req.body);
-				if (user)
+				if (user) {
 					done(null, user);
-				else
+				} else {
 					done('User data is invalid', false);
+				}
 			} catch (e) {
 				done(e, false);
 			}
-		}
+		})
 	)
 );
 

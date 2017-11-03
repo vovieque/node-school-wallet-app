@@ -1,0 +1,74 @@
+.body {
+    margin: 0;
+    padding: 0;
+    background-color: #fcfcfc;
+}
+a {
+    text-decoration: none;
+    color: #669;
+}
+a:hover {
+    color: #e93f34;
+}
+.form-block {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 30px 0;
+    margin: 0 auto;
+    width: 500px;
+}
+.form-group {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    padding-bottom: 20px; 
+}
+.label {
+    margin: 0 auto;
+    width: 200px;
+    color: #7b7b7b;
+}
+.label.label-error {
+    color: #e93f34;
+}
+.input {
+    width: 200px;
+    padding: 10px 7px;
+    margin: 0 auto;
+    font-size: 15px;
+}
+.input.input-error {
+    border: 1px solid #e93f34;
+}
+.input:focus {
+    outline: 1px solid #fcda4d;
+}
+.btn {
+    margin: 0 auto;
+    background-color: #ffdb4d;
+    border: none;
+    font-size: 15px;
+    padding: 10px 40px;
+    border-radius: 3px;
+    outline: none;
+}
+.btn:hover {
+    background-color: #f8d342;
+}
+.btn:active {
+    box-shadow: 2px 2px 20px 0 #ffd52d;
+}
+.service-logo {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+.semi-footer-link {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    padding-top: 10px;
+}

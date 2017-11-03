@@ -96,6 +96,7 @@ class App extends Component {
 		const cardHistory = App.prepareHistory(cardsList, data.transactions);
 
 		this.state = {
+			user: data.user,
 			cardsList,
 			cardHistory,
 			activeCardIndex: 0,
@@ -176,13 +177,13 @@ class App extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId} = this.state;
+		const {
+			cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId, user
+		} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
-		const filteredHistory = cardHistory.filter((data) => {
-			return Number(data.cardId) == activeCard.id;
-		});
+		const filteredHistory = cardHistory.filter((data) => Number(data.cardId) == activeCard.id);
 
 		return (
 			<Wallet>
@@ -196,7 +197,7 @@ class App extends Component {
 					deleteCard={(index) => this.deleteCard(index)}
 					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
 				<CardPane>
-					<Header activeCard={activeCard} />
+					<Header activeCard={activeCard} user={user} />
 					<Workspace>
 						<History cardHistory={filteredHistory} />
 						<Prepaid
