@@ -203,7 +203,7 @@ class App extends Component {
 			return Number(data.cardId) == activeCard.id;
 		});
 
-		if (inactiveCardsList.length > 0 && activeCardIndex !== 'new_card')
+		if (cardsList.length > 0 && activeCardIndex !== 'new_card')
 			return (
 				<Wallet>
 					<CardsBar
@@ -219,16 +219,16 @@ class App extends Component {
 						<Header activeCard={activeCard} user={user}/>
 						<Workspace>
 							<History cardHistory={filteredHistory}/>
-							<Prepaid
+							{inactiveCardsList.length > 0 ? <Prepaid
 								activeCard={activeCard}
 								inactiveCardsList={inactiveCardsList}
 								onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
-								onTransaction={() => this.onTransaction()}/>
+								onTransaction={() => this.onTransaction()}/> : ''}
 							<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()}/>
-							<Withdraw
+							{inactiveCardsList.length > 0 ? <Withdraw
 								activeCard={activeCard}
 								inactiveCardsList={inactiveCardsList}
-								onTransaction={() => this.onTransaction()}/>
+								onTransaction={() => this.onTransaction()}/> : ''}
 						</Workspace>
 					</CardPane>
 				</Wallet>
