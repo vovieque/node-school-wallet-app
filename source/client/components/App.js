@@ -14,6 +14,7 @@ import {
 } from './';
 
 import './fonts.css';
+import CreateNewCard from "./CreateNewCard";
 
 injectGlobal([`
 	html,
@@ -92,12 +93,13 @@ class App extends Component {
 		super();
 
 		const data = props.data;
-		const cardsList = App.prepareCardsData(data.cards);
-		const cardHistory = App.prepareHistory(cardsList, data.transactions);
+		const cardsList = data.cards.length > 0 ? App.prepareCardsData(data.cards) : [];
+		const cardHistory = data.transactions > 0 ? App.prepareHistory(cardsList, data.transactions) : [];
 
 		this.state = {
 			cardsList,
 			cardHistory,
+			user: data.user,
 			activeCardIndex: 0,
 			removeCardId: 0,
 			isCardRemoving: false,
@@ -170,13 +172,30 @@ class App extends Component {
 	}
 
 	/**
+	 * Удаление карты
+	 * @param {Number} index Индекс карты
+	 */
+	createCard(card) {
+		axios
+			.post(`/cards/`, card)
+			.then((newCard) => {
+				console.log(newCard);
+				axios.get('/cards').then(({data}) => {
+					const cardsList = App.prepareCardsData(data);
+					this.setState({cardsList});
+					this.onCardChange(newCard.id);
+				});
+			});
+	}
+
+	/**
 	 * Рендер компонента
 	 *
 	 * @override
 	 * @returns {JSX}
 	 */
 	render() {
-		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId} = this.state;
+		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId, user} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
 		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
@@ -184,35 +203,55 @@ class App extends Component {
 			return Number(data.cardId) == activeCard.id;
 		});
 
-		return (
-			<Wallet>
-				<CardsBar
-					activeCardIndex={activeCardIndex}
-					removeCardId={removeCardId}
-					cardsList={cardsList}
-					onCardChange={(index) => this.onCardChange(index)}
-					isCardsEditable={isCardsEditable}
-					isCardRemoving={isCardRemoving}
-					deleteCard={(index) => this.deleteCard(index)}
-					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)} />
-				<CardPane>
-					<Header activeCard={activeCard} />
-					<Workspace>
-						<History cardHistory={filteredHistory} />
-						<Prepaid
-							activeCard={activeCard}
-							inactiveCardsList={inactiveCardsList}
-							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
-							onTransaction={() => this.onTransaction()} />
-						<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
-						<Withdraw
-							activeCard={activeCard}
-							inactiveCardsList={inactiveCardsList}
-							onTransaction={() => this.onTransaction()} />
-					</Workspace>
-				</CardPane>
-			</Wallet>
-		);
+		if (inactiveCardsList.length > 0)
+			return (
+				<Wallet>
+					<CardsBar
+						activeCardIndex={activeCardIndex}
+						removeCardId={removeCardId}
+						cardsList={cardsList}
+						onCardChange={(index) => this.onCardChange(index)}
+						isCardsEditable={isCardsEditable}
+						isCardRemoving={isCardRemoving}
+						deleteCard={(index) => this.deleteCard(index)}
+						onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}/>
+					<CardPane>
+						<Header activeCard={activeCard} user={user}/>
+						<Workspace>
+							<History cardHistory={filteredHistory}/>
+							<Prepaid
+								activeCard={activeCard}
+								inactiveCardsList={inactiveCardsList}
+								onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
+								onTransaction={() => this.onTransaction()}/>
+							<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()}/>
+							<Withdraw
+								activeCard={activeCard}
+								inactiveCardsList={inactiveCardsList}
+								onTransaction={() => this.onTransaction()}/>
+						</Workspace>
+					</CardPane>
+				</Wallet>
+			);
+		else {
+			return (
+				<Wallet>
+					<CardsBar
+						activeCardIndex={activeCardIndex}
+						removeCardId={removeCardId}
+						cardsList={cardsList}
+						onCardChange={(index) => this.onCardChange(index)}
+						isCardsEditable={isCardsEditable}
+						isCardRemoving={isCardRemoving}
+						deleteCard={(index) => this.deleteCard(index)}
+						onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}/>
+					<CardPane>
+						<Header user={user}/>
+						<CreateNewCard createNewCard={(card) => this.createCard(card)}/>
+					</CardPane>
+				</Wallet>
+			);
+		}
 	}
 }
 

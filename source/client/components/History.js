@@ -101,7 +101,7 @@ const History = ({cardHistory}) => {
 			}
 		}
 
-		return `${typeTitle}: ${item.data.cardNumber || item.data.phoneNumber}`;
+		return `${typeTitle}: ${item.data.cardNumber || item.data.cardNumber}`;
 	};
 	const getContent = (list) => {
 		const content = list.reduce((result, item, index) => {
@@ -120,7 +120,7 @@ const History = ({cardHistory}) => {
 							{historyItemDate.format('HH:mm')}
 						</HistoryItemTime>
 						<HistoryItemSum>
-							{`${item.sum} ₽`}
+							{`${item.balance} ₽`}
 						</HistoryItemSum>
 					</HistoryItem>
 				));
