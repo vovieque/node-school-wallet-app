@@ -31,6 +31,7 @@ const TransactionsModel = require('./models/transactions');
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/school-wallet', { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
@@ -59,7 +60,7 @@ router.param('id', (id, ctx, next) => next());
 
 router.get('/', async (ctx) => {
 	if (!ctx.isAuthenticated()) {
-		ctx.redirect('/auth/google');
+		ctx.redirect('/login');
 		return;
 	}
 	const data = await getData(ctx);
@@ -98,6 +99,7 @@ app.use(convert(session({
   store: new MongooseStore()
 })));
 
+process.env.HOSTNAME = "https://127.0.0.1:3000";	
 // authentication
 require('../libs/auth');
 const passport = require('koa-passport');

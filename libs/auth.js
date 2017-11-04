@@ -1,28 +1,41 @@
 const passport = require('koa-passport');
-
-let tempUser = {
-    id: 1
-}
+const User = require('../source/models/db/user');
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-    done(null, tempUser);
+    User.findOne({id}, (err, user) => {
+        if (err) {
+            done(err);
+        }
+        done(null, user);
+    });
 })
 
 const GoogleStrategy = require('passport-google-auth').Strategy
 passport.use(new GoogleStrategy({
         clientId: '82762493977-djirs9v01caeaj3ld7cfs27pqmftektr.apps.googleusercontent.com',
         clientSecret: 'vGSL7JxtdEn9I_7sMOqn2zxS',
-        callbackURL: 'https://127.0.0.1:' + (process.env.PORT || 3000) + '/auth/google/callback'
+        callbackURL: process.env.HOSTNAME + '/auth/google/callback'
     },
-    function(token, tokenSecret, profile, done) {
-        // retrieve user
-        tempUser.fullName = profile.displayName;
-        tempUser.imageUrl = profile.image.url;
-        tempUser.googleId = profile.id;
-        done(null, tempUser);
+    async function(token, tokenSecret, profile, done) {
+        const user = await User.findOne({
+            googleId: profile.id
+        });
+        if (!user) {
+            const newUser = await User.register({
+                displayName: profile.displayName,
+                imageUrl: profile.image.url,
+                googleId: profile.id,
+                passwordHash: '#', // means password not set
+                email: profile.emails[0].value,
+                registerDate: Date.now()
+            });
+            done(null, newUser); 
+            return;
+        }
+        done(null, user);
     }
 ));
