@@ -38,8 +38,8 @@ Header.propTypes = {
 		balance: PropTypes.number.isRequired
 	}),
 	user: PropTypes.shape({
-		login: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired
+		displayName: PropTypes.string.isRequired,
+		imageUrl: PropTypes.string.isRequired
 	})
 };
 

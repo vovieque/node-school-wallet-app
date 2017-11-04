@@ -13,5 +13,4 @@ Thumbs.db
 *.sublime*
 *.log
 npm-debug.log*
-package-lock.json
 logs/

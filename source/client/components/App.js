@@ -201,7 +201,7 @@ class App extends Component {
 					onChangeBarMode={(event, index) => this.onChangeBarMode(event, index)}
 					onEditChange={() => this.onEditChange(isCardsEditable)} />
 				<CardPane>
-					<Header activeCard={activeCard} />
+					<Header activeCard={activeCard} user={this.props.data.user} />
 					<Workspace>
 						<History cardHistory={filteredHistory} />
 						<Prepaid

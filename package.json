@@ -8,8 +8,12 @@
     "tls:generate": "scripts/tls/generate.sh",
     "start": "node ./source/app.js",
     "start:https": "NODE_HTTPS=1 npm start",
+    "start:production": "set NODE_HTTPS=1 && set NODE_ENV=production && npm start",
     "watch": "nodemon --watch source ./source/app.js",
-    "test": "jest"
+    "watch:https": "NODE_HTTPS=1 nodemon --watch source ./source/app.js",
+    "test": "jest",
+
+    "win:start:https": "set NODE_HTTPS=1 && nodemon --watch source ./source/app.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +27,14 @@
     "axios": "~0.16.2",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-passport": "^4.0.1",
     "koa-router": "^7.2.1",
+    "koa-session-mongoose": "^1.0.0",
+    "koa-session-store": "^2.0.0",
     "koa-static": "^4.0.1",
     "mongoose": "^4.12.4",
+    "passport-google-auth": "^1.0.2",
     "prop-types": "^15.5.10",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
