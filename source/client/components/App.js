@@ -164,7 +164,11 @@ class App extends Component {
 			.then(() => {
 				axios.get('/cards').then(({data}) => {
 					const cardsList = App.prepareCardsData(data);
-					this.setState({cardsList});
+					this.setState({
+						cardsList,
+						isCardRemoving: false,
+						activeCardIndex: 0,
+					});
 				});
 			});
 	}
