@@ -203,7 +203,7 @@ class App extends Component {
 			return Number(data.cardId) == activeCard.id;
 		});
 
-		if (inactiveCardsList.length > 0)
+		if (inactiveCardsList.length > 0 && activeCardIndex !== 'new_card')
 			return (
 				<Wallet>
 					<CardsBar

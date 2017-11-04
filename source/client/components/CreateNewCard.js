@@ -42,6 +42,7 @@ const Underline = styled.div`
 
 const CreateCardButton = styled(Button)`
 	float: right;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.5);
 `;
 
 const InputCardNumber = styled(Input)`
