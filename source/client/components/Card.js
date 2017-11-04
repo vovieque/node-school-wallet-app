@@ -12,6 +12,7 @@ const CardLayout = styled.div`
 	padding: 25px 20px 20px 25px;
 	border-radius: 4px;
 	background-color: ${({bgColor, active}) => (active ? bgColor : 'rgba(255, 255, 255, 0.1)')};
+	transition: background 0.3s;
 `;
 
 const CardLogo = styled.div`

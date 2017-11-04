@@ -58,7 +58,7 @@ const CardDelete = ({
 			<div onClick={() => deleteCard(data.id)}>
 				<Button bgColor='#d3292a' textColor='#fff'>Удалить</Button>
 			</div>
-			<div onClick={() => onCancelClick(true)}>
+			<div onClick={(e) => onCancelClick(e, 0)}>
 				<Button bgColor='#1F1F1F' textColor='#fff'>Вернуться</Button>
 			</div>
 		</Footer>
