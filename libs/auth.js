@@ -26,7 +26,7 @@ passport.use(new GoogleStrategy({
         });
         if (!user) {
             const newUser = await User.register({
-                displayName: profile.displayName,
+                displayName: profile.displayName || profile.emails[0].value,
                 imageUrl: profile.image.url,
                 googleId: profile.id,
                 passwordHash: '#', // means password not set

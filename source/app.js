@@ -87,6 +87,17 @@ router.all('/error', errorController);
 const authController = require('./controllers/auth');
 router.use(authController.routes());
 
+// error handler
+app.use(async (ctx, next) => {
+	try {
+		await next();
+	} catch (err) {
+		logger.error('Error detected', err);
+		ctx.status = err instanceof ApplicationError ? err.status : 500;
+		ctx.body = `Error [${err.message}] :(`;
+	}
+});
+
 app.use(bodyParser);
 
 // sessions
@@ -114,17 +125,6 @@ app.use(async (ctx, next) => {
 	logger.info(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-// error handler
-app.use(async (ctx, next) => {
-	try {
-		await next();
-	} catch (err) {
-		logger.error('Error detected', err);
-		ctx.status = err instanceof ApplicationError ? err.status : 500;
-		ctx.body = `Error [${err.message}] :(`;
-	}
-});
-
 // Создадим модель Cards и Transactions на уровне приложения и проинициализируем ее
 app.use(async (ctx, next) => {
 	ctx.cardsModel = new CardsModel();
@@ -132,9 +132,6 @@ app.use(async (ctx, next) => {
 
 	await next();
 });
-
-
-
 
 app.use(router.routes());
 app.use(serve('./public'));
