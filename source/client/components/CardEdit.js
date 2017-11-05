@@ -10,7 +10,8 @@ const CardEditIcon = styled.div`
 	right: -12px;
 	background-image: url('/assets/cards-delete.svg');
 	cursor: pointer;
-	display: ${({editable}) => (editable ? 'block' : 'none')};
+	transition: transform 0.3s;
+	transform: ${({editable}) => (editable ? 'scale(1)' : 'scale(0)')};
 `;
 
 const CardEdit = ({editable, onChangeBarMode, id}) => (
