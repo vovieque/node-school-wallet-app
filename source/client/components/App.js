@@ -177,6 +177,7 @@ class App extends Component {
 	 * @param {Number} index Индекс карты
 	 */
 	createCard(card) {
+		card['userId'] = this.state.user.id;
 		axios
 			.post(`/cards/`, card)
 			.then((newCard) => {
@@ -184,7 +185,7 @@ class App extends Component {
 				axios.get('/cards').then(({data}) => {
 					const cardsList = App.prepareCardsData(data);
 					this.setState({cardsList});
-					this.onCardChange(newCard.id);
+					this.onCardChange(cardsList.length - 1);
 				});
 			});
 	}

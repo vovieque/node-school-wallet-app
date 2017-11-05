@@ -132,7 +132,7 @@ class CreateNewCard extends Component {
 						<Currency>₽</Currency>
 					</InputField>
 					<Underline/>
-					<CreateCardButton bgColor='#fff' textColor='#108051'>Заплатить</CreateCardButton>
+					<CreateCardButton bgColor='#fff' textColor='#108051'>Создать</CreateCardButton>
 				</form>
 			</NewCardPaymentLayout>
 		);
