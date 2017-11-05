@@ -9,7 +9,7 @@ const CardLayout = styled.div`
 	height: 164px;
 	box-sizing: border-box;
 	margin-bottom: ${({isSingle}) => (isSingle ? 0 : '15px')};
-	padding: 25px 20px 20px 25px;
+	padding: 25px 20px 20px 20px;
 	border-radius: 4px;
 	background-color: ${({bgColor, active}) => (active ? bgColor : 'rgba(255, 255, 255, 0.1)')};
 	transition: background 0.3s;
@@ -18,7 +18,7 @@ const CardLayout = styled.div`
 const CardLogo = styled.div`
 	height: 28px;
 	margin-bottom: 25px;
-	background-image: url(${({url}) => url});
+	background-image: url(${({url}) => url || '/assets/yamoney-logo-black.svg'});
 	background-size: contain;
 	background-repeat: no-repeat;
 	filter: ${({active}) => (active ? 'none' : 'grayscale(100%) opacity(60%)')};
@@ -46,7 +46,12 @@ const NewCardLayout = styled(CardLayout)`
 	background-repeat: no-repeat;
 	background-position: center;
 	box-sizing: border-box;
+	transition: border 0.3s;
 	border: 2px dashed rgba(255, 255, 255, 0.2);
+	cursor: pointer;
+	&:hover {
+		border: 2px dashed rgba(255, 255, 255, 0.5);
+	}
 `;
 
 const CardSelect = styled(Select)`
@@ -87,10 +92,18 @@ class Card extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode} = this.props;
+		const {data,
+			type,
+			active,
+			isSingle,
+			onClick,
+			isCardsEditable,
+			onChangeBarMode,
+			onAppendModeSwitch
+		} = this.props;
 		if (type === 'new') {
 			return (
-				<NewCardLayout />
+				<NewCardLayout onClick={() => onAppendModeSwitch(true)} />
 			);
 		}
 
@@ -144,7 +157,8 @@ Card.propTypes = {
 	isSingle: PropTypes.bool,
 	isCardsEditable: PropTypes.bool,
 	onClick: PropTypes.func,
-	onChangeBarMode: PropTypes.func
+	onChangeBarMode: PropTypes.func,
+	onAppendModeSwitch: PropTypes.func
 };
 
 export default Card;
