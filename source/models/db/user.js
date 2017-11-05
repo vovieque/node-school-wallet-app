@@ -1,4 +1,3 @@
-const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -52,8 +51,10 @@ UserSchema.statics.register = async function (userData) {
 UserSchema.statics.getNextId = async function () {
     const user = await this.findOne({}).sort({id : -1}).exec();
     if (!user) {
-        throw new Error("No users in collection");
         return 1;
+    }
+    if (user.id >= Number.MAX_SAFE_INTEGER) {
+        throw new Error("Unable to get next id. Max user id exceed");
     }
     return user.id + 1;
 }
