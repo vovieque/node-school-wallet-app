@@ -94,7 +94,7 @@ class App extends Component {
 
 		const data = props.data;
 		const cardsList = data.cards.length > 0 ? App.prepareCardsData(data.cards) : [];
-		const cardHistory = data.transactions > 0 ? App.prepareHistory(cardsList, data.transactions) : [];
+		const cardHistory = data.transactions.length > 0 ? App.prepareHistory(cardsList, data.transactions) : [];
 
 		this.state = {
 			user: data.user,
