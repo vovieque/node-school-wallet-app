@@ -3,10 +3,10 @@ import styled from 'emotion/react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
-const SuccessIcon = styled.div`
+const Icon = styled.div`
 	width: 48px;
 	height: 48px;
-	background-image: url(/assets/round-check.svg);
+	background-image: url(/assets/round-${({status}) => (status ? 'check' : 'error')}.svg);
 	margin: 0 auto 20px auto;
 `;
 
@@ -28,8 +28,8 @@ const FormTitle = styled.h2`
  */
 const CardAddResult = ({success = true, onResultAccept}) => (
 	<form onSubmit={onResultAccept}>
-		<SuccessIcon />
-		<FormTitle>{success ? 'Карта успешно добавлена' : 'При добавлении карты произошла ошибка'}</FormTitle>
+		<Icon status={success} />
+		<FormTitle>{success ? 'Карта успешно добавлена' : 'Неправильный номер карты'}</FormTitle>
 		<Button bgColor='#018ca5' textColor='#fff'>Ок</Button>
 	</form>
 )
