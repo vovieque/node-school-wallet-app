@@ -23,7 +23,14 @@ const FormWrap = styled.div`
 	border-radius: 4px;
 `;
 
+/**
+ * Класс компнента CardAdd
+ */
 class CardAdd extends Component {
+	/**
+	 * Конструктор
+	 * @param {Object} props свойства компонента CardAdd
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -31,6 +38,10 @@ class CardAdd extends Component {
 		};
 	}
 
+	/**
+	 * Обработка добавления карты
+	 * @param {Boolean} success статус добавления карты
+	 */
 	onCardAdd(success) {
 		this.props.onTransaction();
 		this.setState({
@@ -39,12 +50,21 @@ class CardAdd extends Component {
 		});
 	}
 
+	/**
+	 * Обработка сообщения о статусе добавления карты
+	 */
 	onResultAccept() {
 		this.setState({
 			stage: 'contract',
 		});
 	}
 
+	/**
+	 * Рендер компонента
+	 *
+	 * @override
+	 * @returns {JSX}
+	 */
 	render() {
 		const {isCardAppending, onAppendModeSwitch} = this.props;
 

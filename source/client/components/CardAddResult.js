@@ -18,25 +18,21 @@ const FormTitle = styled.h2`
 	color: #fff;
 `;
 
-const CardAddResult = ({success = true, onResultAccept}) => {
-
-	if (success === false) {
-		return (
-			<form onSubmit={onResultAccept}>
-				<FormTitle>Произошла ошибка. Неверный номер карты</FormTitle>
-				<Button bgColor='#018ca5' textColor='#fff'>Ок</Button>
-			</form>
-		);
-	}
-
-	return (
-		<form onSubmit={onResultAccept}>
-			<SuccessIcon />
-			<FormTitle>Карта успешно добавлена</FormTitle>
-			<Button bgColor='#018ca5' textColor='#fff'>Ок</Button>
-		</form>
-	);
-};
+/**
+ * Компонент CardAddResult
+ * @param {Boolean} success - статус добавления карты
+ * @param onResultAccept - обработчик сообщения о статусе добавления карты
+ ** @override
+ * @returns {JSX}
+ * @constructor
+ */
+const CardAddResult = ({success = true, onResultAccept}) => (
+	<form onSubmit={onResultAccept}>
+		<SuccessIcon />
+		<FormTitle>{success ? 'Карта успешно добавлена' : 'При добавлении карты произошла ошибка'}</FormTitle>
+		<Button bgColor='#018ca5' textColor='#fff'>Ок</Button>
+	</form>
+)
 
 CardAddResult.propTypes = {
 	success: PropTypes.bool,
