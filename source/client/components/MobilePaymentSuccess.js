@@ -98,8 +98,8 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 
 MobilePaymentSuccess.propTypes = {
 	transaction: PropTypes.shape({
-		sum: PropTypes.string,
-		phoneNumber: PropTypes.string,
+		balance: PropTypes.string,
+		cardNumber: PropTypes.string,
 		commission: PropTypes.number
 	}).isRequired,
 	repeatPayment: PropTypes.func.isRequired

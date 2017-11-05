@@ -89,7 +89,8 @@ class Card extends Component {
 		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode} = this.props;
 		if (type === 'new') {
 			return (
-				<NewCardLayout />
+				<NewCardLayout
+					onClick={onClick}/>
 			);
 		}
 

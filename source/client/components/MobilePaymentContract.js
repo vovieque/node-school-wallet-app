@@ -156,14 +156,14 @@ class MobilePaymentContract extends Component {
 						<Label>Телефон</Label>
 						<InputPhoneNumber
 							name='phoneNumber'
-							value={this.state.phoneNumber}
+							value={this.state.cardNumber}
 							readOnly='true' />
 					</InputField>
 					<InputField>
 						<Label>Сумма</Label>
 						<InputSum
 							name='sum'
-							value={this.state.sum}
+							value={this.state.balance}
 							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>

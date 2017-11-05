@@ -75,7 +75,8 @@ const CardsBar = ({
 							onClick={() => onCardClick(index)} />
 					))
 				}
-				<Card type='new' />
+				<Card type='new'
+					  onClick={() => onCardClick('new_card')}/>
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
