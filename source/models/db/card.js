@@ -18,6 +18,10 @@ const Card = mongoose.model('Card', {
   balance: {
     type: Number,
     required: true
+  },
+  userId: {
+    type: Number,
+    required: true
   }
 });
 
