@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'emotion/react';
-import PropTypes from 'prop-types';
 
 const User = styled.div`
 	display: flex;
