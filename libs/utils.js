@@ -90,7 +90,7 @@ const bankUtils = {
 
 		for (var n = value.length - 1; n >= 0; n--) {
 			var cDigit = value.charAt(n),
-				  nDigit = parseInt(cDigit, 10);
+				nDigit = parseInt(cDigit, 10);
 
 			if (bEven) {
 				if ((nDigit *= 2) > 9) nDigit -= 9;

@@ -1,5 +1,6 @@
 const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
+
 const Card = mongoose.model('Card', {
   id: {
     type: Number,
@@ -9,7 +10,7 @@ const Card = mongoose.model('Card', {
     type: String,
     validate: {
       validator(value) {
-        return utils.validateCardNumber(value);
+				return utils.validateCardNumber(value) && utils.getCardType(value) !== '';
       },
       message: '{VALUE} is not a valid card number!'
     },

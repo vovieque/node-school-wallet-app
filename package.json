@@ -12,7 +12,6 @@
     "watch": "nodemon --watch source ./source/app.js",
     "watch:https": "NODE_HTTPS=1 nodemon --watch source ./source/app.js",
     "test": "jest",
-
     "win:start:https": "set NODE_HTTPS=1 && nodemon --watch source ./source/app.js"
   },
   "repository": {
