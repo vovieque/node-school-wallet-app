@@ -1,4 +1,3 @@
-const utils = require('../../../libs/utils');
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -42,29 +41,22 @@ const UserSchema = new mongoose.Schema({
 UserSchema.statics.register = async function (userData) {
     userData.id = await this.getNextId();
     const user = new this(userData);
-    return new Promise((resolve, reject) => {
-        user.save((err, user) => {
-            if (err) {
-                console.log(err);
-                reject(err);
-            }
-            resolve(user);
-        });
-    });
+    const savedUser = await user.save();
+    if (!savedUser) {
+        throw new Error("UserSchema.statics.register. Не удалось добавить пользователя");
+    }
+    return savedUser;
 }
 
 UserSchema.statics.getNextId = async function () {
-    return new Promise((resolve, reject) => {
-        this.findOne({}).sort({id : -1}).exec((err, user) => {
-            if (err) {
-                reject(err);
-            }
-            if (!user) {
-                resolve(1);
-            }
-            resolve(user.id + 1);
-        });
-    });
+    const user = await this.findOne({}).sort({id : -1}).exec();
+    if (!user) {
+        return 1;
+    }
+    if (user.id >= Number.MAX_SAFE_INTEGER) {
+        throw new Error("Unable to get next id. Max user id exceed");
+    }
+    return user.id + 1;
 }
 
 const User = mongoose.model('User', UserSchema);

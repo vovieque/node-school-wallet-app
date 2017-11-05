@@ -57,7 +57,9 @@ body {
 }
 
 .login__social-button {
-    display: inline-block;
+    display: block;
+    margin: auto;
+    margin-top: 20px;    
     width: 150px;
     text-align: center;
     padding: 8px;
