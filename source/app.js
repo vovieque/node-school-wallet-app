@@ -23,14 +23,16 @@ const createCardController = require('./controllers/cards/create');
 const createDependentCardCtrl = require('./controllers/cards/create-dependent');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
-const getChildTransactionController = require('./controllers/transactions/get-child')
+const getChildTransactionController = require('./controllers/transactions/get-child');
 const createTransactionsController = require('./controllers/transactions/create');
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
 const autoPayment = require('./controllers/auto-payments/auto-payment');
+const schedule = require('./schedule/schedule');
 const createUserController = require('./controllers/users/create');
 const loginUserController = require('./controllers/users/login');
+
 
 const errorController = require('./controllers/error');
 
