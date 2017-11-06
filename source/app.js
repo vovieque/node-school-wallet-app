@@ -6,6 +6,9 @@ const https = require('https');
 const path = require('path');
 const Koa = require('koa');
 const serve = require('koa-static');
+const session = require('koa-session');
+require('source/models/passport');
+const passport = require('koa-passport');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser')();
 const config = require('config');
@@ -15,15 +18,21 @@ const logger = require('libs/logger')('app');
 const {renderToStaticMarkup} = require('react-dom/server');
 
 const getCardsController = require('./controllers/cards/get-cards');
+const getTransactionsController = require('./controllers/transactions/get-transactions');
 const createCardController = require('./controllers/cards/create');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
+const getChildTransactionController = require('./controllers/transactions/get-child')
 const createTransactionsController = require('./controllers/transactions/create');
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
 const autoPayment = require('./controllers/auto-payments/auto-payment');
 const schedule = require('./schedule/schedule');
+
+const createUserController = require('./controllers/users/create');
+const loginUserController = require('./controllers/users/login');
+
 
 const errorController = require('./controllers/error');
 
@@ -34,42 +43,46 @@ const AutoPaymentModel = require('source/models/auto-payments');
 
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
+
 const mongoose = require('mongoose');
-mongoose.connect(config.get('mongo.uri'), { useMongoClient: true });
+
+mongoose.connect(config.get('mongo.uri'), {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 const app = new Koa();
 
-function getView(viewId) {
+const getView = (viewId) => {
 	const viewPath = path.resolve(__dirname, 'views', `${viewId}.server.js`);
 	delete require.cache[require.resolve(viewPath)];
 	return require(viewPath);
-}
+};
 
-async function getData(ctx) {
-	const user = {
-		login: 'samuel_johnson',
-		name: 'Samuel Johnson'
-	};
-	const cards = await ctx.cardsModel.getAll();
-	const transactions = await ctx.transactionsModel.getAll();
+const getData = async (ctx) => {
+	const {user} = ctx.state;
+	delete user.password;
+	const cards = await ctx.cardsModel.getAll(user.id);
+	const transactions = await ctx.transactionsModel.getAll(user.id);
 
 	return {
 		user,
 		cards,
 		transactions
 	};
-}
+};
 
 // Сохраним параметр id в ctx.params.id
 router.param('id', (id, ctx, next) => next());
 
 router.get('/', async (ctx) => {
-	const data = await getData(ctx);
-	const indexView = getView('index');
-	const indexViewHtml = renderToStaticMarkup(indexView(data));
+	if (ctx.isAuthenticated()) {
+		const data = await getData(ctx);
+		const indexView = getView('index');
+		const indexViewHtml = renderToStaticMarkup(indexView(data));
 
-	ctx.body = indexViewHtml;
+		ctx.body = indexViewHtml;
+	} else {
+		ctx.redirect('sign-up.html');
+	}
 });
 
 router.get('/cards/', getCardsController);
@@ -77,6 +90,7 @@ router.post('/cards/', createCardController);
 router.delete('/cards/:id', deleteCardController);
 
 router.get('/cards/:id/transactions/', getTransactionController);
+router.get('/cards/:id/childTransactions/', getChildTransactionController);
 router.post('/cards/:id/transactions/', createTransactionsController);
 
 router.post('/cards/:id/transfer', cardToCard);
@@ -85,6 +99,9 @@ router.post('/cards/:id/fill', mobileToCard);
 router.post('/cards/:id/auto-payment', autoPayment);
 
 router.get('/transactions/', getTransactionsController);
+
+router.post('/users/create', createUserController);
+router.post('/users/login', loginUserController);
 
 router.all('/error', errorController);
 
@@ -116,12 +133,15 @@ app.use(async (ctx, next) => {
 	await next();
 });
 
-
 app.use(bodyParser);
+app.keys = ['uu2tnEBvMHd65YdV5khdcTgafBDJDzEXSg25xdaaLdRsNUdu67hTQrEGCUf7jxUM'];
+app.use(session({}, app));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router.routes());
 app.use(serve('./public'));
 
-const listenCallback = function() {
+const listenCallback = function () {
 	const {
 		port
 	} = this.address();

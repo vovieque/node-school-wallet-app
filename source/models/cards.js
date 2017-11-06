@@ -67,6 +67,17 @@ class Cards extends DbModel {
 
 		await this._update({id}, {balance: newBalance});
 	}
+
+	/**
+	 * Возвращает зависимые карты
+	 * @param {Number} id идентификатор карты
+	 */
+	async getDependent(id) {
+		const cards = await this.getMany({parentId: id});
+		return cards.reduce(function(prev, curr) {
+			return [...prev, curr.id];
+		}, []);
+	}
 }
 
 module.exports = Cards;

@@ -89,7 +89,7 @@ const PrepaidSuccess = ({transaction, repeatPayment}) => {
 
 PrepaidSuccess.propTypes = {
 	transaction: PropTypes.shape({
-		sum: PropTypes.string,
+		balance: PropTypes.string,
 		number: PropTypes.string
 	}).isRequired,
 	repeatPayment: PropTypes.func.isRequired

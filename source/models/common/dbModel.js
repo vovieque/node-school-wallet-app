@@ -11,9 +11,9 @@ class DbModel extends Model {
 		this._MongooseModel = MongooseModel;
 	}
 
-	async getAll() {
+	async getAll(id) {
 		const data = await this._MongooseModel
-			.find({})
+			.find({userId: id})
 			.lean()
 			.exec();
 		return data;
@@ -35,7 +35,7 @@ class DbModel extends Model {
 		return data;
 	}
 
-	async getAllBy(cond) {
+	async getMany(cond) {
 		const data = await this._MongooseModel
 			.find(cond)
 			.lean()
@@ -55,7 +55,7 @@ class DbModel extends Model {
 			.limit(1)
 			.lean()
 			.exec();
-		return data[0].id + 1;
+		return data.length > 0 ? data[0].id + 1 : 0;
 	}
 
 	async _insert(item) {

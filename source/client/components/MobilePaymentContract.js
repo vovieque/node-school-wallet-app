@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import axios from 'axios';
+import {Switch, DatePicker} from 'antd';
+import locale from 'antd/lib/date-picker/locale/ru_RU';
+import moment from 'moment';
+import 'moment/locale/ru';
+
+moment.locale('ru');
 
 import {Island, Title, Button, Input} from './';
 
@@ -81,7 +87,9 @@ class MobilePaymentContract extends Component {
 		this.state = {
 			phoneNumber: '+79218908064',
 			sum: 0,
-			commission: 3
+			commission: 3,
+			checked: false,
+			dateAutoPay: moment().add(1, 'days').toDate()
 		};
 	}
 
@@ -109,7 +117,7 @@ class MobilePaymentContract extends Component {
 			event.preventDefault();
 		}
 
-		const {sum, phoneNumber, commission} = this.state;
+		const {sum, phoneNumber, commission, checked, dateAutoPay} = this.state;
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum === 0) {
@@ -118,9 +126,26 @@ class MobilePaymentContract extends Component {
 
 		const {activeCard} = this.props;
 
-		axios
-			.post(`/cards/${activeCard.id}/pay`, {phoneNumber, sum})
-			.then(() => this.props.onPaymentSuccess({sum, phoneNumber, commission}));
+		if (checked) {
+			const sendData = {
+				receiverNumber: phoneNumber,
+				sum,
+				date: dateAutoPay,
+				receiverType: 'phonePayment'
+			};
+			axios
+				.post(`/cards/${activeCard.id}/auto-payment`, sendData)
+				.then(() => this.props.onPaymentSuccess({sum, phoneNumber, commission, dateAutoPay}));
+		} else {
+			axios
+				.post(`/cards/${activeCard.id}/pay`, {phoneNumber, sum})
+				.then((transaction) => this.props.onPaymentSuccess({
+					sum,
+					phoneNumber,
+					commission,
+					id: transaction.data.id
+				}));
+		}
 	}
 
 	/**
@@ -140,14 +165,43 @@ class MobilePaymentContract extends Component {
 	}
 
 	/**
+	 * Обработка изменения значения в switch
+	 * @param {Boolean} checked активен ли свитчер
+	 */
+	onChangeCheckedValue(checked) {
+		this.setState({
+			checked
+		});
+	}
+
+	/**
+	 * Обработка изменения даты платежа
+	 * @param {Moment} dateAutoPay Дата автоплатежа
+	 */
+	onChangeDateValue(dateAutoPay) {
+		dateAutoPay = dateAutoPay.toDate();
+		this.setState({
+			dateAutoPay
+		});
+	}
+
+	/**
+	 * Откличение старых дат
+	 * @param {Date} current Выбранная дата платежа
+	 */
+	disabledDate(current) {
+		return current && current.valueOf() < Date.now();
+	}
+
+	/**
 	 * Рендер компонента
 	 *
 	 * @override
 	 * @returns {JSX}
 	 */
 	render() {
-		const {commission} = this.state;
-
+		const {commission, checked} = this.state;
+		const date = moment().add(1, 'days');
 		return (
 			<MobilePaymentLayout>
 				<form onSubmit={(event) => this.onSubmitForm(event)}>
@@ -157,7 +211,7 @@ class MobilePaymentContract extends Component {
 						<InputPhoneNumber
 							name='phoneNumber'
 							value={this.state.phoneNumber}
-							readOnly='true' />
+							onChange={(event) => this.onChangeInputValue(event)}/>
 					</InputField>
 					<InputField>
 						<Label>Сумма</Label>
@@ -171,6 +225,15 @@ class MobilePaymentContract extends Component {
 						<Label>Спишется</Label>
 						<InputCommision value={this.getSumWithCommission()} />
 						<Currency>₽</Currency>
+					</InputField>
+					<InputField>
+						<Label>Отложенный платёж</Label>
+						<Switch defaultChecked={false} onChange={(checked) => this.onChangeCheckedValue(checked)}/>
+					</InputField>
+					<InputField>
+						<Label>Дата платежа</Label>
+						<DatePicker defaultValue={date} locale={locale} disabled={!checked}
+									disabledDate={this.disabledDate} onChange={(date) => this.onChangeDateValue(date)}/>
 					</InputField>
 					<Commission>Размер коммиссии составляет {commission} ₽</Commission>
 					<Underline />

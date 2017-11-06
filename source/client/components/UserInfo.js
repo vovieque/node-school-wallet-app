@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'emotion/react';
+import PropTypes from 'prop-types';
 
 const User = styled.div`
 	display: flex;
@@ -15,9 +16,18 @@ const Avatar = styled.img`
 	margin-right: 10px;
 `;
 
-export default () => (
+const UserInfo = ({user}) => (
 	<User>
 		<Avatar src='/assets/avatar.png' />
-		Samuel Johnson
+		{`${user.name} ${user.surname}`}
 	</User>
 );
+
+UserInfo.propTypes = {
+	user: PropTypes.shape({
+		login: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired
+	})
+};
+
+export default UserInfo;
