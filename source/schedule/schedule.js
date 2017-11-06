@@ -48,7 +48,7 @@ function scheduleAutoPaymentJob() {
 			result.forEach(async (autoPayment) => {
 				await new CardsModel().withdraw(autoPayment.cardId, autoPayment.sum)
 					.then(async () => {
-						if (autoPayment.receiverType === 'card') {
+						if (autoPayment.receiverType === 'cardPayment') {
 							await new TransactionModel()
 								.create({
 									cardId: autoPayment.cardId,
@@ -62,7 +62,7 @@ function scheduleAutoPaymentJob() {
 								.then(async () => {
 									await setAutoPaymentDone(autoPayment);
 								});
-						} else if (autoPayment.receiverType === 'card') {
+						} else if (autoPayment.receiverType === 'phonePayment') {
 							await new TransactionModel()
 								.create({
 									cardId: autoPayment.cardId,
