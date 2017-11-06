@@ -22,7 +22,7 @@ const getTransactionsController = require('./controllers/transactions/get-transa
 const createCardController = require('./controllers/cards/create');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
-const getChildTransactionController = require('./controllers/transactions/get-child')
+const getChildTransactionController = require('./controllers/transactions/get-child');
 const createTransactionsController = require('./controllers/transactions/create');
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
@@ -40,9 +40,6 @@ const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
 const AutoPaymentModel = require('source/models/auto-payments');
-
-const getTransactionsController = require('./controllers/transactions/get-transactions');
-
 
 const mongoose = require('mongoose');
 
