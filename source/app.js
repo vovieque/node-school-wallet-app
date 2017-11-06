@@ -23,6 +23,7 @@ const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
 const autoPayment = require('./controllers/auto-payments/auto-payment');
+const schedule = require('./schedule/schedule');
 
 const errorController = require('./controllers/error');
 

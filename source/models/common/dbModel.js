@@ -35,6 +35,14 @@ class DbModel extends Model {
 		return data;
 	}
 
+	async getAllBy(cond) {
+		const data = await this._MongooseModel
+			.find(cond)
+			.lean()
+			.exec();
+		return data;
+	}
+
 	/**
 	 * Генерирует новый id для записи
 	 * @return {Number}
