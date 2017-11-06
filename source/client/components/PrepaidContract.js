@@ -132,9 +132,9 @@ class PrepaidContract extends Component {
 
 		const options = {
 			method: 'post',
-			url: `/cards/${activeCard.id}/transfer`,
+			url: `/cards/${selectedCard.id}/transfer`,
 			data: {
-				target: selectedCard.id,
+				target: activeCard.id,
 				sum
 			}
 		};
@@ -191,7 +191,7 @@ class PrepaidContract extends Component {
 					<InputField>
 						<SumInput
 							name='sum'
-							value={this.state.balance}
+							value={this.state.sum}
 							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>
