@@ -157,7 +157,7 @@ class MobilePaymentContract extends Component {
 						<InputPhoneNumber
 							name='phoneNumber'
 							value={this.state.phoneNumber}
-							readOnly='true' />
+							onChange={(event) => this.onChangeInputValue(event)}/>
 					</InputField>
 					<InputField>
 						<Label>Сумма</Label>

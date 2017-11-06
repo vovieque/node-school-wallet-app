@@ -27,6 +27,7 @@ const createTransactionsController = require('./controllers/transactions/create'
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
+const autoPayment = require('./controllers/auto-payments/auto-payment');
 const createUserController = require('./controllers/users/create');
 const loginUserController = require('./controllers/users/login');
 
@@ -35,6 +36,7 @@ const errorController = require('./controllers/error');
 const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
+const AutoPaymentModel = require('source/models/auto-payments');
 
 const mongoose = require('mongoose');
 
@@ -88,6 +90,7 @@ router.post('/cards/:id/transactions/', createTransactionsController);
 router.post('/cards/:id/transfer', cardToCard);
 router.post('/cards/:id/pay', cardToMobile);
 router.post('/cards/:id/fill', mobileToCard);
+router.post('/cards/:id/auto-payment', autoPayment);
 
 router.get('/transactions/', getTransactionsController);
 
@@ -119,6 +122,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
 	ctx.cardsModel = new CardsModel();
 	ctx.transactionsModel = new TransactionsModel();
+	ctx.autoPaymentModel = new AutoPaymentModel();
 
 	await next();
 });

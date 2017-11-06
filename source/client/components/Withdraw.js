@@ -48,8 +48,27 @@ class Withdraw extends Component {
 
 		this.state = {
 			selectedCard: props.inactiveCardsList[0],
+			selectedCardIndex: 0,
 			sum: 0
 		};
+	}
+
+	/**
+	 * Обработчик переключения карты
+	 *
+	 * @param {Number} index выбранная карта
+	 */
+	onCardChange(index) {
+		this.setState({
+			selectedCardIndex: index,
+			selectedCard: this.props.inactiveCardsList[index]
+		});
+	}
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			selectedCard: props.inactiveCardsList[this.state.selectedCardIndex]
+		});
 	}
 
 	/**
@@ -111,7 +130,7 @@ class Withdraw extends Component {
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<WithdrawLayout>
 					<WithdrawTitle>Вывести деньги на карту</WithdrawTitle>
-					<Card type='select' data={inactiveCardsList} />
+					<Card type='select' onCardChange={(index) => this.onCardChange(index)} data={inactiveCardsList}/>
 					<InputField>
 						<SumInput
 							name='sum'

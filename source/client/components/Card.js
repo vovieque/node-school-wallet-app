@@ -73,10 +73,13 @@ class Card extends Component {
 	/**
 	 * Обработчик переключения карты
 	 *
-	 * @param {Number} activeCardIndex индекс выбранной карты
+	 * @param {Object} selectedCard выбранная карта
 	 */
-	onCardChange(activeCardIndex) {
-		this.setState({activeCardIndex});
+	onCardChange(index) {
+		this.setState({
+			activeCardIndex: index
+		});
+		this.props.onCardChange(index);
 	}
 
 	/**
@@ -89,7 +92,8 @@ class Card extends Component {
 		const {data, type, active, isSingle, onClick, isCardsEditable, onChangeBarMode} = this.props;
 		if (type === 'new') {
 			return (
-				<NewCardLayout />
+				<NewCardLayout
+					onClick={onClick}/>
 			);
 		}
 
@@ -103,7 +107,7 @@ class Card extends Component {
 				<CardLayout active={true} bgColor={bgColor} isCardsEditable={isCardsEditable} isSingle={isSingle}>
 					<CardEdit editable={isCardsEditable} id={data.id} onChangeBarMode={onChangeBarMode} />
 					<CardLogo url={bankLogoUrl} active={true} />
-					<CardSelect defaultValue='0' onChange={(index) => this.onCardChange(index)}>
+					<CardSelect value={`${activeCardIndex}`} onChange={(index) => this.onCardChange(index)}>
 						{data.map((card, index) => (
 							<Select.Option key={isActive} value={`${index}`}>{card.number}</Select.Option>
 						))}
@@ -143,6 +147,7 @@ Card.propTypes = {
 	isSingle: PropTypes.bool,
 	isCardsEditable: PropTypes.bool,
 	onClick: PropTypes.func,
+	onCardChange: PropTypes.func,
 	onChangeBarMode: PropTypes.func
 };
 
