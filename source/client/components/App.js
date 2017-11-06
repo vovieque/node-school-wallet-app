@@ -30,7 +30,7 @@ injectGlobal([`
 
 const Wallet = styled.div`
 	display: flex;
-	min-height: 100%;
+	min-height: 100vh;
 	background-color: #fcfcfc;
 `;
 
@@ -244,7 +244,7 @@ class App extends Component {
 		return (
 			<Wallet>
 				<CardsBar
-					activeCardIndex={activeCardIndex}
+					activeCardIndex={activeCard ? activeCardIndex : null}
 					removeCardId={removeCardId}
 					cardsList={cardsList}
 					onCardChange={(index) => this.onCardChange(index)}
