@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'emotion/react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import {Island} from './';
 
@@ -72,7 +73,7 @@ const RepeatPayment = styled.button`
 `;
 
 const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
-	const {sum, phoneNumber, commission} = transaction;
+	const {sum, phoneNumber, commission, dateAutoPay, id} = transaction;
 
 	return (
 		<MobilePaymentLayout>
@@ -81,8 +82,8 @@ const MobilePaymentSuccess = ({transaction, repeatPayment}) => {
 			<Sum>{sum} ₽</Sum>
 			<CommissionTips>В том числе комиссия {commission} ₽</CommissionTips>
 			<Section>
-				<SectionLabel>Номер транзакции</SectionLabel>
-				<SectionValue>200580211311</SectionValue>
+				<SectionLabel>{dateAutoPay ? 'Дата пополнения' : 'Номер транзакции'}</SectionLabel>
+				<SectionValue>{dateAutoPay ? moment(dateAutoPay).lang('ru').calendar().split(' в ')[0] : id}</SectionValue>
 			</Section>
 			<Section>
 				<SectionLabel>Номер телефона</SectionLabel>
@@ -100,7 +101,9 @@ MobilePaymentSuccess.propTypes = {
 	transaction: PropTypes.shape({
 		balance: PropTypes.string,
 		cardNumber: PropTypes.string,
-		commission: PropTypes.number
+		commission: PropTypes.number,
+		dateAutoPay: PropTypes.instanceOf(Date),
+		id: PropTypes.number
 	}).isRequired,
 	repeatPayment: PropTypes.func.isRequired
 };
