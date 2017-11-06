@@ -16,7 +16,7 @@ const CardLayout = styled.div`
 
 const CardLogo = styled.div`
 	height: 28px;
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 	background-image: url(${({url}) => url});
 	background-size: contain;
 	background-repeat: no-repeat;
