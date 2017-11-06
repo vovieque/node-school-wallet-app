@@ -22,6 +22,7 @@ const getTransactionsController = require('./controllers/transactions/get-transa
 const createCardController = require('./controllers/cards/create');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
+const getChildTransactionController = require('./controllers/transactions/get-child')
 const createTransactionsController = require('./controllers/transactions/create');
 const cardToCard = require('./controllers/cards/card-to-card');
 const cardToMobile = require('./controllers/cards/card-to-mobile');
@@ -83,6 +84,7 @@ router.post('/cards/', createCardController);
 router.delete('/cards/:id', deleteCardController);
 
 router.get('/cards/:id/transactions/', getTransactionController);
+router.get('/cards/:id/childTransactions/', getChildTransactionController);
 router.post('/cards/:id/transactions/', createTransactionsController);
 
 router.post('/cards/:id/transfer', cardToCard);

@@ -23,6 +23,9 @@ const Card = mongoose.model('Card', {
 	balance: {
 		type: Number,
 		required: true
+	},
+	parentId: {
+		type: Number
 	}
 });
 
