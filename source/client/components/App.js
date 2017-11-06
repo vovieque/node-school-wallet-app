@@ -97,8 +97,7 @@ class App extends Component {
 	 * Конструктор
 	 */
 	constructor(props) {
-		super();
-
+		super(props);
 		const data = props.data;
 		const cardsList = App.prepareCardsData(data.cards);
 		const cardHistory = App.prepareHistory(cardsList, data.transactions);

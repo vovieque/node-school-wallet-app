@@ -25,13 +25,15 @@ const mobileToCard = require('./controllers/cards/mobile-to-card');
 const errorController = require('./controllers/error');
 
 const ApplicationError = require('../libs/application-error');
+const UserError = require('../libs/user-error');
 const CardsModel = require('./models/cards');
 const TransactionsModel = require('./models/transactions');
 
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/school-wallet', { useMongoClient: true });
+
+mongoose.connect('mongodb://localhost/school-wallet', {useMongoClient: true});
 mongoose.Promise = global.Promise;
 
 // IIFE here for using await
@@ -47,7 +49,7 @@ mongoose.Promise = global.Promise;
 	}
 
 	async function getData(ctx) {
-		const user = ctx.state.user;
+		const {user} = ctx.state;
 		const cards = await ctx.cardsModel.getByUserId(user.id);
 		const transactions = await ctx.transactionsModel.getByCardIds(cards.map(c => c.id));
 
@@ -95,9 +97,19 @@ mongoose.Promise = global.Promise;
 		try {
 			await next();
 		} catch (err) {
-			logger.error('Error detected', err);
-			ctx.status = err instanceof ApplicationError ? err.status : 500;
-			ctx.body = `Error [${err.message}] :(`;
+			logger.error('Error detected', err);			
+			switch (err.constructor) {
+				case ApplicationError:
+					ctx.status = err.status;
+					ctx.body = `Error [${err.message}] :(`;	
+					break;
+				case UserError:
+					ctx.status = err.status;
+					ctx.body = err.message;	
+				default:
+					ctx.status = 500;
+					ctx.body = err.toString();
+			}
 		}
 	});
 
