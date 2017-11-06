@@ -198,12 +198,12 @@ class App extends Component {
 	 */
 	render() {
 		const {cardsList, activeCardIndex, cardHistory, isCardsEditable, isCardRemoving, removeCardId, user} = this.state;
-		const activeCard = cardsList[activeCardIndex];
 
-		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
-		const filteredHistory = cardHistory.filter((data) => Number(data.cardId) == activeCard.id);
+		if (cardsList.length > 0 && activeCardIndex !== 'new_card') {
+			const activeCard = cardsList[activeCardIndex];
 
-		if (cardsList.length > 0 && activeCardIndex !== 'new_card')
+			const inactiveCardsList = cardsList.filter((card, index) => (index !== activeCardIndex));
+			const filteredHistory = cardHistory.filter((data) => Number(data.cardId) === activeCard.id);
 			return (
 				<Wallet>
 					<CardsBar
@@ -233,6 +233,7 @@ class App extends Component {
 					</CardPane>
 				</Wallet>
 			);
+		}
 		else {
 			return (
 				<Wallet>
