@@ -20,6 +20,7 @@ const {renderToStaticMarkup} = require('react-dom/server');
 const getCardsController = require('./controllers/cards/get-cards');
 const getTransactionsController = require('./controllers/transactions/get-transactions');
 const createCardController = require('./controllers/cards/create');
+const createDependentCardCtrl = require('./controllers/cards/create-dependent');
 const deleteCardController = require('./controllers/cards/delete');
 const getTransactionController = require('./controllers/transactions/get');
 const getChildTransactionController = require('./controllers/transactions/get-child');
@@ -29,7 +30,6 @@ const cardToMobile = require('./controllers/cards/card-to-mobile');
 const mobileToCard = require('./controllers/cards/mobile-to-card');
 const autoPayment = require('./controllers/auto-payments/auto-payment');
 const schedule = require('./schedule/schedule');
-
 const createUserController = require('./controllers/users/create');
 const loginUserController = require('./controllers/users/login');
 
@@ -39,6 +39,7 @@ const errorController = require('./controllers/error');
 const ApplicationError = require('libs/application-error');
 const CardsModel = require('source/models/cards');
 const TransactionsModel = require('source/models/transactions');
+const UsersModel = require('source/models/users')
 const AutoPaymentModel = require('source/models/auto-payments');
 
 const mongoose = require('mongoose');
@@ -84,6 +85,7 @@ router.get('/', async (ctx) => {
 
 router.get('/cards/', getCardsController);
 router.post('/cards/', createCardController);
+router.post('/cards/:id/children/', createDependentCardCtrl);
 router.delete('/cards/:id', deleteCardController);
 
 router.get('/cards/:id/transactions/', getTransactionController);
@@ -125,6 +127,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
 	ctx.cardsModel = new CardsModel();
 	ctx.transactionsModel = new TransactionsModel();
+	ctx.usersModel = new UsersModel();
 	ctx.autoPaymentModel = new AutoPaymentModel();
 
 	await next();
