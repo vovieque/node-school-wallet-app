@@ -49,7 +49,7 @@ mongoose.Promise = global.Promise;
 	async function getData(ctx) {
 		const user = ctx.state.user;
 		const cards = await ctx.cardsModel.getByUserId(user.id);
-		const transactions = await ctx.transactionsModel.getAll();
+		const transactions = await ctx.transactionsModel.getByCardIds(cards.map(c => c.id));
 
 		return {
 			user,
