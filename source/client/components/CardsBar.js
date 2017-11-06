@@ -63,7 +63,11 @@ const CardsBar = ({
 	return (
 		<Layout>
 			<Logo />
-			<Edit onClick={onEditChange} editable={isCardsEditable} />
+			{
+				activeCardIndex !== null
+				? <Edit onClick={onEditChange} editable={isCardsEditable} /> 
+				: null
+			}
 			<CardsList>
 				{cardsList
 					.filter((item) => !item.hidden)
@@ -86,7 +90,7 @@ const CardsBar = ({
 
 CardsBar.propTypes = {
 	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-	activeCardIndex: PropTypes.number.isRequired,
+	activeCardIndex: PropTypes.number,
 	removeCardId: PropTypes.number,
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,

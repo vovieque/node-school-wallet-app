@@ -48,7 +48,7 @@ mongoose.Promise = global.Promise;
 
 	async function getData(ctx) {
 		const user = ctx.state.user;
-		const cards = await ctx.cardsModel.getAll();
+		const cards = await ctx.cardsModel.getByUserId(user.id);
 		const transactions = await ctx.transactionsModel.getAll();
 
 		return {
@@ -168,3 +168,8 @@ mongoose.Promise = global.Promise;
 
 	module.exports = app;
 })();
+
+process.on('uncaughtException', (err) => {
+	console.error(err);
+	mongoose.disconnect();
+});

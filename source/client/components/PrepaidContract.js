@@ -151,7 +151,9 @@ class PrepaidContract extends Component {
 	 */
 	render() {
 		const {inactiveCardsList} = this.props;
-
+		if (!inactiveCardsList || inactiveCardsList.length === 0) {
+			return null;
+		}
 		const {activeCardIndex} = this.state;
 		const selectedCard = inactiveCardsList[activeCardIndex];
 
