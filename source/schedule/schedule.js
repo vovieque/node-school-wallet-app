@@ -42,7 +42,7 @@ function scheduleAutoPaymentJob() {
 		}
 	};
 
-	new AutoPaymentModel().getAllBy(condition)
+	new AutoPaymentModel().getMany(condition)
 		.then(async function (result) {
 			console.log('search result: ' + result);
 			result.forEach(async (autoPayment) => {
