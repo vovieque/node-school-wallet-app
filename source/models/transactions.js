@@ -40,6 +40,20 @@ class Transactions extends DbModel {
 	static async remove() {
 		throw new ApplicationError('Transaction can\'t be removed', 400);
 	}
+
+	/**
+	 * Получение всех транзакций пользователя
+	 * @param {[Number]} cardIds массик Id карт
+	 * @return {[Object]} sum сумма
+	 */
+	async getByCardIds(cardIds) {
+		const data = await this._MongooseModel
+		.find({})
+		.where('cardId').in(cardIds)
+		.lean()
+		.exec();
+		return data;
+	}
 }
 
 module.exports = Transactions;

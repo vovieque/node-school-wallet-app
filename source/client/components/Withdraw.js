@@ -106,7 +106,9 @@ class Withdraw extends Component {
 	 */
 	render() {
 		const {inactiveCardsList} = this.props;
-
+		if (!inactiveCardsList || inactiveCardsList.length === 0) {
+			return null;
+		}
 		return (
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<WithdrawLayout>

@@ -5,7 +5,7 @@ import {Select, CardEdit} from './';
 
 const CardLayout = styled.div`
 	position: relative;
-	width: 260px;
+	min-width: 260px;
 	height: 164px;
 	box-sizing: border-box;
 	margin-bottom: ${({isSingle}) => (isSingle ? 0 : '15px')};

@@ -30,7 +30,7 @@ injectGlobal([`
 
 const Wallet = styled.div`
 	display: flex;
-	min-height: 100%;
+	min-height: 100vh;
 	background-color: #fcfcfc;
 `;
 
@@ -43,6 +43,14 @@ const Workspace = styled.div`
 	flex-wrap: wrap;
 	max-width: 970px;
 	padding: 15px;
+`;
+
+const EmptyWorkspace = styled.div`
+	display: flex;
+	font-size: 20px;
+	align-content: center;
+	justify-content: center;
+	padding: 20px;
 `;
 
 /**
@@ -202,15 +210,41 @@ class App extends Component {
 		} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
-		const inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
-		const filteredHistory = cardHistory.filter((data) => {
-			return Number(data.cardId) === activeCard.id;
-		});
-
+		let inactiveCardsList, 
+			filteredHistory,
+			workspace;
+		if (activeCard) {
+			inactiveCardsList = cardsList.filter((card, index) => (index === activeCardIndex ? false : card));
+			filteredHistory = cardHistory.filter((data) => {
+				return Number(data.cardId) === activeCard.id;
+			});
+			workspace = (
+				<Workspace>
+					<History cardHistory={filteredHistory} />
+					<Prepaid
+						activeCard={activeCard}
+						inactiveCardsList={inactiveCardsList}
+						onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
+						onTransaction={() => this.onTransaction()} />
+					<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
+					<Withdraw
+						activeCard={activeCard}
+						inactiveCardsList={inactiveCardsList}
+						onTransaction={() => this.onTransaction()} />
+				</Workspace>
+			);
+		}
+		else {
+			workspace = (
+				<EmptyWorkspace>
+					Чтобы начать работать с приложением, добавтье карту с помощью панели слева
+				</EmptyWorkspace>
+			);
+		}
 		return (
 			<Wallet>
 				<CardsBar
-					activeCardIndex={activeCardIndex}
+					activeCardIndex={activeCard ? activeCardIndex : null}
 					removeCardId={removeCardId}
 					cardsList={cardsList}
 					onCardChange={(index) => this.onCardChange(index)}
@@ -222,19 +256,7 @@ class App extends Component {
 					onAppendModeSwitch={(isCardAppending) => this.onAppendModeSwitch(isCardAppending)} />
 				<CardPane>
 					<Header activeCard={activeCard} user={this.props.data.user} />
-					<Workspace>
-						<History cardHistory={filteredHistory} />
-						<Prepaid
-							activeCard={activeCard}
-							inactiveCardsList={inactiveCardsList}
-							onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
-							onTransaction={() => this.onTransaction()} />
-						<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
-						<Withdraw
-							activeCard={activeCard}
-							inactiveCardsList={inactiveCardsList}
-							onTransaction={() => this.onTransaction()} />
-					</Workspace>
+					{ workspace }
 				</CardPane>
 				<CardAdd
 					isCardAppending={isCardAppending}
