@@ -9,6 +9,9 @@ const User = mongoose.model('User', {
 		unique: true,
 		required: [true, 'Id required']
 	},
+	chatId: {
+		type: Number
+	},
 	name: {
 		type: String,
 		required: [true, 'Name required']

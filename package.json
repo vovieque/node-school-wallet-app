@@ -10,7 +10,8 @@
     "start:secure": "NODE_ENV=secure npm start",
     "start:prod": "NODE_ENV=production npm start",
     "watch": "NODE_PATH=. nodemon --watch source ./source/app.js",
-    "test": "NODE_PATH=. jest"
+    "test": "NODE_PATH=. jest",
+    "telegram": "NODE_PATH=. node ./telegram-bot/index.js"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,9 @@
     "react-dom": "^16.0.0",
     "redis": "^2.8.0",
     "serialize-javascript": "^1.4.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "telegraf": "^3.15.3",
+    "telegraf-flow": "^8.3.0"
   },
   "devDependencies": {
     "antd": "^2.13.8",
