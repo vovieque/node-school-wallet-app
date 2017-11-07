@@ -67,6 +67,19 @@ class Cards extends DbModel {
 
 		await this._update({id}, {balance: newBalance});
 	}
+
+	/**
+	 * Получение всех карт пользователя
+	 * @param {Number} userId Id пользователя
+	 * @return {[{id: Number, cardNumber: string, balance: Number, userId: Number}]} sum сумма
+	 */
+	async getByUserId(userId) {
+		const data = await this._MongooseModel
+		.find({userId})
+		.lean()
+		.exec();
+		return data;
+	}
 }
 
 module.exports = Cards;

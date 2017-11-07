@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'emotion/react';
-import {Card, CardDelete} from './';
+import {Card, CardDelete, CardEdit} from './';
 
 const Layout = styled.div`
 	display: flex;
@@ -41,7 +41,7 @@ const Footer = styled.footer`
 
 const CardsBar = ({
 	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode,
-	removeCardId, deleteCard
+	removeCardId, deleteCard, onAppendModeSwitch
 }) => {
 	const onCardClick = (index) => {
 		onCardChange && onCardChange(index);
@@ -53,7 +53,8 @@ const CardsBar = ({
 				<Logo />
 				<CardDelete
 					deleteCard={deleteCard}
-					data={cardsList.filter((item) => item.id === removeCardId)[0]} />
+					data={cardsList.filter((item) => item.id === removeCardId)[0]}
+					onCancelClick={onChangeBarMode} />
 				<Footer>Yamoney Node School</Footer>
 			</Layout>
 		);
@@ -62,6 +63,11 @@ const CardsBar = ({
 	return (
 		<Layout>
 			<Logo />
+			{
+				activeCardIndex !== null
+				? <Edit onClick={onEditChange} editable={isCardsEditable} /> 
+				: null
+			}
 			<CardsList>
 				{cardsList
 					.filter((item) => !item.hidden)
@@ -75,7 +81,7 @@ const CardsBar = ({
 							onClick={() => onCardClick(index)} />
 					))
 				}
-				<Card type='new' />
+				<Card type='new' onAppendModeSwitch={onAppendModeSwitch} />
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
@@ -84,7 +90,7 @@ const CardsBar = ({
 
 CardsBar.propTypes = {
 	cardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-	activeCardIndex: PropTypes.number.isRequired,
+	activeCardIndex: PropTypes.number,
 	removeCardId: PropTypes.number,
 	onCardChange: PropTypes.func.isRequired,
 	isCardsEditable: PropTypes.bool.isRequired,

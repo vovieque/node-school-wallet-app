@@ -2,6 +2,8 @@ public/*
 !public/assets/
 !public/fonts/
 !public/favicon.ico
+!public/login.html
+!public/login-styles.css
 source/views/*
 !source/views/*.src.js
 
@@ -13,5 +15,4 @@ Thumbs.db
 *.sublime*
 *.log
 npm-debug.log*
-package-lock.json
 logs/

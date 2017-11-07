@@ -1,14 +1,18 @@
 'use strict';
 
 const ApplicationError = require('../../../libs/application-error');
-const _ = require('lodash');
 
 const allowedTypes = ['prepaidCard', 'paymentMobile', 'card2Card'];
 const requiredFields = ['sum', 'type', 'data'];
-const postTransactionFields = ['type', 'time', 'sum', 'data'];
 
 module.exports = async (ctx) => {
-	const transaction = _.pick(ctx.request.body, postTransactionFields);
+	const transaction = {
+		type: ctx.request.body.type,
+		sum: ctx.request.body.sum,
+		data: ctx.request.body.data,
+		time: ctx.request.body.time
+	}
+	
 	const cardId = Number(ctx.params.id);
 
 	const card = await ctx.cardsModel.get(cardId);

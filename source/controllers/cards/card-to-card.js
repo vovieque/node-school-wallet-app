@@ -6,8 +6,8 @@ module.exports = async (ctx) => {
 	const operation = ctx.request.body;
 	const {target, sum} = operation;
 
-	await ctx.cardsModel.withdraw(cardId, sum);
-	await ctx.cardsModel.refill(target, sum);
+	await ctx.cardsModel.refill(cardId, sum);
+	await ctx.cardsModel.withdraw(target, sum);
 
 	const sourceCard = await ctx.cardsModel.get(cardId);
 	const targetCard = await ctx.cardsModel.get(target);

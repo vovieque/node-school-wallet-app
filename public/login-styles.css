@@ -1,0 +1,84 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: #eee;
+    font-family: "Helvetica Neue For Number", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.page-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login {
+    width: 400px;
+    padding: 15px;
+    background: #fff;
+    
+}
+
+.login__logo {
+    width: 147px;
+    height: 28px;
+    background-image: url('/assets/yamoney-logo-black.svg');
+    margin: auto;
+    margin-top: 18px;
+}
+
+.login__form {
+    margin: 10px 0;
+}
+
+.login__input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.login__button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;    
+    text-align: center;
+    background: #aaa;
+    color: #fff;
+    border: none;
+}
+
+
+.login__social-title {
+    vertical-align: middle;
+}
+
+.login__social-button {
+    display: block;
+    margin: auto;
+    margin-top: 20px;    
+    width: 150px;
+    text-align: center;
+    padding: 8px;
+    font-size: 16px;
+    transition: all 0.5s;
+}
+
+.login__social-button_type_google {
+    background-color: #ea4335;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.login__social-button_type_google:hover {
+    background-color: #db3d32;
+}
+
+.login__register {
+    display: inline-block;
+    margin: 10px 0;
+}

@@ -86,21 +86,6 @@ class MobilePaymentContract extends Component {
 	}
 
 	/**
-	 * Получить цену с учетом комиссии
-	 * @returns {Number}
-	 */
-	getSumWithCommission() {
-		const {sum, commission} = this.state;
-
-		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
-		if (!isNumber || sum <= 0) {
-			return 0;
-		}
-
-		return Number(sum) + Number(commission);
-	}
-
-	/**
 	 * Отправка формы
 	 * @param {Event} event событие отправки формы
 	 */
@@ -137,6 +122,21 @@ class MobilePaymentContract extends Component {
 		this.setState({
 			[name]: value
 		});
+	}
+
+	/**
+	 * Получить цену с учетом комиссии
+	 * @returns {Number}
+	 */
+	getSumWithCommission() {
+		const {sum, commission} = this.state;
+
+		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
+		if (!isNumber || sum <= 0) {
+			return 0;
+		}
+
+		return Number(sum) + Number(commission);
 	}
 
 	/**
