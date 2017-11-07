@@ -198,6 +198,7 @@ class App extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
+		const {isOffline} = this.props;
 		const {
 			cardsList,
 			activeCardIndex,
@@ -209,7 +210,7 @@ class App extends Component {
 		} = this.state;
 		const activeCard = cardsList[activeCardIndex];
 
-		let inactiveCardsList, 
+		let inactiveCardsList,
 			filteredHistory,
 			workspace;
 		if (activeCard) {
@@ -221,12 +222,16 @@ class App extends Component {
 				<Workspace>
 					<History cardHistory={filteredHistory} />
 					<Prepaid
+						isOffline={isOffline}
 						activeCard={activeCard}
 						inactiveCardsList={inactiveCardsList}
 						onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
 						onTransaction={() => this.onTransaction()} />
-					<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
-					<Withdraw />
+					<MobilePayment
+						isOffline={isOffline}
+						activeCard={activeCard}
+						onTransaction={() => this.onTransaction()} />
+					<Withdraw isOffline={isOffline} />
 				</Workspace>
 			);
 		}
@@ -240,6 +245,7 @@ class App extends Component {
 		return (
 			<Wallet>
 				<CardsBar
+					isOffline={isOffline}
 					activeCardIndex={activeCard ? activeCardIndex : null}
 					removeCardId={removeCardId}
 					cardsList={cardsList}
@@ -251,7 +257,7 @@ class App extends Component {
 					onEditChange={() => this.onEditChange(isCardsEditable)}
 					onAppendModeSwitch={(isCardAppending) => this.onAppendModeSwitch(isCardAppending)} />
 				<CardPane>
-					<Header activeCard={activeCard} user={this.props.data.user} />
+					<Header activeCard={activeCard} user={this.props.data.user} isOffline={isOffline} />
 					{ workspace }
 				</CardPane>
 				<CardAdd

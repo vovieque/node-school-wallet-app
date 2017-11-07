@@ -44,7 +44,7 @@ class MobilePayment extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {activeCard} = this.props;
+		const {activeCard, isOffline} = this.props;
 
 		if (this.state.stage === 'success') {
 			return (
@@ -57,6 +57,7 @@ class MobilePayment extends Component {
 
 		return (
 			<MobilePaymentContract
+				isOffline={isOffline}
 				activeCard={activeCard}
 				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)} />
 		);
@@ -68,7 +69,8 @@ MobilePayment.propTypes = {
 		id: PropTypes.number,
 		theme: PropTypes.object
 	}).isRequired,
-	onTransaction: PropTypes.func.isRequired
+	onTransaction: PropTypes.func.isRequired,
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default MobilePayment;

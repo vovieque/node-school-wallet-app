@@ -22,7 +22,7 @@ const BalanceSum = styled.span`
 	font-weight: bold;
 `;
 
-const Header = ({activeCard, user}) => (
+const Header = ({activeCard, user, isOffline}) => (
 		<HeaderLayout>
 			{
 				activeCard 
@@ -32,7 +32,7 @@ const Header = ({activeCard, user}) => (
 				</Balance>
 				: <Balance />
 			}
-			<UserInfo user={user} />
+			<UserInfo user={user} isOffline={isOffline} />
 		</HeaderLayout>
 );
 
@@ -44,7 +44,8 @@ Header.propTypes = {
 	user: PropTypes.shape({
 		displayName: PropTypes.string.isRequired,
 		imageUrl: PropTypes.string.isRequired
-	})
+	}),
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default Header;

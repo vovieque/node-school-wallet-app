@@ -17,11 +17,12 @@ const StyledUserBlock = styled.div`
 	font-size: 15px;
 	color: #000;
 	transition: rotate 0.5s;
-	outline: none;
+	outline: none; 
 	&:hover {
-		cursor: pointer;
+		cursor: ${({isOffline}) => (isOffline ? 'not-allowed' : 'pointer')};
 	}
 	&:hover:after {
+		display: ${({isOffline}) => (isOffline ? 'none' : 'block')};
 		content: "";
 		position:absolute;
 		top: 17px;
@@ -43,21 +44,40 @@ const StyledUserBlock = styled.div`
 class UserInfo extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { isExpanded: false};
+		this.state = {isExpanded: false};
+	}
+
+	onMouseDown() {
+		const {isOffline} = this.props;
+		const {isExpanded} = this.state;
+		if (isOffline) {
+			return;
+		}
+
+		this.setState({isExpanded: !isExpanded});
+	}
+
+	onFocus() {
+		const {isOffline} = this.props;
+		if (isOffline) {
+			return;
+		}
+
+		this.setState({isExpanded: true});
 	}
 
 	render() {
-		const { user } = this.props;
-		const { isExpanded } = this.state;
+		const {user, isOffline} = this.props;
+		const {isExpanded} = this.state;
 		return (
-			<StyledUserBlock 
-				id="userCard" 
-				className={isExpanded ? "expanded" : ""} 
-				onMouseDown = {() => {this.setState({isExpanded: !isExpanded})}}
-				onBlur = {() => {this.setState({isExpanded: false})}}
-				onFocus = {() => {this.setState({isExpanded: true})}}
+			<StyledUserBlock
+				id='userCard'
+				className={isExpanded ? 'expanded' : ''}
+				onMouseDown={() => this.onMouseDown()}
+				onBlur ={() => { this.setState({isExpanded: false}); }}
+				onFocus={() => this.onFocus()}
 				tabIndex={0}
-			>
+				isOffline={isOffline}>
 				<Avatar src={user.imageUrl} />
 				{user.displayName}
 				<UserMenu isExpanded={isExpanded} />

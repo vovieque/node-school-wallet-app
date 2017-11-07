@@ -43,7 +43,7 @@ class Prepaid extends Component {
 	 */
 	render() {
 		const {transaction} = this.state;
-		const {activeCard, inactiveCardsList} = this.props;
+		const {activeCard, inactiveCardsList, isOffline} = this.props;
 
 		if (this.state.stage === 'success') {
 			return (
@@ -53,6 +53,7 @@ class Prepaid extends Component {
 
 		return (
 			<PrepaidContract
+				isOffline={isOffline}
 				activeCard={activeCard}
 				inactiveCardsList={inactiveCardsList}
 				onPaymentSuccess={(transaction) => this.onPaymentSuccess(transaction)} />
@@ -65,7 +66,8 @@ Prepaid.propTypes = {
 		id: PropTypes.number
 	}).isRequired,
 	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-	onTransaction: PropTypes.func.isRequired
+	onTransaction: PropTypes.func.isRequired,
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default Prepaid;

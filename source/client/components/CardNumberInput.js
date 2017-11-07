@@ -47,50 +47,51 @@ background-position-x: right;
 
 class CardNumberInput extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            cardNumber: props.initialValue
-        }
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			cardNumber: props.initialValue
+		};
+	}
 
-    handleChange(e) {
-        let cardNumber = e.target.value.replace(/\D/g, '');
-        if (cardNumber.length <= 16) {
-            this.setState({
-                cardNumber
-            });
-        }
-    }
+	handleChange(e) {
+		let cardNumber = e.target.value.replace(/\D/g, '');
+		if (cardNumber.length <= 16) {
+			this.setState({
+				cardNumber
+			});
+		}
+	}
 
-    render() {
-        const {
-            brandLogo,
-            bankLogo,
-            backgroundColor
-        } = new CardInfo(this.state.cardNumber, {
-            banksLogosPath: '/assets/',
-            brandsLogosPath: '/assets/'
-        });
-        return (
-            <CardLayout
-                isBankKnown={false}
-                bgColor={backgroundColor}>
-                <CardLogo url={bankLogo} />
-                <NumberInput 
-                    onChange={(e) => {this.handleChange(e)}} 
-                    value={bankUtils.formatCardNumber(this.state.cardNumber)}
-                />
-                <CardType url={brandLogo} />
-                
-            </CardLayout>
-        );
-    }
+	render() {
+		const {
+			brandLogo,
+			bankLogo,
+			backgroundColor
+		} = new CardInfo(this.state.cardNumber, {
+			banksLogosPath: '/assets/',
+			brandsLogosPath: '/assets/'
+		});
+		return (
+			<CardLayout
+				isBankKnown={false}
+				bgColor={backgroundColor}>
+				<CardLogo url={bankLogo} />
+				<NumberInput
+					onChange={(e) => {
+						this.handleChange(e);
+					}}
+					value={bankUtils.formatCardNumber(this.state.cardNumber)} />
+				<CardType url={brandLogo} />
+
+			</CardLayout>
+		);
+	}
 }
 
-CardNumberInput.PropTypes = {
-    initialValue: PropTypes.string,
-    onChange: PropTypes.func
-}
+CardNumberInput.propTypes = {
+	initialValue: PropTypes.string,
+	onChange: PropTypes.func
+};
 
 export default CardNumberInput;

@@ -16,6 +16,16 @@ const Logo = styled.div`
 	height: 28px;
 	margin-bottom: 55px;
 	background-image: url('/assets/yamoney-logo.svg');
+
+	&:after {
+		display: ${({isOffline}) => (isOffline ? 'block' : 'none')};
+		content: 'Offline';
+		font-size: 25px;
+		color: white;
+		position: absolute;
+		top: 16px;
+		right: 56px;
+	}
 `;
 
 const Edit = styled.div`
@@ -41,7 +51,7 @@ const Footer = styled.footer`
 
 const CardsBar = ({
 	activeCardIndex, cardsList, onCardChange, onEditChange, isCardsEditable, isCardRemoving, onChangeBarMode,
-	removeCardId, deleteCard, onAppendModeSwitch
+	removeCardId, deleteCard, onAppendModeSwitch, isOffline
 }) => {
 	const onCardClick = (index) => {
 		onCardChange && onCardChange(index);
@@ -62,11 +72,11 @@ const CardsBar = ({
 
 	return (
 		<Layout>
-			<Logo />
+			<Logo isOffline={isOffline} />
 			{
-				activeCardIndex !== null
-				? <Edit onClick={onEditChange} editable={isCardsEditable} /> 
-				: null
+				!isOffline && activeCardIndex !== null
+					? <Edit onClick={onEditChange} editable={isCardsEditable} /> 
+					: null
 			}
 			<CardsList>
 				{cardsList
@@ -81,7 +91,11 @@ const CardsBar = ({
 							onClick={() => onCardClick(index)} />
 					))
 				}
-				<Card type='new' onAppendModeSwitch={onAppendModeSwitch} />
+				{
+					!isOffline
+						? <Card type='new' onAppendModeSwitch={onAppendModeSwitch} />
+						: null
+				}
 			</CardsList>
 			<Footer>Yamoney Node School</Footer>
 		</Layout>
@@ -96,7 +110,8 @@ CardsBar.propTypes = {
 	isCardsEditable: PropTypes.bool.isRequired,
 	isCardRemoving: PropTypes.bool.isRequired,
 	deleteCard: PropTypes.func.isRequired,
-	onChangeBarMode: PropTypes.func.isRequired
+	onChangeBarMode: PropTypes.func.isRequired,
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default CardsBar;

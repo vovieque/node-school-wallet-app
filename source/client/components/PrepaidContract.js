@@ -5,12 +5,17 @@ import axios from 'axios';
 
 import {Island, Title, Button, Input} from './';
 
+const StyledButton = styled(Button)`
+	cursor: ${({isOffline}) => (isOffline ? 'not-allowed' : 'pointer')};
+`;
+
 const PrepaidLayout = styled(Island)`
 	width: 350px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background-color: #353536;
+	opacity: ${({isOffline}) => (isOffline ? '0.1' : '1')};
 `;
 
 const PrepaidTitle = styled(Title)`
@@ -107,6 +112,10 @@ class PrepaidContract extends Component {
 
 		const {name, value} = event.target;
 
+		if (!/^(\d)+$/.test(value)) {
+			return;
+		}
+
 		this.setState({
 			[name]: value
 		});
@@ -122,7 +131,10 @@ class PrepaidContract extends Component {
 		}
 
 		const {activeCardIndex, sum} = this.state;
-		const {activeCard, inactiveCardsList} = this.props;
+		const {activeCard, inactiveCardsList, isOffline} = this.props;
+		if (isOffline) {
+			return;
+		}
 		const selectedCard = inactiveCardsList[activeCardIndex];
 
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
@@ -150,7 +162,7 @@ class PrepaidContract extends Component {
 	 * @returns {XML}
 	 */
 	render() {
-		const {inactiveCardsList} = this.props;
+		const {inactiveCardsList, isOffline} = this.props;
 		if (!inactiveCardsList || inactiveCardsList.length === 0) {
 			return null;
 		}
@@ -159,7 +171,7 @@ class PrepaidContract extends Component {
 
 		return (
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
-				<PrepaidLayout>
+				<PrepaidLayout isOffline={isOffline}>
 					<PrepaidTitle>Пополнить карту</PrepaidTitle>
 
 					<PrepaidItems>
@@ -197,12 +209,13 @@ class PrepaidContract extends Component {
 							onChange={(event) => this.onChangeInputValue(event)} />
 						<Currency>₽</Currency>
 					</InputField>
-					<Button
+					<StyledButton
+						isOffline={isOffline}
 						type='submit'
 						bgColor={selectedCard.theme.bgColor}
 						textColor={selectedCard.theme.textColor}>
 						Пополнить
-					</Button>
+					</StyledButton>
 				</PrepaidLayout>
 			</form>
 		);
@@ -214,7 +227,8 @@ PrepaidContract.propTypes = {
 		id: PropTypes.number
 	}).isRequired,
 	inactiveCardsList: PropTypes.arrayOf(PropTypes.object).isRequired,
-	onPaymentSuccess: PropTypes.func.isRequired
+	onPaymentSuccess: PropTypes.func.isRequired,
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default PrepaidContract;

@@ -8,6 +8,7 @@ import {Island, Title, Button, Input} from './';
 const MobilePaymentLayout = styled(Island)`
 	width: 440px;
 	background: #108051;
+	opacity: ${({isOffline}) => (isOffline ? '0.1' : '1')};
 `;
 
 const MobilePaymentTitle = styled(Title)`
@@ -50,6 +51,7 @@ const Underline = styled.div`
 
 const PaymentButton = styled(Button)`
 	float: right;
+	cursor: ${({isOffline}) => (isOffline ? 'not-allowed' : 'pointer')};
 `;
 
 const InputPhoneNumber = styled(Input)`
@@ -79,7 +81,7 @@ class MobilePaymentContract extends Component {
 		super(props);
 
 		this.state = {
-			phoneNumber: '+79218908064',
+			phoneNumber: '+79219998881',
 			sum: 0,
 			commission: 3
 		};
@@ -94,14 +96,15 @@ class MobilePaymentContract extends Component {
 			event.preventDefault();
 		}
 
+		const {activeCard, isOffline} = this.props;
 		const {sum, phoneNumber, commission} = this.state;
-
+		if (isOffline) {
+			return;
+		}
 		const isNumber = !isNaN(parseFloat(sum)) && isFinite(sum);
 		if (!isNumber || sum === 0) {
 			return;
 		}
-
-		const {activeCard} = this.props;
 
 		axios
 			.post(`/cards/${activeCard.id}/pay`, {phoneNumber, sum})
@@ -118,6 +121,9 @@ class MobilePaymentContract extends Component {
 		}
 
 		const {name, value} = event.target;
+		if (!/^(\d)+$/.test(value)) {
+			return;
+		}
 
 		this.setState({
 			[name]: value
@@ -146,10 +152,11 @@ class MobilePaymentContract extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
+		const {isOffline} = this.props;
 		const {commission} = this.state;
 
 		return (
-			<MobilePaymentLayout>
+			<MobilePaymentLayout isOffline={isOffline}>
 				<form onSubmit={(event) => this.onSubmitForm(event)}>
 					<MobilePaymentTitle>Пополнить телефон</MobilePaymentTitle>
 					<InputField>
@@ -174,7 +181,7 @@ class MobilePaymentContract extends Component {
 					</InputField>
 					<Commission>Размер коммиссии составляет {commission} ₽</Commission>
 					<Underline />
-					<PaymentButton bgColor='#fff' textColor='#108051'>Заплатить</PaymentButton>
+					<PaymentButton isOffline={isOffline} bgColor='#fff' textColor='#108051'>Заплатить</PaymentButton>
 				</form>
 			</MobilePaymentLayout>
 		);
@@ -185,7 +192,8 @@ MobilePaymentContract.propTypes = {
 	activeCard: PropTypes.shape({
 		id: PropTypes.number
 	}).isRequired,
-	onPaymentSuccess: PropTypes.func.isRequired
+	onPaymentSuccess: PropTypes.func.isRequired,
+	isOffline: PropTypes.bool.isRequired
 };
 
 export default MobilePaymentContract;
