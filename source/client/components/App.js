@@ -226,10 +226,7 @@ class App extends Component {
 						onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
 						onTransaction={() => this.onTransaction()} />
 					<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
-					<Withdraw
-						activeCard={activeCard}
-						inactiveCardsList={inactiveCardsList}
-						onTransaction={() => this.onTransaction()} />
+					<Withdraw />
 				</Workspace>
 			);
 		}
