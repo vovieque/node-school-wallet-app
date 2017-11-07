@@ -10,7 +10,9 @@ const CardSchema = new mongoose.Schema({
 		type: String,
 		validate: {
 			validator(value) {
-				return utils.validateCardNumber(value) && utils.getCardType(value) !== '';
+				return utils.validateCardNumber(value)
+					&& /^\d{16}$/.test(value)
+					&& utils.getCardType(value) !== '';
 			},
 			message: '{VALUE} is not a valid card number!'
 		},
@@ -25,6 +27,11 @@ const CardSchema = new mongoose.Schema({
 		type: [Number],
 		required: true
 	}
+});
+
+CardSchema.pre('save', function(next) {
+	this.cardNumber = this.cardNumber.replace(/\D/g, '');	
+	next();
 });
 
 CardSchema.methods.addOwner = async function(userId) {

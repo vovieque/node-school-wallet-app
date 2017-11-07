@@ -26,8 +26,7 @@ class Cards extends DbModel {
 			throw new ApplicationError('Card data is invalid', 400);
 		}
 
-		const existingCard = await this.getByCardNumber(card.cardNumber);
-		console.log(existingCard);
+		const existingCard = await this.getByCardNumber(card.cardNumber.replace(/\D/g, ''));
 		if (!existingCard) {
 			const newCard = Object.assign({}, card, {
 				id: await this._generateId()
@@ -37,6 +36,7 @@ class Cards extends DbModel {
 				return await this._insert(newCard);
 			}
 			catch(e) {
+				console.log(e);
 				throw new UserError("Неправильный номер карты");
 			}
 		}
