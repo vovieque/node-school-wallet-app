@@ -81,8 +81,8 @@ const bankUtils = {
 	 * @returns {Boolean}
 	 */
 	validateCardNumber(value) {
-		// accept only digits, dashes or spaces
-		if (/[^0-9-\s]+/.test(value)) return false;
+		// accept only digits
+		if (/[^0-9]{16}$/.test(value)) return false;
 
 		// The Luhn Algorithm. It's so pretty.
 		var nCheck = 0, nDigit = 0, bEven = false;

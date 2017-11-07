@@ -21,21 +21,27 @@ const FormTitle = styled.h2`
 /**
  * Компонент CardAddResult
  * @param {Boolean} success - статус добавления карты
+ * @param {String} errorMessage - статус добавления карты
  * @param onResultAccept - обработчик сообщения о статусе добавления карты
  ** @override
  * @returns {JSX}
  * @constructor
  */
-const CardAddResult = ({success = true, onResultAccept}) => (
+const CardAddResult = ({success = true, errorMessage, onResultAccept}) => (
 	<form onSubmit={onResultAccept}>
 		<Icon status={success} />
-		<FormTitle>{success ? 'Карта успешно добавлена' : 'Неправильный номер карты'}</FormTitle>
+		<FormTitle>{
+			success 
+			? 'Карта успешно добавлена' 
+			: errorMessage || 'Ошибка при добавлении карты'
+		}</FormTitle>
 		<Button bgColor='#018ca5' textColor='#fff'>Ок</Button>
 	</form>
 )
 
 CardAddResult.propTypes = {
 	success: PropTypes.bool,
+	errorMessage: PropTypes.string,
 	onResultAccept: PropTypes.func
 };
 

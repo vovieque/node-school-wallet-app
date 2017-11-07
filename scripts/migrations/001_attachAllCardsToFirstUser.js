@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
-
-const Card = require('../../source/models/db/card');
-const User = require('../../source/models/db/user');
-const utils = require('../../libs/utils');
+const db = mongoose.connection;
 
 module.exports = {
     description: "Добавялет в модель карточки свойство userId",
     version: 1,
     applyChanges: async () => {
-        let user = await User.findOne({});
+        const userCollection = db.collection('users');
+        let user = await userCollection.findOne({});
         if (!user) {
-            user = await User.register({
+            res = await userCollection.insert({
+                id: 1,
                 displayName: "Test User",
                 email: "test.user@test"
             });
         }
-        const userId = user.id;
-        const cards = await Card.find({});
+        const userId = res.ops[0].id;
+        const cardCollection = db.collection('cards');        
+        const cards = await cardCollection.find({}).toArray();
         for (let card of cards) {
             if (!card.userId) {
                 card.userId = userId;
@@ -36,11 +36,14 @@ module.exports = {
                     case '437784000000000':
                         card.cardNumber = '4377840000000006';
                         break;
+                    case '676803000000000':
+                        card.cardNumber = '6768030000000006';
+                        break;
                     default:
                         console.log(card.cardNumber);
                         break;
                 }
-                await card.save();
+                await cardCollection.update({_id: card._id}, card);
             }
         }
     }

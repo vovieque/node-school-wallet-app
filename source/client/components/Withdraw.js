@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'emotion/react';
 import axios from 'axios';
 
-import {Card, Title, Button, Island, Input} from './';
+import {CardNumberInput, Card, Title, Button, Island, Input} from './';
 
 const WithdrawTitle = styled(Title)`
 	text-align: center;
@@ -47,9 +47,20 @@ class Withdraw extends Component {
 		super(props);
 
 		this.state = {
-			selectedCard: props.inactiveCardsList[0],
+			cardNumber: "",
 			sum: 0
 		};
+	}
+
+	/**
+	 * Обработка изменения номера карты
+	 * @param {String} newCardNumber новый номер карты
+	 */
+	onCardNumberChange(newCardNumber) {
+		this.setState({
+			sum: this.state.sum,
+			cardNumber: newCardNumber
+		});
 	}
 
 	/**
@@ -105,15 +116,14 @@ class Withdraw extends Component {
 	 * @returns {JSX}
 	 */
 	render() {
-		const {inactiveCardsList} = this.props;
-		if (!inactiveCardsList || inactiveCardsList.length === 0) {
-			return null;
-		}
 		return (
 			<form onSubmit={(event) => this.onSubmitForm(event)}>
 				<WithdrawLayout>
 					<WithdrawTitle>Вывести деньги на карту</WithdrawTitle>
-					<Card type='select' data={inactiveCardsList} />
+					<CardNumberInput
+						initialValue={this.state.cardNumber}
+						onChange={(newCardNumber) => this.onCardNumberChange(newCardNumber)} 
+						/>
 					<InputField>
 						<SumInput
 							name='sum'
@@ -128,7 +138,7 @@ class Withdraw extends Component {
 	}
 }
 
-Withdraw.propTypes = {
+Withdraw.PropTypes = {
 	activeCard: PropTypes.shape({
 		id: PropTypes.number
 	}).isRequired,

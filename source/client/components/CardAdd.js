@@ -41,12 +41,14 @@ class CardAdd extends Component {
 	/**
 	 * Обработка добавления карты
 	 * @param {Boolean} success статус добавления карты
+	 * @param {String} errorMessage сообщение об ошибке
 	 */
-	onCardAdd(success) {
+	onCardAdd(success, errorMessage) {
 		this.props.onTransaction();
 		this.setState({
 			stage: 'result',
-			success
+			success,
+			errorMessage
 		});
 	}
 
@@ -74,6 +76,7 @@ class CardAdd extends Component {
 					<FormWrap onClick={(e) => e.stopPropagation()}>
 						<CardAddResult
 							success={this.state.success}
+							errorMessage={this.state.errorMessage}
 							cardAddResult={this.state.stage}
 							onResultAccept={() => this.onResultAccept()} />
 					</FormWrap>
@@ -84,7 +87,7 @@ class CardAdd extends Component {
 		return (
 			<Overlay isCardAppending={isCardAppending} onClick={() => onAppendModeSwitch(false)}>
 				<FormWrap onClick={(e) => e.stopPropagation()}>
-					<CardAddContract onTransaction={(data) => this.onCardAdd(data)} />
+					<CardAddContract onTransaction={(success, errorMessage) => this.onCardAdd(success, errorMessage)} />
 				</FormWrap>
 			</Overlay>
 		);

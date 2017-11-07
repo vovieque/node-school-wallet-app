@@ -1,5 +1,6 @@
 const passport = require('koa-passport');
 const User = require('../source/models/db/user');
+const config = require('../config');
 
 passport.serializeUser((user, done) => {
 	done(null, user.id);
@@ -20,7 +21,7 @@ passport.use(new GoogleStrategy(
 	{
 		clientId: '82762493977-djirs9v01caeaj3ld7cfs27pqmftektr.apps.googleusercontent.com',
 		clientSecret: 'vGSL7JxtdEn9I_7sMOqn2zxS',
-		callbackURL: `${process.env.HOSTNAME}/auth/google/callback`
+		callbackURL: `${config.HOSTNAME}/auth/google/callback`
 	},
 	async (token, tokenSecret, profile, done) => {
 		const user = await User.findOne({
