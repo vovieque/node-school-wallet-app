@@ -16,7 +16,7 @@ SchemaVersionSchema.statics.getCurrentVersion = async function () {
     if (!lastVersion) {
         return 0;
     }
-    return lastVersion;
+    return lastVersion.version;
 }
 
 const SchemaVersion = mongoose.model('SchemaVersion', SchemaVersionSchema);

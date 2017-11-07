@@ -69,8 +69,8 @@ class CardAddContract extends Component {
 			balance: cardBalance
 		}).then(() => {
 			this.props.onTransaction(true);
-		}).catch(() => {
-			this.props.onTransaction(false);
+		}).catch((err) => {
+			this.props.onTransaction(false, err.response.data);
 		});
 	}
 
@@ -101,8 +101,9 @@ class CardAddContract extends Component {
 			<form onSubmit={(e) => this.onSubmitForm(e)}>
 				<FormTitle>Добавить карту</FormTitle>
 				<InputField>
-					<Label htmlFor='cardNumber'>Номер карты:</Label>
+					<Label htmlFor='addCard_cardNumber'>Номер карты:</Label>
 					<InputCardNumber
+						id='addCard_cardNumber'
 						name='cardNumber'
 						title='0000 0000 0000 0000'
 						required
@@ -111,15 +112,16 @@ class CardAddContract extends Component {
 						onChange={(e) => this.onChangeInputValue(e)} />
 				</InputField>
 				<InputField>
-					<Label htmlFor='balance'>Баланс:</Label>
+					<Label htmlFor='addCard_cardBalance'>Баланс:</Label>
 					<InputCardNumber
+						id='addCard_cardBalance'
 						name='cardBalance'
 						required
 						value={this.state.cardBalance}
 						pattern='^\d+$'
 						onChange={(e) => this.onChangeInputValue(e)} />
 				</InputField>
-				<Button bgColor='#018ca5' textColor='#fff'>Отправить</Button>
+				<Button bgColor='#018ca5' textColor='#fff'>Добавить</Button>
 			</form>
 		);
 	}

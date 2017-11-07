@@ -97,8 +97,7 @@ class App extends Component {
 	 * Конструктор
 	 */
 	constructor(props) {
-		super();
-
+		super(props);
 		const data = props.data;
 		const cardsList = App.prepareCardsData(data.cards);
 		const cardHistory = App.prepareHistory(cardsList, data.transactions);
@@ -227,10 +226,7 @@ class App extends Component {
 						onCardChange={(newActiveCardIndex) => this.onCardChange(newActiveCardIndex)}
 						onTransaction={() => this.onTransaction()} />
 					<MobilePayment activeCard={activeCard} onTransaction={() => this.onTransaction()} />
-					<Withdraw
-						activeCard={activeCard}
-						inactiveCardsList={inactiveCardsList}
-						onTransaction={() => this.onTransaction()} />
+					<Withdraw />
 				</Workspace>
 			);
 		}
