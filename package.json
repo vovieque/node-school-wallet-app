@@ -21,7 +21,7 @@
     "node": "^8.2"
   },
   "dependencies": {
-    "axios": "~0.16.2",
+    "axios": "~0.19.0",
     "config": "^1.27.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
